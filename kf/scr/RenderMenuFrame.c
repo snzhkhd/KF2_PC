@@ -5,8 +5,8 @@ void RenderMenuFrame(uint8_t* rdram, recomp_context* ctx)
 {
    
     // До
-    uint32_t ctx240 = MEM_W(0xF0, MEM_W(0, 0x80076198));
-    printf("[RenderMenuFrame] before ctx+240=0x%08X\n", ctx240);
+    //uint32_t ctx240 = MEM_W(0xF0, MEM_W(0, 0x80076198));
+    //printf("[RenderMenuFrame] before ctx+240=0x%08X\n", ctx240);
 
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
@@ -220,21 +220,21 @@ L_8002288C:
     // nop
 
     // После  
-    uint32_t ot_base = MEM_W(0, 0x8019015C); // g_GpuCommandBuffer
-    uint32_t* ot20 = (uint32_t*)GET_PTR(ot_base + 80);  // index 20
-    uint32_t* ot0 = (uint32_t*)GET_PTR(ot_base);        // index 0 (терминатор)
+    //uint32_t ot_base = MEM_W(0, 0x8019015C); // g_GpuCommandBuffer
+    //uint32_t* ot20 = (uint32_t*)GET_PTR(ot_base + 80);  // index 20
+    //uint32_t* ot0 = (uint32_t*)GET_PTR(ot_base);        // index 0 (терминатор)
 
-    printf("[OTag check] base=0x%08X ot[0]=0x%08X ot[20]=0x%08X\n",
-        ot_base, *ot0, *ot20);
+    //printf("[OTag check] base=0x%08X ot[0]=0x%08X ot[20]=0x%08X\n",
+    //    ot_base, *ot0, *ot20);
 
-    // Если ot[20] != 0 — примитив там, проверяем его данные
-    uint32_t prim_addr = *ot20 & 0x00FFFFFF;
-    if (prim_addr > 0x10000) {
-        uint32_t* prim = (uint32_t*)GET_PTR(prim_addr | 0x80000000);
-        printf("[Prim at ot[20]] ");
-        for (int i = 0; i < 8; i++) printf("%08X ", prim[i]);
-        printf("\n");
-    }
+    //// Если ot[20] != 0 — примитив там, проверяем его данные
+    //uint32_t prim_addr = *ot20 & 0x00FFFFFF;
+    //if (prim_addr > 0x10000) {
+    //    uint32_t* prim = (uint32_t*)GET_PTR(prim_addr | 0x80000000);
+    //    printf("[Prim at ot[20]] ");
+    //    for (int i = 0; i < 8; i++) printf("%08X ", prim[i]);
+    //    printf("\n");
+    //}
 
     return;
     // nop

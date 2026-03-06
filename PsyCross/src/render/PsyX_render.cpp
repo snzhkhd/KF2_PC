@@ -1385,7 +1385,7 @@ void GR_CopyRGBAFramebufferToVRAM(u_int* src, int x, int y, int w, int h, int up
 			u_char r = ((c >> 19) & 0x1F);
 			//u_char a = ((c >> 24) & 0x1F);
 
-			int a = r == g == b == 0 ? 0 : 1;
+			int a = (r == 0 && g == 0 && b == 0) ? 0 : 1; //r == g == b == 0 ? 0 : 1;
 
 			*data_dst++ = r | (g << 5) | (b << 10) | (a << 15);
 		}
@@ -1844,13 +1844,15 @@ extern GrVertex g_vertexBuffer[MAX_VERTEX_BUFFER_SIZE];
 void GR_DrawTriangles(int start_vertex, int triangles)
 {
 	if (triangles <= 0) return;
-
-	// Дамп первых 6 вершин
-	for (int i = start_vertex; i < start_vertex + std::min(triangles * 3, 6); i++) {
-		GrVertex& v = g_vertexBuffer[i];
-		printf("[Vertex %d] x=%f y=%f u=%d v=%d r=%d g=%d b=%d a=%d\n",
-			i, (float)v.x, (float)v.y, v.u, v.v, v.r, v.g, v.b, v.a);
-	}
+	GrVertex& v = g_vertexBuffer[start_vertex];
+	printf("[GR_Draw] page=%d clut=%d x=%d y=%d u=%d v=%d\n",
+		v.page, v.clut, v.x, v.y, v.u, v.v);
+	//// Дамп первых 6 вершин
+	//for (int i = start_vertex; i < start_vertex + std::min(triangles * 3, 6); i++) {
+	//	GrVertex& v = g_vertexBuffer[i];
+	//	printf("[Vertex %d] x=%f y=%f u=%d v=%d r=%d g=%d b=%d a=%d\n",
+	//		i, (float)v.x, (float)v.y, v.u, v.v, v.r, v.g, v.b, v.a);
+	//}
 #if USE_OPENGL
 	glDrawArrays(GL_TRIANGLES, start_vertex, triangles * 3);
 

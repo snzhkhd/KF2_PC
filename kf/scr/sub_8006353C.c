@@ -10,9 +10,16 @@ void KF_ClearOTagR(uint8_t* rdram, recomp_context* ctx)
     int n = (int)ctx->r5;
     uint32_t* ot = (uint32_t*)GET_PTR(ot_addr);
     if (ot && n > 0) {
-        ot[0] = 0x00FFFFFF;
-        for (int i = 1; i < n; i++)
+        // Правильно — как в оригинале:
+        // ClearOTag заполняет список, потом ot[0] = dword_8007625C & 0xFFFFFF
+        for (int i = n - 1; i >= 1; i--)
             ot[i] = (ot_addr + (i - 1) * 4) & 0x00FFFFFF;
+
+        // Читаем dword_8007625C как делает оригинал
+        uint32_t terminator = MEM_W(0, 0x8007625C) & 0x00FFFFFF;
+        ot[0] = terminator;
+
+        printf("[ClearOTagR] ot[0]=0x%06X (terminator)\n", terminator);
     }
 	//printf("[ClearOTagR] PsyX_BeginScene\n");
 

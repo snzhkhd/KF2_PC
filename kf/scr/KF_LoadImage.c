@@ -9,12 +9,12 @@ void KF_LoadImage(uint8_t* rdram, recomp_context* ctx)
     RECT16* rect = (RECT16*)GET_PTR(ctx->r4);
     u_long* p = (u_long*)GET_PTR(ctx->r5);
 
-    // Логируем ВСЕГДА, без фильтров
-    printf("[LoadImage] rect=(%d,%d,%d,%d) src=0x%08X r4=0x%08X\n",
-        rect->x, rect->y, rect->w, rect->h, ctx->r5, ctx->r4);
+    //// Логируем ВСЕГДА, без фильтров
+    //printf("[LoadImage] rect=(%d,%d,%d,%d) src=0x%08X r4=0x%08X\n",
+    //    rect->x, rect->y, rect->w, rect->h, ctx->r5, ctx->r4);
 
-    // Проверяем — откуда вызвали (смотрим ctx->r31 = return address)
-    printf("[LoadImage] called from 0x%08X\n", ctx->r31);
+    //// Проверяем — откуда вызвали (смотрим ctx->r31 = return address)
+    //printf("[LoadImage] called from 0x%08X\n", ctx->r31);
 
     if (rect->w > 1024) {
         // PS1 wrap-around: данные льются линейно в VRAM
@@ -33,9 +33,9 @@ void KF_LoadImage(uint8_t* rdram, recomp_context* ctx)
             printf("[DUMP] saved after first wrap upload\n");
         }
 
-        printf("[WRAP] src first bytes: %04X %04X %04X %04X (total=%d)\n",
-            src[0], src[1], src[2], src[3],
-            (int)rect->w * (int)rect->h);
+        //printf("[WRAP] src first bytes: %04X %04X %04X %04X (total=%d)\n",
+        //    src[0], src[1], src[2], src[3],
+        //    (int)rect->w * (int)rect->h);
 
         while (offset < total) {
             int chunk = 1024 - cur_x; // до конца строки VRAM
@@ -52,8 +52,8 @@ void KF_LoadImage(uint8_t* rdram, recomp_context* ctx)
                 cur_y++;
             }
         }
-        printf("[LoadImage WRAP] total=%d pixels uploaded, end=(%d,%d)\n",
-            total, cur_x, cur_y);
+        //printf("[LoadImage WRAP] total=%d pixels uploaded, end=(%d,%d)\n",
+        //    total, cur_x, cur_y);
     }
     else {
         // Обычная загрузка
@@ -72,7 +72,7 @@ void KF_LoadImage(uint8_t* rdram, recomp_context* ctx)
     //LoadImage(rect, p); // Функция из Psy-X
    // GR_ClearVRAM(0, 0, 0, 0, 0, 0, 0);
 
-    GR_UpdateVRAM();
+   // GR_UpdateVRAM();
     ctx->r2 = 0;
 
     return;

@@ -5,7 +5,7 @@
 
 void KF_PutDispEnv(uint8_t* rdram, recomp_context* ctx) 
 {
-    printf("KF_PutDispEnv\n");
+  //  printf("KF_PutDispEnv\n");
     DISPENV* env = (DISPENV*)GET_PTR(ctx->r4);
     // Сообщаем Psy-X настройки отрисовки
     PutDispEnv(env);

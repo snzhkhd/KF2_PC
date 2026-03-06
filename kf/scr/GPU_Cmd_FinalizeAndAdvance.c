@@ -16,7 +16,8 @@ void GPU_Cmd_FinalizeAndAdvance(uint8_t* rdram, recomp_context* ctx)
     //        printf("  [%d] = 0x%08X\n", i, prim[i]);
     //}
 
-
+    printf("[GPU_Cmd] FinalizeAndAdvance called, writing to gp+240=0x%08X\n",
+        MEM_W(0xF0, ctx->r28));
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 

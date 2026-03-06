@@ -768,7 +768,7 @@ char PsyX_BeginScene()
 
 	if (begin_scene_flag)
 		return 0;
-	printf("[PsyX] BeginScene\n");
+//	printf("[PsyX] BeginScene\n");
 	assert(!begin_scene_flag);
 
 	{
@@ -822,7 +822,7 @@ void PsyX_EndScene()
 {
 	if (!begin_scene_flag)
 		return;
-	printf("[PsyX] EndScene\n");
+//	printf("[PsyX] EndScene\n");
 	assert(begin_scene_flag);
 	begin_scene_flag = 0;
 

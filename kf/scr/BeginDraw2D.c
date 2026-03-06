@@ -215,8 +215,8 @@ L_8002460C:
     uint32_t cmd_mirror = MEM_W(0, 0x80180158); // 80180158 g_GpuCmdBufferMirror
 
      
-    printf("[BeginDraw2D] gp+0xF0=0x%08X gp+0xF8=0x%08X\n", ptr_240, ptr_248);
-    printf("[BeginDraw2D] g_GpuCommandBuffer=0x%08X mirror=0x%08X\n", cmd_buf, cmd_mirror);
+   /* printf("[BeginDraw2D] gp+0xF0=0x%08X gp+0xF8=0x%08X\n", ptr_240, ptr_248);
+    printf("[BeginDraw2D] g_GpuCommandBuffer=0x%08X mirror=0x%08X\n", cmd_buf, cmd_mirror);*/
     return;
     // nop
 
