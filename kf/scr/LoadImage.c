@@ -22,8 +22,8 @@ void LoadImageWithCallback(uint8_t* rdram, recomp_context* ctx)
                 cb(rdram, ctx);
             }
 
-            uint32_t ww = MEM_W(24, stream);
-            printf("[LoadImage] ww=0x%08X\n", ww);
+            /*uint32_t ww = MEM_W(24, stream);
+            printf("[LoadImage] ww=0x%08X\n", ww);*/
         }
     }
     return;

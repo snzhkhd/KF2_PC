@@ -1,4 +1,4 @@
-#include "..//kf_cd.h"
+п»ї#include "..//kf_cd.h"
 #include "recomp.h"
 #include "disable_warnings.h"
 
@@ -19,16 +19,18 @@ void CD_readm(uint8_t* rdram, recomp_context* ctx)
         }
         g_cdCurrentSector += count;
 
-        // ХАК: выставляем флаг "данные готовы" вручную
-        // g_ActiveCdStream — адрес из IDA (найди его!)
-        uint32_t stream_addr = /* адрес g_ActiveCdStream из IDA */ADDR_G_ACTIVECDSTREAM;
+        // РҐРђРљ: РІС‹СЃС‚Р°РІР»СЏРµРј С„Р»Р°Рі "РґР°РЅРЅС‹Рµ РіРѕС‚РѕРІС‹" РІСЂСѓС‡РЅСѓСЋ
+        // g_ActiveCdStream вЂ” Р°РґСЂРµСЃ РёР· IDA
+        uint32_t stream_addr = /* Р°РґСЂРµСЃ g_ActiveCdStream РёР· IDA */ADDR_G_ACTIVECDSTREAM;
         uint32_t* stream_ptr_addr = (uint32_t*)GET_PTR(stream_addr);
         if (stream_ptr_addr) {
             uint32_t stream = *stream_ptr_addr;
             if (stream) {
                 uint8_t* stream_bytes = (uint8_t*)GET_PTR(stream);
-                if (stream_bytes && stream_bytes[0] == 0x40) {
+                if (stream_bytes ) // && stream_bytes[0] == 0x40) 
+                {
                     stream_bytes[36] = 1;  // data_ready = 1
+                    stream_bytes[1] = 1;   // РіРѕРІРѕСЂРёРј С‡С‚Рѕ РґР°РЅРЅС‹Рµ РіРѕС‚РѕРІС‹
                 //    printf("[HLE CD] CDStream data_ready flag set!\n");
                 }
             }

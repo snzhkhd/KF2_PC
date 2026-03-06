@@ -1,7 +1,49 @@
 #include "recomp.h"
 #include "disable_warnings.h"
+#include <string>
+/*
+FFFFFFFF LoadingTilemap:  = 0
+FFFFFFFF LoadingScript:   = 1
+FFFFFFFF LoadingDatabase: = 2
+FFFFFFFF LoadingTileset:  = 3
+FFFFFFFF LoadingTextures: = 4
+FFFFFFFF LoadingMusic:    = 5
+FFFFFFFF Ready:           = 6
+FFFFFFFF Unknown0x07:     = 7
+FFFFFFFF Unknown0x08:     = 8
+FFFFFFFF Unknown0x09:     = 9
+FFFFFFFF Unknown0x0A:     = 10
+FFFFFFFF Waiting:         = 240
+*/
 
-void Map_Load(uint8_t* rdram, recomp_context* ctx) {
+std::string GetStateName(int state)
+{
+    switch (state)
+    {
+    case 0: return "LoadingTilemap";
+    case 1: return "LoadingScript";
+    case 2: return "LoadingDatabase";
+    case 3: return "LoadingTileset";
+    case 4: return "LoadingTextures";
+    case 5: return "LoadingMusic";
+    case 6: return "Ready";
+    case 7: return "Unknown0x07";
+    case 8: return "Unknown0x08";
+    case 9: return "Unknown0x09";
+    case 10: return "Unknown0x0A";
+    case 240: return "Waiting";
+    }
+    return "unknown!";
+}
+
+
+
+void Map_Load(uint8_t* rdram, recomp_context* ctx) 
+{
+    //801779D6 g_CurrentMapLoadState
+    int state = (int16_t)MEM_H(0, 0x801779D6);
+    printf("Map_Load state <%s>\n", GetStateName(state).c_str() );
+
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 

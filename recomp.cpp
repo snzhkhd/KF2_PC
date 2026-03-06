@@ -241,9 +241,16 @@ void ps1_bios_dispatcher_B(uint8_t* rdram, recomp_context* ctx)
         }
         case 0x4B: // StartPAD
         {
-            // Запуск опроса геймпада
+            // Запуск опроса геймпада, видимо не вызывается
             StartPAD();
             ctx->r2 = 1;
+            return;
+        }
+        case 0x4C: // puts
+        {
+            const char* str = (const char*)GET_PTR(ctx->r4);
+            printf("[BIOS puts] %s\n", str);
+            ctx->r2 = 0;
             return;
         }
         case 0x56: // PadRead

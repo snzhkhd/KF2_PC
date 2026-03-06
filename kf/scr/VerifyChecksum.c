@@ -3,7 +3,7 @@
 
 void VerifyChecksum(uint8_t* rdram, recomp_context* ctx) 
 {
-	ctx->r2 = 1;
+	ctx->r2 = 0;
 	return;
 //    uint64_t hi = 0, lo = 0, result = 0;
 //    unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;

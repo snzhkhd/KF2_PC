@@ -1,4 +1,4 @@
-#include "..//kf_cd.h"
+п»ї#include "..//kf_cd.h"
 #include "recomp.h"
 #include "disable_warnings.h"
 //#include "psx/libcd.h"
@@ -17,7 +17,9 @@ void KF_CdControl(uint8_t* rdram, recomp_context* ctx)
     uint8_t cmd = (uint8_t)ctx->r4;
     uint32_t param_addr = ctx->r5;
 
-    if (cmd == 0x16) // CdlReadN — запуск стримингового чтения
+    printf("[KF_CdControl] cmd=0x%02X\n", cmd);
+
+    if (cmd == 0x16) // CdlReadN вЂ” Р·Р°РїСѓСЃРє СЃС‚СЂРёРјРёРЅРіРѕРІРѕРіРѕ С‡С‚РµРЅРёСЏ
     {
         uint32_t* p_active = (uint32_t*)GET_PTR(ADDR_G_ACTIVECDSTREAM);
         if (p_active && *p_active) {
@@ -30,7 +32,7 @@ void KF_CdControl(uint8_t* rdram, recomp_context* ctx)
                 int cur_lba = KFCD_CdPosToInt(cur_loc);
                 uint16_t chunks_rem = *(uint16_t*)(stream + 16);
 
-                // Новый стрим или новый файл — сброс счётчика
+                // РќРѕРІС‹Р№ СЃС‚СЂРёРј РёР»Рё РЅРѕРІС‹Р№ С„Р°Р№Р» вЂ” СЃР±СЂРѕСЃ СЃС‡С‘С‚С‡РёРєР°
                 if (*p_active != g_cd_last_stream || base_lba != g_cd_base_lba) {
                 //    printf("[CdlReadN] NEW STREAM: old_base=%d new_base=%d\n", g_cd_base_lba, base_lba);
                     g_cd_last_stream = *p_active;
@@ -38,8 +40,9 @@ void KF_CdControl(uint8_t* rdram, recomp_context* ctx)
                     g_cd_pass_count = 0;
                 }
 
-                // Файл полностью прочитан
-                if (chunks_rem == 0) {
+                // Р¤Р°Р№Р» РїРѕР»РЅРѕСЃС‚СЊСЋ РїСЂРѕС‡РёС‚Р°РЅ
+                if (chunks_rem == 0) 
+                {
                 //    printf("[CdlReadN] chunks=0, file done, calling NextCdTask\n");
                     recomp_func_t next_task = lookup_recomp_func(0x80017D2C);
                     if (next_task) {
@@ -70,22 +73,55 @@ void KF_CdControl(uint8_t* rdram, recomp_context* ctx)
                 uint32_t dst = *(uint32_t*)(stream + 12);
                 uint8_t* dst_ptr = (uint8_t*)GET_PTR(dst);
 
-                // Читаем ТОЛЬКО 16 секторов за раз (одна порция = 0x8000 байт)
+                // Р§РёС‚Р°РµРј РўРћР›Р¬РљРћ 16 СЃРµРєС‚РѕСЂРѕРІ Р·Р° СЂР°Р· (РѕРґРЅР° РїРѕСЂС†РёСЏ = 0x8000 Р±Р°Р№С‚)
                 uint16_t sectors_to_read = (chunks_rem > 16) ? 16 : chunks_rem;
                 uint32_t bytes_to_read = sectors_to_read * 2048;
 
                 uint32_t fileOffset = (uint32_t)real_lba * 2352 + 24;
                 fseek(g_cdImage, fileOffset, SEEK_SET);
 
-                // Читаем секторами по 2048 байт, пропуская 304 байта заголовка каждого сектора
+                // Р§РёС‚Р°РµРј СЃРµРєС‚РѕСЂР°РјРё РїРѕ 2048 Р±Р°Р№С‚, РїСЂРѕРїСѓСЃРєР°СЏ 304 Р±Р°Р№С‚Р° Р·Р°РіРѕР»РѕРІРєР° РєР°Р¶РґРѕРіРѕ СЃРµРєС‚РѕСЂР°
                 uint8_t* write_ptr = dst_ptr;
                 for (int i = 0; i < sectors_to_read; i++) {
                     fseek(g_cdImage, (uint32_t)(real_lba + i) * 2352 + 24, SEEK_SET);
                     fread(write_ptr, 1, 2048, g_cdImage);
                     write_ptr += 2048;
                 }
+                stream[36] = 1; // СЃРёРіРЅР°Р»РёРј С‡С‚Рѕ РїРѕСЂС†РёСЏ РіРѕС‚РѕРІР°
 
-                stream[36] = 1; // сигналим что порция готова
+                //// Р’С‹Р·С‹РІР°РµРј РѕР±СЂР°Р±РѕС‚С‡РёРє РїРѕ РјР°СЃРєРµ stream[0]
+                //uint8_t mask = stream[0]; // 0x10, 0x20, 0x40 Рё С‚.Рґ.
+                //uint32_t handler_addr = 0;
+
+                //uint8_t task_type = stream[0];
+                //recomp_func_t handler = nullptr;
+
+                //switch (task_type) {
+                //case 0x10: handler = lookup_recomp_func(0x80017DB4); break; // С‚Р°Р№Р»РјР°Рї
+                //case 0x20: handler = lookup_recomp_func(0x80017F2C); break; // SPU Р°СѓРґРёРѕ
+                //case 0x40: handler = lookup_recomp_func(0x80017F2C); break; // ProcessAssetLoadQueue
+                //}
+
+                //if (handler) 
+                //{
+                //    uint32_t saved_ra = ctx->r31;
+                //    uint32_t saved_r4 = ctx->r4;
+
+                //    // РЎРёРјСѓР»РёСЂСѓРµРј DMA interrupt loop
+                //    // РџРµСЂРІС‹Р№ РІС‹Р·РѕРІ: stream[1]=0 в†’ С‡РёС‚Р°РµС‚ РґР°РЅРЅС‹Рµ в†’ stream[1]=1, stream[36]=1
+                //    // Р’С‚РѕСЂРѕР№ РІС‹Р·РѕРІ: stream[1]=1 в†’ VerifyChecksum в†’ РІС‹Р·РѕРІ РєРѕР»Р±СЌРєР°
+                //    for (int iter = 0; iter < 4; iter++) {
+                //        if (!stream[36]) break;
+                //        stream[36] = 0; // СЃР±СЂР°СЃС‹РІР°РµРј РїРµСЂРµРґ РІС‹Р·РѕРІРѕРј
+                //        ctx->r4 = *p_active;
+                //        handler(rdram, ctx);
+                //        printf("[CdControl] handler iter=%d stream[1]=%d stream[36]=%d\n",
+                //            iter, stream[1], stream[36]);
+                //    }
+
+                //    ctx->r4 = saved_r4;
+                //    ctx->r31 = saved_ra;
+                //}
             }
         }
         ctx->r2 = 1;
