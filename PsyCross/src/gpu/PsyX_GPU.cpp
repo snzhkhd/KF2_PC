@@ -736,11 +736,11 @@ static void AddSplit(bool semiTrans, bool textured)
 
 void DrawSplit(const GPUDrawSplit& split)
 {
-	printf("[DrawSplit] numVerts=%d startVertex=%d textureId=%d dfe=%d\n",
-		split.numVerts, split.startVertex, split.textureId, split.drawenv.dfe);
-	printf("[DrawSplit] clip=(%d,%d,%d,%d)\n",
-		split.drawenv.clip.x, split.drawenv.clip.y,
-		split.drawenv.clip.w, split.drawenv.clip.h);
+	//printf("[DrawSplit] numVerts=%d startVertex=%d textureId=%d dfe=%d\n",
+	//	split.numVerts, split.startVertex, split.textureId, split.drawenv.dfe);
+	//printf("[DrawSplit] clip=(%d,%d,%d,%d)\n",
+	//	split.drawenv.clip.x, split.drawenv.clip.y,
+	//	split.drawenv.clip.w, split.drawenv.clip.h);
 
 	if(split.debugText)
 		GR_PushDebugLabel(split.debugText);
@@ -1300,7 +1300,7 @@ static int ProcessGouraudPoly(P_TAG* polyTag)
 
 static int ProcessTileAndSprt(P_TAG* polyTag)
 {
-	printf("[TileSprt] code=0x%02X\n", polyTag->code);
+	//printf("[TileSprt] code=0x%02X\n", polyTag->code);
 #if USE_PGXP && USE_EXTENDED_PRIM_POINTERS
 	const u_short gteIndex = polyTag->pgxp_index;
 #else
@@ -1595,6 +1595,7 @@ int ParsePrimitive(P_TAG* polyTag)
 		break;
 	}
 	case 0x20:
+	case 0x2E:
 		// Flat polygons
 		primLength = ProcessFlatPoly(polyTag);
 		break;

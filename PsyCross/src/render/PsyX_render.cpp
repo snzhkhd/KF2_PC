@@ -1838,11 +1838,22 @@ void GR_UpdateVertexBuffer(const GrVertex* vertices, int num_vertices)
 #error
 #endif
 }
+extern GrVertex g_vertexBuffer[MAX_VERTEX_BUFFER_SIZE];
 
+#include <algorithm>
 void GR_DrawTriangles(int start_vertex, int triangles)
 {
+	if (triangles <= 0) return;
+
+	// Дамп первых 6 вершин
+	for (int i = start_vertex; i < start_vertex + std::min(triangles * 3, 6); i++) {
+		GrVertex& v = g_vertexBuffer[i];
+		printf("[Vertex %d] x=%f y=%f u=%d v=%d r=%d g=%d b=%d a=%d\n",
+			i, (float)v.x, (float)v.y, v.u, v.v, v.r, v.g, v.b, v.a);
+	}
 #if USE_OPENGL
 	glDrawArrays(GL_TRIANGLES, start_vertex, triangles * 3);
+
 #else
 #error
 #endif

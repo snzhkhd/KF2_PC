@@ -5,7 +5,7 @@
 // When turned off also disables PGXP
 
 #ifndef USE_EXTENDED_PRIM_POINTERS
-#define USE_EXTENDED_PRIM_POINTERS 1
+#define USE_EXTENDED_PRIM_POINTERS 0
 #endif
 
 // PGXP-Z: Precise GTE transform pipeline with Z-depth and widescreen fixes. Recommended for game mode
