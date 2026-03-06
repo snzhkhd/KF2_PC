@@ -9,9 +9,9 @@ void KF_DrawSync(uint8_t* rdram, recomp_context* ctx)
 {
     //static int ds_count = 0;
     //printf("[DrawSync]\n");
-    GR_UpdateVRAM();
-  //  GR_ReadFramebufferDataToVRAM();
-//    DrawSync((int)ctx->r4);
+    //GR_UpdateVRAM();
+    //GR_ReadFramebufferDataToVRAM();
+    DrawSync((int)ctx->r4);
     PsyX_UpdateInput();
     ctx->r2 = 0;
 }

@@ -7,7 +7,7 @@ void MemCard_ScanForSaves(uint8_t* rdram, recomp_context* ctx)
     // a1 = &g_KF_SaveCount Ч пишем по указателю
     uint32_t count_ptr = ctx->r5;
     WRITE_W(count_ptr, 1);  // g_KF_SaveCount = 1, чтобы выйти из while
-    ctx->r2 = 0;  // возвращаем false (нет ошибки)
+    ctx->r2 = 0; 
 
 //    uint64_t hi = 0, lo = 0, result = 0;
 //    unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
@@ -307,8 +307,8 @@ void MemCard_ScanForSaves(uint8_t* rdram, recomp_context* ctx)
 //    ctx->r29 = ADD32(ctx->r29, 0X288);
 //    // jr          $ra
 //    // nop
-//
-//    return;
-//    // nop
+
+    return;
+    // nop
 
 ;}

@@ -12,6 +12,7 @@ extern "C"
 {
 #include "PsyX/PsyX_public.h"
 #include "gpu/PsyX_GPU.h"
+#include "pad/PsyX_pad.h"
 
 #include "psx/libcd.h"
 #include "psx/libspu.h"
@@ -52,7 +53,9 @@ bool LoadGameEXE(const char* filename, recomp_context* ctx);
 
 
 uint8_t rdram[2 * 1024 * 1024] = { 0 };   // 2 MB Основной RAM
-
+//gamepad
+uint8_t g_pad1_buf[34]; 
+uint8_t g_pad2_buf[34];
 
 int main(int argc, char* argv[] )
 {
@@ -82,8 +85,15 @@ int main(int argc, char* argv[] )
     SetDispMask(1);
 
     PsyX_SetMemoryPointer(rdram);
-    
+
     WRITE_W(0x1F801814, 0x1C000000);
+
+    PsyX_UpdateInput();
+
+    memset(g_pad1_buf, 0xFF, sizeof(g_pad1_buf));
+    memset(g_pad2_buf, 0xFF, sizeof(g_pad2_buf));
+    PsyX_Pad_InitPad(1, g_pad1_buf);
+    PsyX_Pad_InitPad(0, g_pad2_buf);
 
     ResetGraph(0);
     //SpuInit();

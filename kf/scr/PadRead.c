@@ -1,14 +1,20 @@
-#include "recomp.h"
+ï»¿#include "recomp.h"
 #include "disable_warnings.h"
 #include "psx/libetc.h"
-
+#include "pad/PsyX_pad.h"
+#include "SDL2/SDL_keyboard.h"
 
 void KF_PadRead(uint8_t* rdram, recomp_context* ctx) 
 {
+    u_short raw = *(u_short*)&g_pad1_buf[2];
 
-    int id = (int)ctx->r4; // Íîìåð ïîðòà äæîéñòèêà (0 èëè 1)
+    // ÐœÐµÐ½ÑÐµÐ¼ Ð±Ð°Ð¹Ñ‚Ñ‹ Ð¼ÐµÑÑ‚Ð°Ð¼Ð¸
+    raw = ((raw >> 8) & 0xFF) | ((raw << 8) & 0xFF00);
 
-    unsigned int buttons = PadRead(id);
+    u_short buttons = ~raw;
+
+    if (buttons != 0)
+        printf("[PAD] buttons=0x%04X\n", buttons);
 
     ctx->r2 = (uint32_t)buttons;
 }

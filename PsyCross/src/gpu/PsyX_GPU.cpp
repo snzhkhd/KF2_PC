@@ -681,10 +681,10 @@ void TriangulateQuad()
 
 static void AddSplit(bool semiTrans, bool textured)
 {
-	printf("[AddSplit] semiTrans=%d textured=%d texFormat=%d tpage=0x%04X\n",
-		semiTrans, textured,
-		/* texFormat */ 0,
-		activeDrawEnv.tpage);
+	//printf("[AddSplit] semiTrans=%d textured=%d texFormat=%d tpage=0x%04X\n",
+	//	semiTrans, textured,
+	//	/* texFormat */ 0,
+	//	activeDrawEnv.tpage);
 
 	int tpage = activeDrawEnv.tpage;
 	GPUDrawSplit& curSplit = g_splits[g_splitIndex];
@@ -1189,12 +1189,12 @@ static int ProcessFlatPoly(P_TAG* polyTag)
 	{
 		POLY_FT4* poly = (POLY_FT4*)polyTag;
 
-		printf("[FT4 detail] x0=%d y0=%d x1=%d y1=%d x2=%d y2=%d x3=%d y3=%d\n",
+		/*printf("[FT4 detail] x0=%d y0=%d x1=%d y1=%d x2=%d y2=%d x3=%d y3=%d\n",
 			poly->x0, poly->y0, poly->x1, poly->y1,
 			poly->x2, poly->y2, poly->x3, poly->y3);
 		printf("[FT4 detail] u0=%d v0=%d u1=%d v1=%d u2=%d v2=%d u3=%d v3=%d\n",
 			poly->u0, poly->v0, poly->u1, poly->v1,
-			poly->u2, poly->v2, poly->u3, poly->v3);
+			poly->u2, poly->v2, poly->u3, poly->v3);*/
 
 		activeDrawEnv.tpage = poly->tpage;
 

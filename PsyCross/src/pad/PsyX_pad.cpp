@@ -195,10 +195,10 @@ void PsyX_Pad_InternalPadUpdates()
 	PsyXController* controller;
 	LPPADRAW pad;
 	u_short kbInputs;
-
+	
 	if (g_padCommEnable == 0)
 		return;
-
+	
 	kbInputs = PsyX_Pad_UpdateKeyboardInput();
 
 	for (int i = 0; i < MAX_CONTROLLERS; i++)
@@ -214,7 +214,9 @@ void PsyX_Pad_InternalPadUpdates()
 			ushort test = *(u_short*)pad->buttons;
 
 			// In order to switch From/To analog user has to use left gamepad stick
-
+			//printf("PsyX_Pad_InternalPadUpdates\n");
+			//printf("[PsyX_Pad_InternalPadUpdates] id=%d buttons=0x%04X\n", pad->id, *(u_short*)pad->buttons);
+			
 			// Select + Start pressed
 			if ((test & 0x1) == 0 && (test & 0x8) == 0)
 			{
@@ -240,7 +242,9 @@ void PsyX_Pad_InternalPadUpdates()
 			{
 				controller->switchingAnalog = false;
 			}
-
+		//	printf("[PAD_UPDATE] gc=%p kbInputs=0x%04X activeKB=%d\n",
+		//		controller->gc, kbInputs, g_activeKeyboardControllers);
+		//	printf("[PAD_UPDATE] after gamepad: buttons=0x%04X\n", *(u_short*)pad->buttons);
 			// Update keyboard for PAD
 			if ((g_activeKeyboardControllers & (1 << i)) && kbInputs != 0xffff)
 			{
@@ -253,9 +257,10 @@ void PsyX_Pad_InternalPadUpdates()
 
 					pad->id = 0x41; // force disable analog
 				}
-
+			//	printf("[PAD_UPDATE] keyboard override! kbInputs=0x%04X\n", kbInputs);
 				*(u_short*)pad->buttons &= kbInputs;
 			}
+		//	printf("[PAD_UPDATE] final buttons=0x%04X\n", *(u_short*)pad->buttons);
 		}
 	}
 

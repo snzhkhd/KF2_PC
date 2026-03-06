@@ -8,6 +8,8 @@
 #include "psx/libcd.h" 
 #include "scr/funcs.h"
 
+extern uint8_t g_pad1_buf[34];
+extern uint8_t g_pad2_buf[34];
 
 extern uint32_t g_CdReadCbAddr;
 extern uint32_t g_CdReadyCbAddr;

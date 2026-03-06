@@ -47,8 +47,7 @@ void TriggerGpuDma(uint8_t* rdram, recomp_context* ctx)
                     uint8_t v1 = (cur[5] >> 8) & 0xFF;
                     int16_t x0 = cur[2] & 0xFFFF;
                     int16_t y0 = cur[2] >> 16;
-                    printf("[FT4 0x%02X] tpage=0x%04X clut=0x%04X u0=%d v0=%d u1=%d v1=%d xy0=(%d,%d)\n",
-                        code, tpage, clut, u0, v0, u1, v1, x0, y0);
+            //        printf("[FT4 0x%02X] tpage=0x%04X clut=0x%04X u0=%d v0=%d u1=%d v1=%d xy0=(%d,%d)\n", code, tpage, clut, u0, v0, u1, v1, x0, y0);
                 }
 
                 static uint8_t psyx_prim[256];
@@ -71,7 +70,7 @@ void TriggerGpuDma(uint8_t* rdram, recomp_context* ctx)
                 //    psyx_prim[15] &= ~0x02; // убираем бит semi-transparency
                 //}
                
-                printf("[Prim] addr=0x%08X code=0x%02X len=%d\n", cur_addr, code, len);
+            //    printf("[Prim] addr=0x%08X code=0x%02X len=%d\n", cur_addr, code, len);
             //    printf("[Before ParsePrim] g_splitIndex=%d\n", g_splitIndex);
                 ParsePrimitivesLinkedList((u_long*)psyx_prim, 0);
             //    printf("[After ParsePrim] g_splitIndex=%d\n", g_splitIndex);

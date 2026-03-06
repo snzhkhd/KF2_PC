@@ -430,8 +430,8 @@ void GR_UpdateSwapIntervalState(int swapInterval)
 
 void GR_BeginScene()
 {
-	g_PreviousOffscreenState = -1; // ← форсируем сброс состояния
-	glBindFramebuffer(GL_FRAMEBUFFER, 0); // ← явно биндим экран
+	//g_PreviousOffscreenState = -1; // ← форсируем сброс состояния
+	//glBindFramebuffer(GL_FRAMEBUFFER, 0); // ← явно биндим экран
 
 	g_lastBoundTexture = 0;
 
@@ -1843,10 +1843,10 @@ extern GrVertex g_vertexBuffer[MAX_VERTEX_BUFFER_SIZE];
 #include <algorithm>
 void GR_DrawTriangles(int start_vertex, int triangles)
 {
-	if (triangles <= 0) return;
-	GrVertex& v = g_vertexBuffer[start_vertex];
-	printf("[GR_Draw] page=%d clut=%d x=%d y=%d u=%d v=%d\n",
-		v.page, v.clut, v.x, v.y, v.u, v.v);
+	//if (triangles <= 0) return;
+	//GrVertex& v = g_vertexBuffer[start_vertex];
+	//printf("[GR_Draw] page=%d clut=%d x=%d y=%d u=%d v=%d\n",
+	//	v.page, v.clut, v.x, v.y, v.u, v.v);
 	//// Дамп первых 6 вершин
 	//for (int i = start_vertex; i < start_vertex + std::min(triangles * 3, 6); i++) {
 	//	GrVertex& v = g_vertexBuffer[i];

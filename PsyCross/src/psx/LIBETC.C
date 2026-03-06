@@ -80,6 +80,7 @@ void PadInit(int mode)
 
 u_int PadRead(int id)
 {
+
 	PSYX_UNIMPLEMENTED();
 	
 	// TODO: return pad data as u_int

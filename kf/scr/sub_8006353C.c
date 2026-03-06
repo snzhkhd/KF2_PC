@@ -19,7 +19,7 @@ void KF_ClearOTagR(uint8_t* rdram, recomp_context* ctx)
         uint32_t terminator = MEM_W(0, 0x8007625C) & 0x00FFFFFF;
         ot[0] = terminator;
 
-        printf("[ClearOTagR] ot[0]=0x%06X (terminator)\n", terminator);
+      //  printf("[ClearOTagR] ot[0]=0x%06X (terminator)\n", terminator);
     }
 	//printf("[ClearOTagR] PsyX_BeginScene\n");
 
