@@ -30,12 +30,13 @@ void CD_readm(uint8_t* rdram, recomp_context* ctx)
                 if (stream_bytes ) // && stream_bytes[0] == 0x40) 
                 {
                     stream_bytes[36] = 1;  // data_ready = 1
-                    stream_bytes[1] = 1;   // говорим что данные готовы
+                //    stream_bytes[1] = 1;   // говорим что данные готовы
                 //    printf("[HLE CD] CDStream data_ready flag set!\n");
                 }
             }
         }
     }
+    printf("CD_readm\n");
     ctx->r2 = 0;
 
 //    uint64_t hi = 0, lo = 0, result = 0;

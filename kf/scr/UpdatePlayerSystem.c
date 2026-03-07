@@ -1,7 +1,9 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void UpdatePlayerSystem(uint8_t* rdram, recomp_context* ctx) {
+void UpdatePlayerSystem(uint8_t* rdram, recomp_context* ctx) 
+{
+    printf("UpdatePlayerSystem\n");
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -541,7 +543,7 @@ L_800361AC:
     ctx->r29 = ADD32(ctx->r29, 0X28);
     // jr          $ra
     // nop
-
+    printf("UpdatePlayerSystem  end\n");
     return;
     // nop
 

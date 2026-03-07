@@ -8,6 +8,8 @@ void KF_SetTransMatrix(uint8_t* rdram, recomp_context* ctx)
     MATRIX* m = (MATRIX*)GET_PTR(ctx->r4);
 
     if (m) {
+        ctx_to_gte(ctx);
         SetTransMatrix(m);
+        gte_to_ctx(ctx);
     }
 }

@@ -11,6 +11,8 @@ void KF_DpqColor(uint8_t* rdram, recomp_context* ctx) {
     CVECTOR* v1 = (CVECTOR*)GET_PTR(ctx->r6); // Результирующий цвет
 
     if (v0 && v1) {
+        ctx_to_gte(ctx);
         gte_DpqColor(v0, &p, v1);
+        gte_to_ctx(ctx);
     }
 }

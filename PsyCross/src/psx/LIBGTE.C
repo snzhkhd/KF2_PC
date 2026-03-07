@@ -48,6 +48,7 @@ void InitGeom()
 	C2_DQB = 340;
 	C2_OFX = 0;
 	C2_OFY = 0;
+//	GTERegisters gteRegs = {};
 }
 
 void SetGeomOffset(int ofx, int ofy)

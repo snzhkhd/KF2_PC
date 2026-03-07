@@ -516,7 +516,7 @@ L_8003127C:
     // ori         $v0, $zero, 0x9
     ctx->r2 = 0 | 0X9;
     // sb          $v0, 0x3($s0)
-    MEM_B(0X3, ctx->r16) = ctx->r2;
+    MEM_B(0X3, ctx->r16) = ctx->r2;     //2148526720
     // sb          $fp, 0x7($s0)
     MEM_B(0X7, ctx->r16) = ctx->r30;
     // lh          $v0, 0x4($s2)

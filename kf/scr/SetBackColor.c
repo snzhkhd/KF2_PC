@@ -8,6 +8,8 @@ void KF_SetBackColor(uint8_t* rdram, recomp_context* ctx) {
     int r = (int)ctx->r4;
     int g = (int)ctx->r5;
     int b = (int)ctx->r6;
-
+    ctx_to_gte(ctx);
     SetBackColor(r, g, b);
+    gte_to_ctx(ctx);
+
 }

@@ -9,7 +9,10 @@ void KF_ColorDpq(uint8_t* rdram, recomp_context* ctx) {
     int      p = (int)ctx->r6;               // Значение дистанции (туман)
     CVECTOR* v2 = (CVECTOR*)GET_PTR(ctx->r7); // Результат (куда записать)
 
-    if (v0 && v1 && v2) {
+    if (v0 && v1 && v2) 
+    {
+        ctx_to_gte(ctx);
         ColorDpq(v0, v1, p, v2);
+        gte_to_ctx(ctx);
     }
 }

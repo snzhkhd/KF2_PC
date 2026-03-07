@@ -3,8 +3,12 @@
 
 void CD_cw_8004DBE0(uint8_t* rdram, recomp_context* ctx) 
 {
+	ctx->r2 = 1; // всегда успех
+	uint8_t cmd = (uint8_t)ctx->r4;
+	printf("[CD_cw_8004DBE0] cmd=0x%02X\n", cmd);
+	/*
 
-	KFCD_CdControl(rdram, ctx);
+	KFCD_CdControl(rdram, ctx);*/
 
 //    uint64_t hi = 0, lo = 0, result = 0;
 //    unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;

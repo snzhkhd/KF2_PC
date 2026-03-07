@@ -1,24 +1,37 @@
-#include "recomp.h"
+п»ї#include "recomp.h"
 #include "disable_warnings.h"
 #include "psx/libgte.h"
 #include "psx/gtemac.h"
 #include "psx/inline_c.h"
-void KF_NormalColorDpq3(uint8_t* rdram, recomp_context* ctx) {
-    // 1-4 аргументы (регистры a0-a3)
-    SVECTOR* v0 = (SVECTOR*)GET_PTR(ctx->r4); // Нормаль 1
-    SVECTOR* v1 = (SVECTOR*)GET_PTR(ctx->r5); // Нормаль 2
-    SVECTOR* v2 = (SVECTOR*)GET_PTR(ctx->r6); // Нормаль 3
-    CVECTOR* v3 = (CVECTOR*)GET_PTR(ctx->r7); // Базовый цвет (RGB)
 
-    // 5-8 аргументы (стек sp+16, sp+20, sp+24, sp+28)
-    long p = (long)MEM_W(16, ctx->r29);              // Значение дистанции (туман/глубина)
-    CVECTOR* v4 = (CVECTOR*)GET_PTR(MEM_W(20, ctx->r29)); // Результат 1
-    CVECTOR* v5 = (CVECTOR*)GET_PTR(MEM_W(24, ctx->r29)); // Результат 2
-    CVECTOR* v6 = (CVECTOR*)GET_PTR(MEM_W(28, ctx->r29)); // Результат 3
+#include "psx/gtereg.h"
+#include <string>
 
-    // Вызываем Psy-X версию
-    gte_NormalColorDpq3(v0, v1, v2, v3, p, v4, v5, v6);
+void KF_NormalColorDpq3(uint8_t* rdram, recomp_context* ctx) 
+{
+    SVECTOR* v0 = (SVECTOR*)GET_PTR(ctx->r4);
+    SVECTOR* v1 = (SVECTOR*)GET_PTR(ctx->r5);
+    SVECTOR* v2 = (SVECTOR*)GET_PTR(ctx->r6);
+    CVECTOR* v3 = (CVECTOR*)GET_PTR(ctx->r7);
+    long     p = (long)(int32_t)MEM_W(16, ctx->r29);
+    CVECTOR* v4 = (CVECTOR*)GET_PTR(MEM_W(20, ctx->r29));
+    CVECTOR* v5 = (CVECTOR*)GET_PTR(MEM_W(24, ctx->r29));
+    CVECTOR* v6 = (CVECTOR*)GET_PTR(MEM_W(28, ctx->r29));
+
+    ctx_to_gte(ctx);
+    gte_NormalColorDpq3(v0, v1, v2, v3, &p, v4, v5, v6);
+    gte_to_ctx(ctx);
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

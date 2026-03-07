@@ -11,6 +11,7 @@ void KF_NormalColorCol3(uint8_t* rdram, recomp_context* ctx) {
     CVECTOR* v4 = (CVECTOR*)GET_PTR(MEM_W(16, ctx->r29));
     CVECTOR* v5 = (CVECTOR*)GET_PTR(MEM_W(20, ctx->r29));
     CVECTOR* v6 = (CVECTOR*)GET_PTR(MEM_W(24, ctx->r29));
-
+    ctx_to_gte(ctx);
     NormalColorCol3(v0, v1, v2, v3, v4, v5, v6);
+    gte_to_ctx(ctx);
 }

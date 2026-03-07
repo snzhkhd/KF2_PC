@@ -9,8 +9,9 @@ void KF_SetLightMatrix(uint8_t* rdram, recomp_context* ctx) {
 
 
     MATRIX* m = (MATRIX*)GET_PTR(vram_addr);
-
+    ctx_to_gte(ctx);
     SetLightMatrix(m);
+    gte_to_ctx(ctx);
 
     ;
 }

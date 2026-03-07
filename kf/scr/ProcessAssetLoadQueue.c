@@ -6,7 +6,16 @@ void ProcessAssetLoadQueue(uint8_t* rdram, recomp_context* ctx)
 {
 
     //// Лог ВСЕГДА, без условий
-    //uint32_t* p_active = (uint32_t*)GET_PTR(ADDR_G_ACTIVECDSTREAM);
+    uint32_t* p_active = (uint32_t*)GET_PTR(ADDR_G_ACTIVECDSTREAM);
+    if (p_active)
+    {
+        uint8_t* stream = (uint8_t*)GET_PTR(*p_active);
+        if (stream)
+        {
+            printf("[ProcessAssetLoadQueue] stream=%d | (24) = <%d>, (12) = <%d>\n", stream[0], stream[24], stream[12]);
+        }
+    }
+    
 
     //// if (p_active && *p_active) {
     //    // uint8_t* stream = (uint8_t*)GET_PTR(*p_active);
@@ -60,7 +69,7 @@ void ProcessAssetLoadQueue(uint8_t* rdram, recomp_context* ctx)
     //    }
     //}
     //uint32_t stream_ptr = MEM_W(0, ADDR_G_ACTIVECDSTREAM);
-    //printf("ProcessAssetLoadQueue\n");
+ //   printf("ProcessAssetLoadQueue\n");
 
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;

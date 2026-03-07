@@ -5,6 +5,7 @@ void sub_8004EFD4(uint8_t* rdram, recomp_context* ctx)
 {
     // На PC SPU DMA не нужен — данные уже в rdram
    // PsyX сам обработает через свой SPU
+    printf("sub_8004EFD4\n");
     ctx->r2 = 0;
 //    uint64_t hi = 0, lo = 0, result = 0;
 //    unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;

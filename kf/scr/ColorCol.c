@@ -8,6 +8,8 @@ void KF_ColorCol(uint8_t* rdram, recomp_context* ctx) {
     CVECTOR* v2 = (CVECTOR*)GET_PTR(ctx->r6); // Результат
 
     if (v0 && v1 && v2) {
+        ctx_to_gte(ctx);
         ColorCol(v0, v1, v2);
+        gte_to_ctx(ctx);
     }
 }

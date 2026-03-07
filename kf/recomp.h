@@ -1,12 +1,13 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
 #include "..//kf_cd.h"
-
+#include "..//gte.h"
 #include <intrin.h>
 #include <stdio.h>
 
 #include "psx/libcd.h" 
 #include "scr/funcs.h"
+
 
 extern uint8_t g_pad1_buf[34];
 extern uint8_t g_pad2_buf[34];
@@ -29,6 +30,8 @@ void recomp_vram_call(uint8_t* rdram, recomp_context* ctx, uint32_t vram);
 void ps1_bios_dispatcher_A(uint8_t* rdram, recomp_context* ctx);
 void ps1_bios_dispatcher_B(uint8_t* rdram, recomp_context* ctx);
 void ps1_bios_dispatcher_C(uint8_t* rdram, recomp_context* ctx);
+
+
 
 void gte_command(recomp_context* ctx, uint32_t cmd);
 void gte_lwc2(uint8_t* rdram, recomp_context* ctx, int rt, int rs, int imm);
@@ -65,4 +68,6 @@ void dummy_safe_func(uint8_t* rdram, recomp_context* ctx);
     
 
 void init_function_table(); 
+
+
 

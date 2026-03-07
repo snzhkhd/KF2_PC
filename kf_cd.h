@@ -24,6 +24,10 @@ extern uint32_t g_cdCurrentSector;
 extern KF_CD_Request g_cdReq;
 extern int g_cdReading;
 
+static uint32_t g_cd_pass_count = 0;
+static uint32_t g_cd_last_stream = 0;
+static uint32_t g_cd_initial_dst = 0;
+static int      g_cd_base_lba = -1;
 
 
 #ifdef __cplusplus
@@ -38,6 +42,7 @@ int KFCD_Init(const char* path);
 
 
 void KFCD_CdControl(uint8_t* rdram, recomp_context* ctx);
+void KFCD_CdlReadN(uint8_t* rdram, recomp_context* ctx);
 int KFCD_CdRead(int sectors, uint32_t* buf);
 int KFCD_CdReadSync(int mode);
 int KFCD_CdSync(int mode);

@@ -2,6 +2,21 @@
 #include "disable_warnings.h"
 #include <string>
 
+/*
+00000000 FileDescriptor  struc  # (sizeof=0xC, mappedto_13)
+00000000 ram_buffer:     .word ?
+00000004 cd_sector_low:  .word ?
+00000008 cd_sector_high: .word ?
+0000000C FileDescriptor  ends
+*/
+
+struct FileDescriptor
+{
+    uint32_t ram_buffer;
+    uint32_t cd_sector_low;
+    uint32_t cd_sector_high;
+};
+
 
 std::string GetNameType(int type)
 {
@@ -20,8 +35,29 @@ std::string GetNameType(int type)
 
 void ReadFromFile(uint8_t* rdram, recomp_context* ctx) 
 {
-    int type = (int)ctx->r4;
-    printf("ReadFromFile <%s>\n", GetNameType(type).c_str() );
+
+    uint16_t type = (uint16_t)ctx->r4;
+    uint16_t a2 = (uint16_t)ctx->r5;
+
+    //// g_FileDescriptors — адрес массива в PS1 RAM
+    uint32_t desc_base = 0x801BA84C;
+    uint32_t desc_addr = desc_base + type * 12;
+
+    uint32_t ram_buffer = MEM_W(0, desc_addr);
+    //uint32_t cd_sector_low = MEM_W(4, desc_addr);
+
+    //CdlLOC* loc = (CdlLOC*)GET_PTR(desc_addr + 4);
+    //int lba = KFCD_CdPosToInt(loc);
+
+    //// Размер: (next_offset - cur_offset) << 11
+    uint16_t cur = *(uint16_t*)GET_PTR(ram_buffer + 2 * a2);
+    uint16_t next = *(uint16_t*)GET_PTR(ram_buffer + 2 * a2 + 2);
+    int size = (next - cur) << 11;
+
+    //printf("[ReadFromFile] type=%s(%d) a2=%d LBA=%d size=%d bytes\n",
+    //    GetNameType(type).c_str(), type, a2, lba + cur, size);
+    printf("[ReadFromFile] type=%s(%d) a2=%d size=%d bytes\n", GetNameType(type).c_str(), type, a2, size);
+
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 

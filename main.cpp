@@ -101,6 +101,7 @@ int main(int argc, char* argv[] )
     KFCD_Init("King's Field2.bin");
 
     InitGeom();
+    
 
    PsyX_BeginScene();
 

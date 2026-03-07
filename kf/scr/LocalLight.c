@@ -9,7 +9,9 @@ void KF_LocalLight(uint8_t* rdram, recomp_context* ctx) {
     VECTOR* v1 = (VECTOR*)GET_PTR(ctx->r5);
 
     if (v0 && v1) {
+        ctx_to_gte(ctx);
         LocalLight(v0, v1);
+        gte_to_ctx(ctx);
     }
 
     ;

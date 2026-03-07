@@ -144,6 +144,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="gte.cpp" />
     <ClCompile Include="kf\scr\AddPrims.c" />
     <ClCompile Include="kf\scr\AI_GetRandomizedWeight.c" />
     <ClCompile Include="kf\scr\AllocateMemory.c" />
@@ -1136,6 +1137,7 @@
     <ClCompile Include="recomp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="gte.h" />
     <ClInclude Include="kf\recomp.h" />
     <ClInclude Include="kf\scr\disable_warnings.h" />
     <ClInclude Include="kf\scr\funcs.h" />

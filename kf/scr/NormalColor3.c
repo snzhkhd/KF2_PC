@@ -11,6 +11,8 @@ void KF_NormalColor3(uint8_t* rdram, recomp_context* ctx) {
     // Аргументы на стеке
     CVECTOR* v4 = (CVECTOR*)GET_PTR(MEM_W(16, ctx->r29));
     CVECTOR* v5 = (CVECTOR*)GET_PTR(MEM_W(20, ctx->r29));
-
+    ctx_to_gte(ctx);
     NormalColor3(v0, v1, v2, v3, v4, v5);
+    gte_to_ctx(ctx);
+
 }

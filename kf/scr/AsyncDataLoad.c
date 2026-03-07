@@ -4,46 +4,99 @@
 void AsyncDataLoad(uint8_t* rdram, recomp_context* ctx) 
 {
     printf("[DEBUG] AsyncDataLoad.\n");
-    uint32_t* p_active = (uint32_t*)GET_PTR(ADDR_G_ACTIVECDSTREAM);
-    if (p_active && *p_active) {
-        uint8_t* stream = (uint8_t*)GET_PTR(*p_active);
-        if (stream) {
-            uint16_t chunks = *(uint16_t*)(stream + 16);
-            // Если есть данные для чтения но никто не запустил CdlReadN
-            if (chunks > 0 && stream[36] == 0 && stream[1] == 0) {
-                printf("[Async] forcing CdlReadN for stream[0]=%d chunks=%d\n",
-                    stream[0], chunks);
-                uint32_t saved_r4 = ctx->r4;
-                uint32_t saved_r5 = ctx->r5;
-                ctx->r4 = 0x16;
-                ctx->r5 = (uint32_t)((*p_active + 2) | 0x80000000);
-                KF_CdControl(rdram, ctx);
-                ctx->r4 = saved_r4;
-                ctx->r5 = saved_r5;
-            }
+    //uint32_t* p_active = (uint32_t*)GET_PTR(ADDR_G_ACTIVECDSTREAM);
+    //if (p_active && *p_active) {
+    //    uint8_t* stream = (uint8_t*)GET_PTR(*p_active);
+    //    if (stream) {
+    //        uint16_t chunks = *(uint16_t*)(stream + 16);
+    //        // Если есть данные для чтения но никто не запустил CdlReadN
+    //        if (chunks > 0 && stream[36] == 0 && stream[1] == 0) 
+    //        {
+    //            while (true) 
+    //            {
+    //                ctx->r4 = 0x16;
+    //                ctx->r5 = (uint32_t)((*p_active + 2) | 0x80000000);
+    //                KF_CdControl(rdram, ctx);
 
-            // Обработчик если данные готовы
-            if (stream[36]) 
+    //                uint16_t remaining = *(uint16_t*)(stream + 16);
+    //                printf("[Async] chunks remaining=%d\n", remaining);
+
+    //                if (remaining == 0) break;
+
+    //                // Вызываем обработчик если нужно
+    //                if (stream[36]) {
+    //                    stream[36] = 0;
+    //                    recomp_func_t handler = lookup_recomp_func(0x80017DB4);
+    //                    if (handler) {
+    //                        uint32_t saved_ra = ctx->r31;
+    //                        uint32_t saved_r4 = ctx->r4;
+    //                        ctx->r4 = *p_active;
+    //                        handler(rdram, ctx);
+    //                        ctx->r4 = saved_r4;
+    //                        ctx->r31 = saved_ra;
+    //                    }
+    //                }
+
+    //                if (stream[0] == 0) break; // NextCdTask вызвался
+    //            }
+    //           /* printf("[Async] forcing CdlReadN for stream[0]=%d chunks=%d\n",
+    //                stream[0], chunks);
+    //            uint32_t saved_r4 = ctx->r4;
+    //            uint32_t saved_r5 = ctx->r5;
+    //            ctx->r4 = 0x16;
+    //            ctx->r5 = (uint32_t)((*p_active + 2) | 0x80000000);
+    //            KF_CdControl(rdram, ctx);
+    //            ctx->r4 = saved_r4;
+    //            ctx->r5 = saved_r5;*/
+    //        }
+
+    //        // Обработчик если данные готовы
+    //        if (stream[36]) 
+    //        {
+    //            //stream[36] = 0;
+    //            recomp_func_t handler = nullptr;
+    //            switch (stream[0]) {
+    //            case 0x10: handler = lookup_recomp_func(0x80017DB4); break;
+    //            case 0x20:
+    //            case 0x40: handler = lookup_recomp_func(0x80017F2C); break;
+    //            }
+    //            if (handler) {
+    //                uint32_t saved_ra = ctx->r31;
+    //                uint32_t saved_r4 = ctx->r4;
+    //                ctx->r4 = *p_active;
+    //                handler(rdram, ctx);
+    //                ctx->r4 = saved_r4;
+    //                ctx->r31 = saved_ra;
+    //            }
+    //        }
+    //    }
+    //}
+     // Симулируем CD IRQ для стримов которые ждут callback
+    uint32_t* p_active = (uint32_t*)GET_PTR(ADDR_G_ACTIVECDSTREAM);
+    if (p_active && *p_active) 
+    {
+        uint8_t* stream = (uint8_t*)GET_PTR(*p_active);
+        if (stream && stream[0] == 0x30 && stream[36] == 1) 
+        {
+            stream[36] = 0;
+            uint32_t cb_addr = *(uint32_t*)(stream + 20);
+            if (cb_addr) 
             {
-                //stream[36] = 0;
-                recomp_func_t handler = nullptr;
-                switch (stream[0]) {
-                case 0x10: handler = lookup_recomp_func(0x80017DB4); break;
-                case 0x20:
-                case 0x40: handler = lookup_recomp_func(0x80017F2C); break;
-                }
-                if (handler) {
-                    uint32_t saved_ra = ctx->r31;
+                recomp_func_t cb = lookup_recomp_func(cb_addr);
+                if (cb) 
+                {
+                    printf("[AsyncDataLoad] IRQ sim for 0x30, stream[24]=%d\n",
+                        *(int16_t*)(stream + 24));
                     uint32_t saved_r4 = ctx->r4;
+                    uint32_t saved_ra = ctx->r31;
                     ctx->r4 = *p_active;
-                    handler(rdram, ctx);
+                    cb(rdram, ctx);
                     ctx->r4 = saved_r4;
                     ctx->r31 = saved_ra;
                 }
             }
         }
     }
-
 
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;

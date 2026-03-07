@@ -9,7 +9,8 @@ void KF_SetColorMatrix(uint8_t* rdram, recomp_context* ctx) {
 
 
     MATRIX* m = (MATRIX*)GET_PTR(vram_addr);
-
+    ctx_to_gte(ctx);
     SetColorMatrix(m);
+    gte_to_ctx(ctx);
     ;
 }

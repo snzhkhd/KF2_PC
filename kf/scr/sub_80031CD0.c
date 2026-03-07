@@ -1,7 +1,18 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void sub_80031CD0(uint8_t* rdram, recomp_context* ctx) {
+void sub_80031CD0(uint8_t* rdram, recomp_context* ctx) 
+{
+    uint32_t base = *(uint32_t*)GET_PTR(0x80190250); // g_CurrentPrimitiveBuffer
+    printf("[BASE=%08X]\n", base);
+    for (int i = 0; i < 4; i++) {
+        uint32_t entry = base + 12 + 28 * i;
+        printf("[entry %d @ %08X] ", i, entry);
+        for (int j = 0; j < 7; j++)
+            printf("%08X ", *(uint32_t*)GET_PTR(entry + j * 4));
+        printf("\n");
+    }
+
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
