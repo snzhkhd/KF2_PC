@@ -291,7 +291,11 @@ L_8003CF4C:
     // sll         $v0, $v1, 12
     ctx->r2 = S32(ctx->r3) << 12;
     // div         $zero, $v0, $s3
-    lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r19))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r19)));
+	if (ctx->r19 != 0)
+    {
+		lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r19))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r19)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $s3, $zero, L_8003CF78
     if (ctx->r19 != 0) {
         // nop

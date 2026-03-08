@@ -170,7 +170,11 @@ L_80017444:
     // nop
 
     // div         $zero, $v1, $a0
-    lo = S32(S64(S32(ctx->r3)) / S64(S32(ctx->r4))); hi = S32(S64(S32(ctx->r3)) % S64(S32(ctx->r4)));
+	if (ctx->r4 != 0)
+    {
+		lo = S32(S64(S32(ctx->r3)) / S64(S32(ctx->r4))); hi = S32(S64(S32(ctx->r3)) % S64(S32(ctx->r4)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $a0, $zero, L_80017488
     if (ctx->r4 != 0) {
         // nop

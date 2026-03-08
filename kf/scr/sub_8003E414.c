@@ -80,7 +80,11 @@ void sub_8003E414(uint8_t* rdram, recomp_context* ctx) {
     // sll         $a2, $a2, 1
     ctx->r6 = S32(ctx->r6) << 1;
     // div         $zero, $a2, $s1
-    lo = S32(S64(S32(ctx->r6)) / S64(S32(ctx->r17))); hi = S32(S64(S32(ctx->r6)) % S64(S32(ctx->r17)));
+	if (ctx->r17 != 0)
+    {
+		lo = S32(S64(S32(ctx->r6)) / S64(S32(ctx->r17))); hi = S32(S64(S32(ctx->r6)) % S64(S32(ctx->r17)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $s1, $zero, L_8003E4A0
     if (ctx->r17 != 0) {
         // nop
@@ -134,7 +138,11 @@ L_8003E4B8:
     // sll         $a2, $a2, 1
     ctx->r6 = S32(ctx->r6) << 1;
     // div         $zero, $a2, $s1
-    lo = S32(S64(S32(ctx->r6)) / S64(S32(ctx->r17))); hi = S32(S64(S32(ctx->r6)) % S64(S32(ctx->r17)));
+	if (ctx->r17 != 0)
+    {
+		lo = S32(S64(S32(ctx->r6)) / S64(S32(ctx->r17))); hi = S32(S64(S32(ctx->r6)) % S64(S32(ctx->r17)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $s1, $zero, L_8003E4E8
     if (ctx->r17 != 0) {
         // nop

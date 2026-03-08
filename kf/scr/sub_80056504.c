@@ -259,7 +259,11 @@ L_80056664:
     // ori         $a0, $zero, 0x3F01
     ctx->r4 = 0 | 0X3F01;
     // div         $zero, $v0, $a0
-    lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r4))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r4)));
+	if (ctx->r4 != 0)
+    {
+		lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r4))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r4)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $a0, $zero, L_800566D0
     if (ctx->r4 != 0) {
         // nop

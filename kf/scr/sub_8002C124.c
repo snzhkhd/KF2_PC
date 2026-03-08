@@ -80,7 +80,11 @@ L_8002C16C:
     // mflo        $v0
     ctx->r2 = lo;
     // div         $zero, $v0, $a2
-    lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r6))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r6)));
+	if (ctx->r6 != 0)
+    {
+		lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r6))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r6)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $a2, $zero, L_8002C194
     if (ctx->r6 != 0) {
         // nop

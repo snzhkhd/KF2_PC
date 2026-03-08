@@ -106,7 +106,11 @@ void sub_8005B7E8(uint8_t* rdram, recomp_context* ctx) {
     // or          $v0, $v0, $v1
     ctx->r2 = ctx->r2 | ctx->r3;
     // div         $zero, $a2, $v0
-    lo = S32(S64(S32(ctx->r6)) / S64(S32(ctx->r2))); hi = S32(S64(S32(ctx->r6)) % S64(S32(ctx->r2)));
+	if (ctx->r2 != 0)
+    {
+		lo = S32(S64(S32(ctx->r6)) / S64(S32(ctx->r2))); hi = S32(S64(S32(ctx->r6)) % S64(S32(ctx->r2)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $v0, $zero, L_8005B8B0
     if (ctx->r2 != 0) {
         // nop

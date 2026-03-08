@@ -16,7 +16,11 @@ void sub_800525C0(uint8_t* rdram, recomp_context* ctx) {
     // ori         $v0, $zero, 0x7F
     ctx->r2 = 0 | 0X7F;
     // div         $zero, $a2, $v0
-    lo = S32(S64(S32(ctx->r6)) / S64(S32(ctx->r2))); hi = S32(S64(S32(ctx->r6)) % S64(S32(ctx->r2)));
+	if (ctx->r2 != 0)
+    {
+		lo = S32(S64(S32(ctx->r6)) / S64(S32(ctx->r2))); hi = S32(S64(S32(ctx->r6)) % S64(S32(ctx->r2)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $v0, $zero, L_800525E4
     if (ctx->r2 != 0) {
         // nop
@@ -60,7 +64,11 @@ L_800525FC:
     // subu        $v1, $v1, $a1
     ctx->r3 = SUB32(ctx->r3, ctx->r5);
     // div         $zero, $v1, $v0
-    lo = S32(S64(S32(ctx->r3)) / S64(S32(ctx->r2))); hi = S32(S64(S32(ctx->r3)) % S64(S32(ctx->r2)));
+	if (ctx->r2 != 0)
+    {
+		lo = S32(S64(S32(ctx->r3)) / S64(S32(ctx->r2))); hi = S32(S64(S32(ctx->r3)) % S64(S32(ctx->r2)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $v0, $zero, L_80052620
     if (ctx->r2 != 0) {
         // nop

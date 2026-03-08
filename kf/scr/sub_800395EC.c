@@ -278,7 +278,11 @@ L_80039760:
     // sll         $s0, $s0, 12
     ctx->r16 = S32(ctx->r16) << 12;
     // div         $zero, $s0, $s3
-    lo = S32(S64(S32(ctx->r16)) / S64(S32(ctx->r19))); hi = S32(S64(S32(ctx->r16)) % S64(S32(ctx->r19)));
+	if (ctx->r19 != 0)
+    {
+		lo = S32(S64(S32(ctx->r16)) / S64(S32(ctx->r19))); hi = S32(S64(S32(ctx->r16)) % S64(S32(ctx->r19)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $s3, $zero, L_800397A8
     if (ctx->r19 != 0) {
         // nop

@@ -841,7 +841,11 @@ L_80035420:
     // mflo        $v0
     ctx->r2 = lo;
     // div         $zero, $v0, $a1
-    lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r5))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r5)));
+	if (ctx->r5 != 0)
+    {
+		lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r5))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r5)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $a1, $zero, L_80035448
     if (ctx->r5 != 0) {
         // nop
@@ -1777,7 +1781,17 @@ L_800359F4:
     // nop
 
     // div         $zero, $v0, $v1
-    lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r3))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r3)));
+	if (ctx->r3 != 0)
+	{
+		lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r3))); 
+		hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r3)));
+	}
+	else
+	{
+		lo = 0;
+		hi = 0;
+	}
+    
     // bne         $v1, $zero, L_80035A20
     if (ctx->r3 != 0) {
         // nop

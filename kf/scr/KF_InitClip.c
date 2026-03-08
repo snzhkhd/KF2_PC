@@ -72,7 +72,11 @@ void KF_InitClip(uint8_t* rdram, recomp_context* ctx) {
     // sll         $a1, $a3, 12
     ctx->r5 = S32(ctx->r7) << 12;
     // div         $zero, $a1, $v1
-    lo = S32(S64(S32(ctx->r5)) / S64(S32(ctx->r3))); hi = S32(S64(S32(ctx->r5)) % S64(S32(ctx->r3)));
+	if (ctx->r3 != 0)
+	{
+		lo = S32(S64(S32(ctx->r5)) / S64(S32(ctx->r3))); hi = S32(S64(S32(ctx->r5)) % S64(S32(ctx->r3)));
+	}
+    else { lo = 0; hi = 0; }
     // bne         $v1, $zero, L_8005EF58
     if (ctx->r3 != 0) {
         // nop
@@ -114,7 +118,11 @@ L_8005EF70:
     // sra         $v0, $v0, 1
     ctx->r2 = S32(ctx->r2) >> 1;
     // div         $zero, $a1, $v0
-    lo = S32(S64(S32(ctx->r5)) / S64(S32(ctx->r2))); hi = S32(S64(S32(ctx->r5)) % S64(S32(ctx->r2)));
+	if (ctx->r2 != 0)
+	{
+		lo = S32(S64(S32(ctx->r5)) / S64(S32(ctx->r2))); hi = S32(S64(S32(ctx->r5)) % S64(S32(ctx->r2)));
+	}
+    else { lo = 0; hi = 0; }
     // bne         $v0, $zero, L_8005EF90
     if (ctx->r2 != 0) {
         // nop
@@ -152,7 +160,11 @@ L_8005EFA8:
     // sll         $v1, $v1, 12
     ctx->r3 = S32(ctx->r3) << 12;
     // div         $zero, $v1, $a3
-    lo = S32(S64(S32(ctx->r3)) / S64(S32(ctx->r7))); hi = S32(S64(S32(ctx->r3)) % S64(S32(ctx->r7)));
+	if (ctx->r7 != 0)
+    {
+		lo = S32(S64(S32(ctx->r3)) / S64(S32(ctx->r7))); hi = S32(S64(S32(ctx->r3)) % S64(S32(ctx->r7)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $a3, $zero, L_8005EFC0
     if (ctx->r7 != 0) {
         // nop

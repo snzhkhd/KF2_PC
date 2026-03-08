@@ -10,7 +10,11 @@ void sub_800262C0(uint8_t* rdram, recomp_context* ctx) {
     // addiu       $a1, $a1, 0x1
     ctx->r5 = ADD32(ctx->r5, 0X1);
     // div         $zero, $a0, $a1
-    lo = S32(S64(S32(ctx->r4)) / S64(S32(ctx->r5))); hi = S32(S64(S32(ctx->r4)) % S64(S32(ctx->r5)));
+	if (ctx->r5 != 0)
+    {
+		lo = S32(S64(S32(ctx->r4)) / S64(S32(ctx->r5))); hi = S32(S64(S32(ctx->r4)) % S64(S32(ctx->r5)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $a1, $zero, L_800262D8
     if (ctx->r5 != 0) {
         // nop

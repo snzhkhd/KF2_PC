@@ -134,7 +134,11 @@ void sub_80057484(uint8_t* rdram, recomp_context* ctx) {
     // ori         $v0, $zero, 0x7F
     ctx->r2 = 0 | 0X7F;
     // div         $zero, $v1, $v0
-    lo = S32(S64(S32(ctx->r3)) / S64(S32(ctx->r2))); hi = S32(S64(S32(ctx->r3)) % S64(S32(ctx->r2)));
+	if (ctx->r2 != 0)
+    {
+		lo = S32(S64(S32(ctx->r3)) / S64(S32(ctx->r2))); hi = S32(S64(S32(ctx->r3)) % S64(S32(ctx->r2)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $v0, $zero, L_80057584
     if (ctx->r2 != 0) {
         // nop

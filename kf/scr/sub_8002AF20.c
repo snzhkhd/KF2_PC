@@ -511,7 +511,11 @@ L_8002B1F8:
     ctx->r18 = ADD32(0, 0);
 L_8002B240:
     // div         $zero, $s0, $v1
-    lo = S32(S64(S32(ctx->r16)) / S64(S32(ctx->r3))); hi = S32(S64(S32(ctx->r16)) % S64(S32(ctx->r3)));
+	if (ctx->r3 != 0)
+    {
+		lo = S32(S64(S32(ctx->r16)) / S64(S32(ctx->r3))); hi = S32(S64(S32(ctx->r16)) % S64(S32(ctx->r3)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $v1, $zero, L_8002B250
     if (ctx->r3 != 0) {
         // nop
@@ -562,7 +566,11 @@ L_8002B268:
     ctx->r18 = SUB32(0, ctx->r4);
 L_8002B280:
     // div         $zero, $s1, $v1
-    lo = S32(S64(S32(ctx->r17)) / S64(S32(ctx->r3))); hi = S32(S64(S32(ctx->r17)) % S64(S32(ctx->r3)));
+	if (ctx->r3 != 0)
+    {
+		lo = S32(S64(S32(ctx->r17)) / S64(S32(ctx->r3))); hi = S32(S64(S32(ctx->r17)) % S64(S32(ctx->r3)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $v1, $zero, L_8002B290
     if (ctx->r3 != 0) {
         // nop

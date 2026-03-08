@@ -104,7 +104,11 @@ void sub_80044184(uint8_t* rdram, recomp_context* ctx) {
     // mflo        $a0
     ctx->r4 = lo;
     // div         $zero, $a0, $a1
-    lo = S32(S64(S32(ctx->r4)) / S64(S32(ctx->r5))); hi = S32(S64(S32(ctx->r4)) % S64(S32(ctx->r5)));
+	if (ctx->r5 != 0)
+    {
+		lo = S32(S64(S32(ctx->r4)) / S64(S32(ctx->r5))); hi = S32(S64(S32(ctx->r4)) % S64(S32(ctx->r5)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $a1, $zero, L_80044240
     if (ctx->r5 != 0) {
         // nop
@@ -148,7 +152,11 @@ L_80044258:
     // mflo        $v1
     ctx->r3 = lo;
     // div         $zero, $v1, $a1
-    lo = S32(S64(S32(ctx->r3)) / S64(S32(ctx->r5))); hi = S32(S64(S32(ctx->r3)) % S64(S32(ctx->r5)));
+	if (ctx->r5 != 0)
+    {
+		lo = S32(S64(S32(ctx->r3)) / S64(S32(ctx->r5))); hi = S32(S64(S32(ctx->r3)) % S64(S32(ctx->r5)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $a1, $zero, L_8004427C
     if (ctx->r5 != 0) {
         // nop
@@ -192,7 +200,11 @@ L_80044294:
     // mflo        $v0
     ctx->r2 = lo;
     // div         $zero, $v0, $a1
-    lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r5))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r5)));
+	if (ctx->r5 != 0)
+	{
+		lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r5))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r5)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $a1, $zero, L_800442B8
     if (ctx->r5 != 0) {
         // nop

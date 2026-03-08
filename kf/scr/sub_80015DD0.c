@@ -116,7 +116,11 @@ void sub_80015DD0(uint8_t* rdram, recomp_context* ctx) {
     // sll         $v0, $v0, 1
     ctx->r2 = S32(ctx->r2) << 1;
     // div         $zero, $v0, $s0
-    lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r16))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r16)));
+	if (ctx->r16 != 0)
+    {
+		lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r16))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r16)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $s0, $zero, L_80015EAC
     if (ctx->r16 != 0) {
         // nop
@@ -156,7 +160,11 @@ L_80015EC4:
     // sll         $v1, $v1, 1
     ctx->r3 = S32(ctx->r3) << 1;
     // div         $zero, $v1, $s0
-    lo = S32(S64(S32(ctx->r3)) / S64(S32(ctx->r16))); hi = S32(S64(S32(ctx->r3)) % S64(S32(ctx->r16)));
+	if (ctx->r16 != 0)
+    {
+		lo = S32(S64(S32(ctx->r3)) / S64(S32(ctx->r16))); hi = S32(S64(S32(ctx->r3)) % S64(S32(ctx->r16)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $s0, $zero, L_80015EE0
     if (ctx->r16 != 0) {
         // nop
@@ -263,7 +271,11 @@ L_80015F3C:
     // sll         $a1, $s2, 14
     ctx->r5 = S32(ctx->r18) << 14;
     // div         $zero, $a1, $s5
-    lo = S32(S64(S32(ctx->r5)) / S64(S32(ctx->r21))); hi = S32(S64(S32(ctx->r5)) % S64(S32(ctx->r21)));
+	if (ctx->r21 != 0)
+    {
+		lo = S32(S64(S32(ctx->r5)) / S64(S32(ctx->r21))); hi = S32(S64(S32(ctx->r5)) % S64(S32(ctx->r21)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $s5, $zero, L_80015F58
     if (ctx->r21 != 0) {
         // nop
@@ -301,7 +313,11 @@ L_80015F70:
     // nop
 
     // div         $zero, $a1, $v0
-    lo = S32(S64(S32(ctx->r5)) / S64(S32(ctx->r2))); hi = S32(S64(S32(ctx->r5)) % S64(S32(ctx->r2)));
+	if (ctx->r2 != 0)
+    {
+		lo = S32(S64(S32(ctx->r5)) / S64(S32(ctx->r2))); hi = S32(S64(S32(ctx->r5)) % S64(S32(ctx->r2)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $v0, $zero, L_80015F88
     if (ctx->r2 != 0) {
         // nop
@@ -349,7 +365,11 @@ L_80015FA0:
     // sll         $a0, $a0, 12
     ctx->r4 = S32(ctx->r4) << 12;
     // div         $zero, $a0, $v1
-    lo = S32(S64(S32(ctx->r4)) / S64(S32(ctx->r3))); hi = S32(S64(S32(ctx->r4)) % S64(S32(ctx->r3)));
+	if (ctx->r3 != 0)
+    {
+		lo = S32(S64(S32(ctx->r4)) / S64(S32(ctx->r3))); hi = S32(S64(S32(ctx->r4)) % S64(S32(ctx->r3)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $v1, $zero, L_80015FCC
     if (ctx->r3 != 0) {
         // nop
@@ -387,7 +407,11 @@ L_80015FE4:
     // sra         $v1, $v0, 1
     ctx->r3 = S32(ctx->r2) >> 1;
     // div         $zero, $a0, $v1
-    lo = S32(S64(S32(ctx->r4)) / S64(S32(ctx->r3))); hi = S32(S64(S32(ctx->r4)) % S64(S32(ctx->r3)));
+	if (ctx->r3 != 0)
+    {
+		lo = S32(S64(S32(ctx->r4)) / S64(S32(ctx->r3))); hi = S32(S64(S32(ctx->r4)) % S64(S32(ctx->r3)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $v1, $zero, L_80015FFC
     if (ctx->r3 != 0) {
         // nop

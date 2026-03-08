@@ -58,7 +58,11 @@ void sub_80014DB0(uint8_t* rdram, recomp_context* ctx) {
     // mflo        $a1
     ctx->r5 = lo;
     // div         $zero, $a1, $v0
-    lo = S32(S64(S32(ctx->r5)) / S64(S32(ctx->r2))); hi = S32(S64(S32(ctx->r5)) % S64(S32(ctx->r2)));
+	if (ctx->r2 != 0)
+    {
+		lo = S32(S64(S32(ctx->r5)) / S64(S32(ctx->r2))); hi = S32(S64(S32(ctx->r5)) % S64(S32(ctx->r2)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $v0, $zero, L_80014E20
     if (ctx->r2 != 0) {
         // nop
@@ -98,7 +102,11 @@ L_80014E38:
     // mflo        $a0
     ctx->r4 = lo;
     // div         $zero, $a0, $v0
-    lo = S32(S64(S32(ctx->r4)) / S64(S32(ctx->r2))); hi = S32(S64(S32(ctx->r4)) % S64(S32(ctx->r2)));
+	if (ctx->r2 != 0)
+    {
+		lo = S32(S64(S32(ctx->r4)) / S64(S32(ctx->r2))); hi = S32(S64(S32(ctx->r4)) % S64(S32(ctx->r2)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $v0, $zero, L_80014E54
     if (ctx->r2 != 0) {
         // nop
@@ -134,11 +142,16 @@ L_80014E6C:
     // mflo        $a0
     ctx->r4 = lo;
     // mult        $s2, $s3
+	
     result = S64(S32(ctx->r18)) * S64(S32(ctx->r19)); lo = S32(result >> 0); hi = S32(result >> 32);
     // mflo        $v1
     ctx->r3 = lo;
     // div         $zero, $v1, $v0
-    lo = S32(S64(S32(ctx->r3)) / S64(S32(ctx->r2))); hi = S32(S64(S32(ctx->r3)) % S64(S32(ctx->r2)));
+    if (ctx->r2 != 0)
+	{
+		lo = S32(S64(S32(ctx->r3)) / S64(S32(ctx->r2))); hi = S32(S64(S32(ctx->r3)) % S64(S32(ctx->r2)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $v0, $zero, L_80014E88
     if (ctx->r2 != 0) {
         // nop

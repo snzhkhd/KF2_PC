@@ -58,7 +58,11 @@ void sub_80044EC0(uint8_t* rdram, recomp_context* ctx) {
     // lw          $v1, 0x18($s3)
     ctx->r3 = MEM_W(0X18, ctx->r19);
     // div         $zero, $v0, $s1
-    lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r17))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r17)));
+	if (ctx->r17 != 0)
+    {
+		lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r17))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r17)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $s1, $zero, L_80044F30
     if (ctx->r17 != 0) {
         // nop

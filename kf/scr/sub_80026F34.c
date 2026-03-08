@@ -73,7 +73,11 @@ L_80026F90:
     // sh          $s4, -0x4B28($at)
     MEM_H(-0X4B28, ctx->r1) = ctx->r20;
     // div         $zero, $v1, $v0
-    lo = S32(S64(S32(ctx->r3)) / S64(S32(ctx->r2))); hi = S32(S64(S32(ctx->r3)) % S64(S32(ctx->r2)));
+	if (ctx->r2 != 0)
+    {
+		lo = S32(S64(S32(ctx->r3)) / S64(S32(ctx->r2))); hi = S32(S64(S32(ctx->r3)) % S64(S32(ctx->r2)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $v0, $zero, L_80026FB0
     if (ctx->r2 != 0) {
         // nop

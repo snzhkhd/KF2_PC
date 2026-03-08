@@ -253,7 +253,11 @@ L_80058298:
     // nop
 
     // div         $zero, $a0, $t4
-    lo = S32(S64(S32(ctx->r4)) / S64(S32(ctx->r12))); hi = S32(S64(S32(ctx->r4)) % S64(S32(ctx->r12)));
+	if (ctx->r12 != 0)
+    {
+		lo = S32(S64(S32(ctx->r4)) / S64(S32(ctx->r12))); hi = S32(S64(S32(ctx->r4)) % S64(S32(ctx->r12)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $t4, $zero, L_800582E0
     if (ctx->r12 != 0) {
         // nop
@@ -311,7 +315,11 @@ L_800582F8:
     // nop
 
     // div         $zero, $v0, $t5
-    lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r13))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r13)));
+	if (ctx->r13 != 0)
+    {
+		lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r13))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r13)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $t5, $zero, L_80058338
     if (ctx->r13 != 0) {
         // nop

@@ -108,7 +108,11 @@ void PlayPositionalSound3D(uint8_t* rdram, recomp_context* ctx) {
     // sll         $v0, $v0, 7
     ctx->r2 = S32(ctx->r2) << 7;
     // div         $zero, $v0, $s2
-    lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r18))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r18)));
+	if (ctx->r18 != 0)
+    {
+		lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r18))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r18)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $s2, $zero, L_8001423C
     if (ctx->r18 != 0) {
         // nop

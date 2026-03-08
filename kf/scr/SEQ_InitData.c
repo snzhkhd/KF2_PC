@@ -232,7 +232,11 @@ L_80059C20:
     // or          $v0, $v0, $v1
     ctx->r2 = ctx->r2 | ctx->r3;
     // div         $zero, $a2, $v0
-    lo = S32(S64(S32(ctx->r6)) / S64(S32(ctx->r2))); hi = S32(S64(S32(ctx->r6)) % S64(S32(ctx->r2)));
+	if (ctx->r2 != 0)
+    {
+		lo = S32(S64(S32(ctx->r6)) / S64(S32(ctx->r2))); hi = S32(S64(S32(ctx->r6)) % S64(S32(ctx->r2)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $v0, $zero, L_80059C90
     if (ctx->r2 != 0) {
         // nop

@@ -45,7 +45,11 @@ L_8005EE58:
     // sll         $v0, $v0, 12
     ctx->r2 = S32(ctx->r2) << 12;
     // div         $zero, $v0, $a3
-    lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r7))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r7)));
+	if (ctx->r7 != 0)
+    {
+		lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r7))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r7)));
+	}
+	else { lo = 0; hi = 0; }
     // bne         $a3, $zero, L_8005EE6C
     if (ctx->r7 != 0) {
         // nop
