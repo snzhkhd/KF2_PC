@@ -3,10 +3,10 @@
 
 void CDReadSectorsInternal(uint8_t* rdram, recomp_context* ctx) 
 {
-    printf("[CDReadSectorsInternal] active_stream=%08X stream[0]=%02X stream[1]=%02X\n",
-        *(uint32_t*)GET_PTR(ADDR_G_ACTIVECDSTREAM),
-        ((uint8_t*)GET_PTR(*(uint32_t*)GET_PTR(ADDR_G_ACTIVECDSTREAM)))[0],
-        ((uint8_t*)GET_PTR(*(uint32_t*)GET_PTR(ADDR_G_ACTIVECDSTREAM)))[1]);
+    //printf("[CDReadSectorsInternal] active_stream=%08X stream[0]=%02X stream[1]=%02X\n",
+    //    *(uint32_t*)GET_PTR(ADDR_G_ACTIVECDSTREAM),
+    //    ((uint8_t*)GET_PTR(*(uint32_t*)GET_PTR(ADDR_G_ACTIVECDSTREAM)))[0],
+    //    ((uint8_t*)GET_PTR(*(uint32_t*)GET_PTR(ADDR_G_ACTIVECDSTREAM)))[1]);
 
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;

@@ -103,29 +103,29 @@ static std::unordered_set<uint32_t> g_cd_done_streams;
 
 void KF_CdControl(uint8_t* rdram, recomp_context* ctx) 
 {
-    uint8_t cmd = (uint8_t)ctx->r4;
+    //uint8_t cmd = (uint8_t)ctx->r4;
 
-    uint32_t* p_active = (uint32_t*)GET_PTR(ADDR_G_ACTIVECDSTREAM);
-    uint8_t* stream = (uint8_t*)GET_PTR(*p_active);
-    printf("[KF_CdControl] cmd=0x%02X active_stream=%08X stream[0]=%02X\n",
-        cmd,
-        *p_active,
-        ((uint8_t*)GET_PTR(*(uint32_t*)GET_PTR(ADDR_G_ACTIVECDSTREAM)))[0]);
+    //uint32_t* p_active = (uint32_t*)GET_PTR(ADDR_G_ACTIVECDSTREAM);
+    //uint8_t* stream = (uint8_t*)GET_PTR(*p_active);
+    //printf("[KF_CdControl] cmd=0x%02X active_stream=%08X stream[0]=%02X\n",
+    //    cmd,
+    //    *p_active,
+    //    ((uint8_t*)GET_PTR(*(uint32_t*)GET_PTR(ADDR_G_ACTIVECDSTREAM)))[0]);
 
-    if (cmd == 0x16) 
-    {
-        
-        if (p_active)
-        {
-            
-            if (stream)
-            {
-                printf("[KF_CdControl] cmd=0x16 p_active=%08X stream[0]=%02X stream[36]=%d\n",
-                    *p_active, stream[0], stream[36]);
-            }
-        }
-        
-    }
+    //if (cmd == 0x16) 
+    //{
+    //    
+    //    if (p_active)
+    //    {
+    //        
+    //        if (stream)
+    //        {
+    //            printf("[KF_CdControl] cmd=0x16 p_active=%08X stream[0]=%02X stream[36]=%d\n",
+    //                *p_active, stream[0], stream[36]);
+    //        }
+    //    }
+    //    
+    //}
 
     //CD_cw_8004DBE0 (rdram, ctx)   <- можно вызвать напрямую!
    KFCD_CdControl(rdram, ctx);

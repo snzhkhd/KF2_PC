@@ -1,51 +1,10 @@
 #include "recomp.h"
 #include "disable_warnings.h"
-#include "psx/libgte.h"
 
 
 void sub_800305F4(uint8_t* rdram, recomp_context* ctx) 
 {
-    //int fogNear = *(int32_t*)GET_PTR(0x80194F5C); // KFCurrentFogNearValue
-    //int param_1 = (int)ctx->r4;
 
-   // printf("[Fog] dword_80194F5C = %08X | fogNear <%d>\n", MEM_W(0, 0x80194F5C), fogNear);
-    //// KFTMDVertexBufferPointer Ч PS1 адрес вершин
-    //uint32_t vtx_ps1 = MEM_W(0, 0x80194F60); // найди адрес KFTMDVertexBufferPointer
-    //SVECTOR* pSVar3 = (SVECTOR*)GET_PTR(vtx_ps1);
-
-    //// KFRenderTMDTransformVector Ч PS1 адрес буфера результата
-    //uint32_t sxy_ps1 = 0x80190C48 /*  KFRenderTMDTransformVector */;
-    //SVECTOR* sxy = (SVECTOR*)GET_PTR(sxy_ps1);
-
-    //ctx_to_gte(ctx); // синхронизируем матрицу камеры
-
-    //int fogNear = *(int32_t*)GET_PTR(0x80194F5C); // KFCurrentFogNearValue
-
-    //param_1--;
-    //while (param_1 != -1) {
-    //    long local_28 = 0, local_24 = 0;
-    //    long result = RotTransPers(pSVar3, (int*)sxy, &local_28, &local_24);
-
-    //    int16_t* psVar2 = &sxy->pad;
-    //    psVar2[-1] = (short)result; // vz
-    //    if (local_24 != 0x1000)
-    //        psVar2[-1] = -1;
-
-    //    if (fogNear < 32000) {
-    //        if (local_28 > 0xaef)
-    //            local_28 = local_28 * 3 - 0x15e0;
-    //        *psVar2 = (short)local_28;
-    //    }
-    //    else {
-    //        *psVar2 = 0;
-    //    }
-
-    //    sxy++;
-    //    pSVar3++;
-    //    param_1--;
-    //}
-
-    //gte_to_ctx(ctx);
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 

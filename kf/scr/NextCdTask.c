@@ -3,7 +3,7 @@
 
 void NextCdTask(uint8_t* rdram, recomp_context* ctx) 
 {
-    printf("--->NextCdTask<---\n");
+    //printf("--->NextCdTask<---\n");
 
     uint32_t task_addr = ctx->r4;
     uint8_t* stream = (uint8_t*)GET_PTR(task_addr);

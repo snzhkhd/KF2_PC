@@ -3,7 +3,7 @@
 
 void StoreImageWithCallback(uint8_t* rdram, recomp_context* ctx) 
 {
-    printf("StoreImageWithCallback\n");
+    //printf("StoreImageWithCallback\n");
 
     KF_StoreImage(rdram, ctx);
     ctx->pc = ctx->r31;

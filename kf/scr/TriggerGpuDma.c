@@ -133,7 +133,7 @@ void TriggerGpuDma(uint8_t* rdram, recomp_context* ctx)
             VSync(0);
             g_vsync_pending = false;
 
-            SaveTimer++;
+            /*SaveTimer++;
             if (SaveTimer > 20 && SaveCount < 5)
             {
                 SaveTimer = 0;
@@ -141,7 +141,7 @@ void TriggerGpuDma(uint8_t* rdram, recomp_context* ctx)
                 GR_SaveVRAM(str.c_str(), 0, 0, 1024, 512, 0);
                 SaveCount++;
                 printf("[DEBUG] VRAM saved to %s\n", str.c_str());
-            }
+            }*/
         }
         
     }

@@ -28,6 +28,14 @@ extern recomp_context * g_ctx = nullptr;
 volatile  uint32_t global_vsync_count = 0;
 std::map<uint32_t, recomp_func_t> function_table;
 
+static uint32_t g_interp_target = 0;
+
+void mips_interpret(uint8_t* rdram, recomp_context* ctx, uint32_t start_pc);
+void interp_wrapper(uint8_t* rdram, recomp_context* ctx) {
+    mips_interpret(rdram, ctx, g_interp_target);
+}
+
+
 
 
 void init_function_table() 
@@ -46,6 +54,7 @@ void init_function_table()
 
     printf("[CORE] Function table initialized: %zu functions mapped.\n", count);
 }
+
 void _recompbcopy(uint8_t* rdram, recomp_context* ctx)
 {
     uint32_t function_id = ctx->r9;
@@ -66,11 +75,12 @@ recomp_func_t lookup_recomp_func(uint32_t fvram)
     auto it = function_table.find(phys_addr);
     if (it != function_table.end()) return it->second;
 
-    if (phys_addr < 0x00010000 || phys_addr > 0x001FFFFF) {
-        return dummy_safe_func;
+    if (phys_addr >= 0x00180000 && phys_addr <= 0x001FFFFF) {
+        g_interp_target = fvram;
+        return interp_wrapper;
     }
 
-  //  printf("[FATAL] JUMP TO NULL OR UNKNOWN: 0x%08X (Phys: 0x%08X)\n", fvram, phys_addr);
+    printf("[FATAL] JUMP TO NULL OR UNKNOWN: 0x%08X (Phys: 0x%08X)\n", fvram, phys_addr);
     return dummy_safe_func;
 }
 
@@ -470,4 +480,241 @@ void gte_ctc2(recomp_context* ctx, int rt, int rd) {
 
 uint32_t gte_cfc2(recomp_context* ctx, int rd) {
     return ctx->cp2c[rd];
+}
+
+
+
+//debug
+void check_tmd_integrity(const char* where) {
+    uint32_t tmd_base = MEM_W(0, 0x80190250);
+    if (tmd_base < 0x80000000 || tmd_base > 0x801FFFFF) {
+        printf("[TMD CHECK %s] base INVALID: %08X\n", where, tmd_base);
+        return;
+    }
+    uint8_t* p = (uint8_t*)GET_PTR(tmd_base + 12);
+    uint32_t vnum = *(uint32_t*)(p + 4);
+    printf("[TMD CHECK %s] base=%08X vertNum_obj0=%d\n", where, tmd_base, vnum);
+}
+
+
+
+inline bool is_valid_ps1_addr(uint32_t addr) {
+    uint32_t phys = addr & 0x1FFFFFFF;
+    return phys < 0x200000; // 2MB PS1 RAM
+}
+
+void mips_interpret(uint8_t* rdram, recomp_context* ctx, uint32_t start_pc) {
+    uint32_t pc = start_pc;
+    uint32_t return_addr = ctx->r31;
+    uint32_t* r = &ctx->r0;
+
+    for (int steps = 0; steps < 100000; steps++) 
+    {
+        if (!is_valid_ps1_addr(pc)) {
+            printf("[INTERP] PC out of range: %08X, aborting\n", pc);
+            return;
+        }
+
+        uint32_t instr = MEM_W(0, pc);
+        uint32_t op = (instr >> 26) & 0x3F;
+        uint32_t rs = (instr >> 21) & 0x1F;
+        uint32_t rt = (instr >> 16) & 0x1F;
+        uint32_t rd = (instr >> 11) & 0x1F;
+        uint32_t shamt = (instr >> 6) & 0x1F;
+        uint32_t funct = instr & 0x3F;
+        int16_t imm = (int16_t)(instr & 0xFFFF);
+        uint16_t uimm = (uint16_t)(instr & 0xFFFF);
+        uint32_t target = (pc & 0xF0000000) | ((instr & 0x3FFFFFF) << 2);
+
+        bool do_branch = false;
+        uint32_t branch_target = 0;
+        bool is_link = false;
+
+        switch (op) {
+        case 0x00: // SPECIAL
+            switch (funct) {
+            case 0x00: r[rd] = r[rt] << shamt; break;
+            case 0x02: r[rd] = r[rt] >> shamt; break;
+            case 0x03: r[rd] = (int32_t)r[rt] >> shamt; break;
+            case 0x04: r[rd] = r[rt] << (r[rs] & 31); break;
+            case 0x06: r[rd] = r[rt] >> (r[rs] & 31); break;
+            case 0x07: r[rd] = (int32_t)r[rt] >> (r[rs] & 31); break;
+            case 0x08: // jr
+            {
+                do_branch = true;
+                branch_target = r[rs];
+                if (!is_valid_ps1_addr(branch_target) && branch_target != return_addr) {
+                    printf("[INTERP] BAD JR target=%08X rs=%d at PC=%08X\n", branch_target, rs, pc);
+                    return;
+                }
+            }
+                break;
+            case 0x09: do_branch = true; branch_target = r[rs]; is_link = true; r[rd ? rd : 31] = pc + 8; break; // jalr
+            case 0x0C: break; // syscall
+            case 0x0D: break; // break
+            case 0x10: r[rd] = ctx->hi; break;
+            case 0x11: ctx->hi = r[rs]; break; // mthi
+            case 0x12: r[rd] = ctx->lo; break;
+            case 0x13: ctx->lo = r[rs]; break; // mtlo
+            case 0x18: { int64_t res = (int64_t)(int32_t)r[rs] * (int64_t)(int32_t)r[rt]; ctx->lo = (uint32_t)res; ctx->hi = (uint32_t)(res >> 32); } break;
+            case 0x19: { uint64_t res = (uint64_t)r[rs] * (uint64_t)r[rt]; ctx->lo = (uint32_t)res; ctx->hi = (uint32_t)(res >> 32); } break;
+            case 0x1A: if (r[rt]) { ctx->lo = (uint32_t)((int32_t)r[rs] / (int32_t)r[rt]); ctx->hi = (uint32_t)((int32_t)r[rs] % (int32_t)r[rt]); } break;
+            case 0x1B: if (r[rt]) { ctx->lo = r[rs] / r[rt]; ctx->hi = r[rs] % r[rt]; } break;
+            case 0x20: case 0x21: r[rd] = r[rs] + r[rt]; break;
+            case 0x22: case 0x23: r[rd] = r[rs] - r[rt]; break;
+            case 0x24: r[rd] = r[rs] & r[rt]; break;
+            case 0x25: r[rd] = r[rs] | r[rt]; break;
+            case 0x26: r[rd] = r[rs] ^ r[rt]; break;
+            case 0x27: r[rd] = ~(r[rs] | r[rt]); break;
+            case 0x2A: r[rd] = ((int32_t)r[rs] < (int32_t)r[rt]) ? 1 : 0; break;
+            case 0x2B: r[rd] = (r[rs] < r[rt]) ? 1 : 0; break;
+            default: printf("[INTERP] Unknown SPECIAL funct %02X at %08X\n", funct, pc); break;
+            }
+            break;
+        case 0x01: // REGIMM
+            switch (rt) {
+            case 0x00: if ((int32_t)r[rs] < 0) { do_branch = true; branch_target = pc + 4 + (imm << 2); } break;
+            case 0x01: if ((int32_t)r[rs] >= 0) { do_branch = true; branch_target = pc + 4 + (imm << 2); } break;
+            case 0x10: r[31] = pc + 8; if ((int32_t)r[rs] < 0) { do_branch = true; branch_target = pc + 4 + (imm << 2); } is_link = true; break;
+            case 0x11: r[31] = pc + 8; if ((int32_t)r[rs] >= 0) { do_branch = true; branch_target = pc + 4 + (imm << 2); } is_link = true; break;
+            }
+            break;
+        case 0x02: do_branch = true; branch_target = target; break;
+        case 0x03: r[31] = pc + 8; do_branch = true; branch_target = target; is_link = true; break;
+        case 0x04: if (r[rs] == r[rt]) { do_branch = true; branch_target = pc + 4 + (imm << 2); } break;
+        case 0x05: if (r[rs] != r[rt]) { do_branch = true; branch_target = pc + 4 + (imm << 2); } break;
+        case 0x06: if ((int32_t)r[rs] <= 0) { do_branch = true; branch_target = pc + 4 + (imm << 2); } break;
+        case 0x07: if ((int32_t)r[rs] > 0) { do_branch = true; branch_target = pc + 4 + (imm << 2); } break;
+        case 0x08: case 0x09: r[rt] = r[rs] + imm; break; // addi/addiu
+        case 0x0A: r[rt] = ((int32_t)r[rs] < imm) ? 1 : 0; break;
+        case 0x0B: r[rt] = (r[rs] < (uint32_t)(int32_t)imm) ? 1 : 0; break;
+        case 0x0C: r[rt] = r[rs] & uimm; break;
+        case 0x0D: r[rt] = r[rs] | uimm; break;
+        case 0x0E: r[rt] = r[rs] ^ uimm; break;
+        case 0x0F: r[rt] = (uint32_t)uimm << 16; break;
+        case 0x10: // COP0
+            if (rs == 0x00) r[rt] = ctx->cop0_status;
+            else if (rs == 0x04) ctx->cop0_status = r[rt];
+            break;
+        case 0x12: // COP2 (GTE)
+            if (rs >= 0x10) { // GTE command
+                ctx_to_gte(ctx);
+                GTE_operator(instr & 0x1FFFFFF);
+                gte_to_ctx(ctx);
+            }
+            else if (rs == 0x00) { r[rt] = ctx->cp2d[rd]; } // mfc2
+            else if (rs == 0x02) { r[rt] = ctx->cp2c[rd]; } // cfc2
+            else if (rs == 0x04) { ctx->cp2d[rd] = r[rt]; } // mtc2
+            else if (rs == 0x06) { ctx->cp2c[rd] = r[rt]; } // ctc2
+            break;
+        case 0x20: r[rt] = (int32_t)(int8_t)MEM_B(imm, r[rs]); break;
+        case 0x21: r[rt] = (int32_t)(int16_t)MEM_H(imm, r[rs]); break;
+        case 0x23: r[rt] = MEM_W(imm, r[rs]); break;
+        case 0x24: r[rt] = MEM_BU(imm, r[rs]); break;
+        case 0x25: r[rt] = (uint16_t)MEM_H(imm, r[rs]); break;
+        case 0x28:
+        {   uint32_t addr = r[rs] + imm;
+            if (is_valid_ps1_addr(addr)) {
+                // WATCHPOINT
+                if ((addr & 0x1FFFFFFF) == (0x8019B4CE & 0x1FFFFFFF)) {
+                    printf("[WATCH] g_PhysicsReady WRITE %d -> %d at PC=%08X ra=%08X\n",
+                        MEM_B(0, 0x8019B4CE), (uint8_t)r[rt], pc, r[31]);
+                }
+                MEM_B(imm, r[rs]) = (uint8_t)r[rt];
+        }
+        } break;
+        case 0x29: 
+        {   uint32_t addr = r[rs] + imm;
+            if (is_valid_ps1_addr(addr)) {
+                uint32_t phys = addr & 0x1FFFFFFF;
+                if (phys == 0x0019B4CE || phys == 0x0019B4CF) {
+                    printf("[WATCH sh] addr=%08X val=%04X at PC=%08X\n", addr, (uint16_t)r[rt], pc);
+                }
+                MEM_H(imm, r[rs]) = (uint16_t)r[rt];
+            }
+        } break;
+        case 0x2B: // sw
+        { uint32_t addr = r[rs] + imm;
+        if (is_valid_ps1_addr(addr)) {
+            uint32_t phys = addr & 0x1FFFFFFF;
+            if (phys >= 0x0019B4CC && phys <= 0x0019B4CE) {
+                printf("[WATCH sw] addr=%08X val=%08X at PC=%08X\n", addr, r[rt], pc);
+            }
+            MEM_W(imm, r[rs]) = r[rt];
+        }
+        } break;
+        case 0x32: ctx->cp2d[rt] = MEM_W(imm, r[rs]); break; // lwc2
+        case 0x3A: MEM_W(imm, r[rs]) = ctx->cp2d[rt]; break; // swc2
+        default:
+            printf("[INTERP] Unknown opcode %02X at %08X instr=%08X\n", op, pc, instr);
+            break;
+        }
+
+        r[0] = 0;
+
+        if (do_branch) {
+            // Execute delay slot
+            uint32_t ds_instr = MEM_W(0, pc + 4);
+            uint32_t ds_op = (ds_instr >> 26) & 0x3F;
+            uint32_t ds_rs = (ds_instr >> 21) & 0x1F;
+            uint32_t ds_rt = (ds_instr >> 16) & 0x1F;
+            uint32_t ds_rd = (ds_instr >> 11) & 0x1F;
+            uint32_t ds_shamt = (ds_instr >> 6) & 0x1F;
+            uint32_t ds_funct = ds_instr & 0x3F;
+            int16_t ds_imm = (int16_t)(ds_instr & 0xFFFF);
+            uint16_t ds_uimm = (uint16_t)(ds_instr & 0xFFFF);
+
+            // Simplified delay slot - covers common cases
+            switch (ds_op) {
+            case 0x00:
+                switch (ds_funct) {
+                case 0x00: r[ds_rd] = r[ds_rt] << ds_shamt; break;
+                case 0x02: r[ds_rd] = r[ds_rt] >> ds_shamt; break;
+                case 0x03: r[ds_rd] = (int32_t)r[ds_rt] >> ds_shamt; break;
+                case 0x21: r[ds_rd] = r[ds_rs] + r[ds_rt]; break;
+                case 0x23: r[ds_rd] = r[ds_rs] - r[ds_rt]; break;
+                case 0x24: r[ds_rd] = r[ds_rs] & r[ds_rt]; break;
+                case 0x25: r[ds_rd] = r[ds_rs] | r[ds_rt]; break;
+                case 0x2A: r[ds_rd] = ((int32_t)r[ds_rs] < (int32_t)r[ds_rt]) ? 1 : 0; break;
+                case 0x2B: r[ds_rd] = (r[ds_rs] < r[ds_rt]) ? 1 : 0; break;
+                case 0x0D: break; // break in delay slot
+                }
+                break;
+            case 0x08: case 0x09: r[ds_rt] = r[ds_rs] + ds_imm; break;
+            case 0x0C: r[ds_rt] = r[ds_rs] & ds_uimm; break;
+            case 0x0D: r[ds_rt] = r[ds_rs] | ds_uimm; break;
+            case 0x0F: r[ds_rt] = (uint32_t)ds_uimm << 16; break;
+            case 0x23: r[ds_rt] = MEM_W(ds_imm, r[ds_rs]); break;
+            case 0x2B: MEM_W(ds_imm, r[ds_rs]) = r[ds_rt]; break;
+            case 0x20: r[ds_rt] = (int32_t)(int8_t)MEM_B(ds_imm, r[ds_rs]); break;
+            case 0x24: r[ds_rt] = MEM_BU(ds_imm, r[ds_rs]); break;
+            case 0x25: r[ds_rt] = (uint16_t)MEM_H(ds_imm, r[ds_rs]); break;
+            case 0x28: MEM_B(ds_imm, r[ds_rs]) = (uint8_t)r[ds_rt]; break;
+            case 0x29: MEM_H(ds_imm, r[ds_rs]) = (uint16_t)r[ds_rt]; break;
+            default: break; // nop in delay slot
+            }
+            r[0] = 0;
+
+            // jr $ra — return
+            if (branch_target == return_addr) return;
+
+            // jal/jalr to known recompiled function
+            if (is_link) {
+                recomp_func_t fn = lookup_recomp_func(branch_target);
+                if (fn && fn != dummy_safe_func && fn != interp_wrapper) {
+                    uint32_t saved_ra = ctx->r31;
+                    ctx->r31 = pc + 8; // return address
+                    fn(rdram, ctx);
+                    pc = pc + 8; // continue after jal + delay slot
+                    continue;
+                }
+            }
+
+            pc = branch_target;
+        }
+        else {
+            pc = pc + 4;
+        }
+    }
+    printf("[INTERP] Hit step limit at PC=%08X\n", pc);
 }

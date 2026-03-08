@@ -9,13 +9,6 @@ void KF_LoadImage(uint8_t* rdram, recomp_context* ctx)
     RECT16* rect = (RECT16*)GET_PTR(ctx->r4);
     u_long* p = (u_long*)GET_PTR(ctx->r5);
 
-    //// Логируем ВСЕГДА, без фильтров
-    //printf("[LoadImage] rect=(%d,%d,%d,%d) src=0x%08X r4=0x%08X\n",
-    //    rect->x, rect->y, rect->w, rect->h, ctx->r5, ctx->r4);
-
-    //// Проверяем — откуда вызвали (смотрим ctx->r31 = return address)
-    //printf("[LoadImage] called from 0x%08X\n", ctx->r31);
-
     if (rect->w > 1024) {
         // PS1 wrap-around: данные льются линейно в VRAM
         uint16_t* src = (uint16_t*)p;
@@ -24,14 +17,14 @@ void KF_LoadImage(uint8_t* rdram, recomp_context* ctx)
         int cur_y = rect->y;
         int offset = 0;
 
-        //debug
-        static bool once = false;
-        if (!once) 
-        {
-            once = true;
-            GR_SaveVRAM("vram_after_wrap.png", 0, 0, 1024, 512, 0);
-            printf("[DUMP] saved after first wrap upload\n");
-        }
+        ////debug
+        //static bool once = false;
+        //if (!once) 
+        //{
+        //    once = true;
+        //    GR_SaveVRAM("vram_after_wrap.png", 0, 0, 1024, 512, 0);
+        //    printf("[DUMP] saved after first wrap upload\n");
+        //}
 
         //printf("[WRAP] src first bytes: %04X %04X %04X %04X (total=%d)\n",
         //    src[0], src[1], src[2], src[3],

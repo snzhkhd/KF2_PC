@@ -6,10 +6,6 @@
 void KF_InitGeom(uint8_t* rdram, recomp_context* ctx) 
 {
     printf("KF_InitGeom\n");
-    //ctx_to_gte(ctx);
-    //InitGeom();
-    //gte_to_ctx(ctx);
-
     ctx->cp2c[29] = 0x155;
     ctx->cp2c[30] = 0x100;
     ctx->cp2c[26] = 0x3E8;      // H = focal length

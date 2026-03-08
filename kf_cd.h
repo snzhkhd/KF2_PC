@@ -53,6 +53,8 @@ void KFCD_CdSyncCallback(uint8_t* rdram, recomp_context* ctx);
 void KFCD_InvokeCallback(uint8_t* rdram,recomp_context* ctx,uint32_t cbAddr,uint8_t status);
 
 void KDCD_SetupDmaTransfer(uint8_t* rdram, recomp_context* ctx);
+
+void KFCD_ResetReadState();
 #ifdef __cplusplus
 }
 #endif

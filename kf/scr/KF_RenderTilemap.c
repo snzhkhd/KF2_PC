@@ -7,10 +7,10 @@
 
 void KF_RenderTilemap(uint8_t* rdram, recomp_context* ctx) 
 {
-
-    // int drawCount = 0;
-    //MATRIX* world = (MATRIX*)GET_PTR(0x80194ECC);
-    //world->t[0] = world->t[1] = world->t[2] = 0;
+  /*  static int frame = 0;
+    if (frame++ < 3) {
+        printf("[RenderTilemap] frame=%d\n", frame);
+    }*/
 
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
@@ -156,7 +156,7 @@ L_80033AB8:
         // drawCount,
         // MEM_W(0, ADDR_KFCullDistanceXNeg),
         // MEM_W(0, ADDR_KFCullDistanceZNeg));
-		
+    //printf("KF_RenderTilemap end\n");
     return;
     // nop
 

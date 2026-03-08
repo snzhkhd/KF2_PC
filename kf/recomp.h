@@ -73,4 +73,5 @@ void dummy_safe_func(uint8_t* rdram, recomp_context* ctx);
 void init_function_table(); 
 
 
-
+//debug
+void check_tmd_integrity(const char* where);

@@ -22,9 +22,9 @@ void MoveImageWithCallback(uint8_t* rdram, recomp_context* ctx)
         return;
     }
 
-    printf("[HLE GPU] MoveImage: src(%d,%d,%d,%d) -> dst(%d,%d)\n",
+   /* printf("[HLE GPU] MoveImage: src(%d,%d,%d,%d) -> dst(%d,%d)\n",
         src_rect->x, src_rect->y, src_rect->w, src_rect->h,
-        dst_x, dst_y);
+        dst_x, dst_y);*/
 
     // Вызываем Psy-X напрямую, минуя DMA
     MoveImage(src_rect, dst_x, dst_y);

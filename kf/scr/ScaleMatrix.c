@@ -1,21 +1,6 @@
 #include "recomp.h"
 #include "disable_warnings.h"
-#include "psx/libgte.h"
 
-//// MATRIX* ScaleMatrix(MATRIX* m, VECTOR* v);
-//void KF_ScaleMatrix(uint8_t* rdram, recomp_context* ctx) {
-//    MATRIX* m = (MATRIX*)GET_PTR(ctx->r4); // a0 - матрица
-//    VECTOR* v = (VECTOR*)GET_PTR(ctx->r5); // a1 - вектор масштаба
-//
-//
-//    ctx_to_gte(ctx);
-//    ScaleMatrix(m, v);
-//    gte_to_ctx(ctx);
-//
-//    // Возвращаем в v0 адрес матрицы (из r4)
-//    ctx->r2 = ctx->r4;
-//}
-//
 
 void KF_ScaleMatrix(uint8_t* rdram, recomp_context* ctx) {
     uint64_t hi = 0, lo = 0, result = 0;

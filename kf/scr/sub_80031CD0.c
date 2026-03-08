@@ -3,15 +3,22 @@
 
 void sub_80031CD0(uint8_t* rdram, recomp_context* ctx) 
 {
-    // uint32_t base = *(uint32_t*)GET_PTR(0x80190250); // g_CurrentPrimitiveBuffer
-    // printf("[BASE=%08X]\n", base);
-    // for (int i = 0; i < 4; i++) {
-        // uint32_t entry = base + 12 + 28 * i;
-        // printf("[entry %d @ %08X] ", i, entry);
-        // for (int j = 0; j < 7; j++)
-            // printf("%08X ", *(uint32_t*)GET_PTR(entry + j * 4));
-        // printf("\n");
-    // }
+    //uint32_t tmd_base = MEM_W(0, 0x80190250); // g_CurrentPrimitiveBuffer
+    //printf("[TMD] base=%08X\n", tmd_base);
+    //// Первый объект: base + 12
+    //uint32_t obj = tmd_base + 12;
+    //printf("[TMD obj0] VertexTop=%08X VertexNum=%d NormalTop=%08X PrimTop=%08X PrimNum=%d Scale=%d\n",
+    //    MEM_W(0, obj), MEM_W(4, obj), MEM_W(8, obj),
+    //    MEM_W(16, obj), MEM_W(20, obj), (int32_t)MEM_W(24, obj));
+
+    // Логируем откуда читаются вершины
+    //uint32_t tmd_base = MEM_W(0, 0x80190250);
+    //uint32_t obj_id = ctx->r4;  // или какой регистр
+    //uint32_t obj_addr = tmd_base + 12 + obj_id * 28;
+    //printf("[TileRender] obj_id=%d obj_addr=%08X VertexTop=%08X VertexNum=%d\n",
+    //    obj_id, obj_addr,
+    //    MEM_W(0, obj_addr),
+    //    MEM_W(4, obj_addr));
 
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
@@ -146,7 +153,13 @@ L_80031D50:
     goto after_2;
     // nop
 
-    after_2:
+after_2:
+
+    /*static int prim_log = 0;
+    if (prim_log++ < 50) {
+        printf("[Prim] AverageSZ3 returned %d\n", (int32_t)ctx->r2);
+    }*/
+
     // blez        $v0, L_80032068
     if (SIGNED(ctx->r2) <= 0) {
         // nop
@@ -565,6 +578,13 @@ L_80032048:
     // addu        $a0, $a0, $v0
     ctx->r4 = ADD32(ctx->r4, ctx->r2);
     GPU_Cmd_MergeParams(rdram, ctx);
+
+    //static int merge_log = 0;
+    //if (merge_log++ < 20) {
+    //    printf("[MergeParams] prim=%08X otag_ptr=%08X\n",
+    //        ctx->r5, ctx->r4);
+    //}
+
     goto after_13;
     // addu        $a0, $a0, $v0
     ctx->r4 = ADD32(ctx->r4, ctx->r2);
@@ -615,7 +635,7 @@ L_80032088:
     ctx->r29 = ADD32(ctx->r29, 0X50);
     // jr          $ra
     // nop
-
+    //printf("sub_80031CD0\tend\n");
     return;
     // nop
 

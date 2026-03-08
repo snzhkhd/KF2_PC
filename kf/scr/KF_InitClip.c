@@ -59,7 +59,14 @@
 //    ctx->r2 = v15; // Оригинал возвращает v15
 //}
 
-void KF_InitClip(uint8_t* rdram, recomp_context* ctx) {
+void KF_InitClip(uint8_t* rdram, recomp_context* ctx) 
+{
+    printf("[InitClip] a1=%d a2=%d a3=%d a4=%d a5=%d a6=%d\n",
+        (int32_t)ctx->r4, (int32_t)ctx->r5, (int32_t)ctx->r6,
+        (int32_t)ctx->r7,
+        (int32_t)MEM_W(0x10, ctx->r29),  // стековый аргумент 5
+        (int32_t)MEM_W(0x14, ctx->r29)); // стековый аргумент 6
+
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -202,7 +209,11 @@ L_8005EFD8:
     // sll         $v0, $v0, 12
     ctx->r2 = S32(ctx->r2) << 12;
     // div         $zero, $v0, $a3
-    lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r7))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r7)));
+	if (ctx->r7 != 0)
+	{
+		lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r7))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r7)));
+	}
+    else { lo = 0; hi = 0; }
     // bne         $a3, $zero, L_8005EFF0
     if (ctx->r7 != 0) {
         // nop
@@ -257,7 +268,12 @@ L_8005F008:
     MEM_W(0X190, ctx->r28) = ctx->r2;
     // jr          $ra
     // nop
+    printf("[InitClip] r4=%d r6=%d r7=%d r8=%d r5=%d r3=%d r2=%d\n",
+        (int32_t)ctx->r4, (int32_t)ctx->r6, 
+        (int32_t)ctx->r7,(int32_t)ctx->r8,
+        (int32_t)ctx->r5,(int32_t)ctx->r3, (int32_t)ctx->r2
 
+    ); 
     return;
     // nop
 

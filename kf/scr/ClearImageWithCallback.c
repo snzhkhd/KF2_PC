@@ -3,7 +3,7 @@
 
 void ClearImageWithCallback(uint8_t* rdram, recomp_context* ctx) 
 {
-    printf("[LOG] ClearImageWithCallback.\n");
+    //printf("[LOG] ClearImageWithCallback.\n");
     KF_ClearImage(rdram, ctx);
     ctx->pc = ctx->r31;
     return;

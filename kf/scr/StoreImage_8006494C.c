@@ -5,7 +5,7 @@
 
 void KF_StoreImage(uint8_t* rdram, recomp_context* ctx)
 {
-    printf("KF_StoreImage\n");
+   /* printf("KF_StoreImage\n");*/
     RECT16* rect = (RECT16*)GET_PTR(ctx->r4);      // a0: Область VRAM (X, Y, W, H)
     u_long* p = (u_long*)GET_PTR(ctx->r5);  // a1: Куда сохранить в RAM
 

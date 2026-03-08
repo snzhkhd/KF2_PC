@@ -29,16 +29,16 @@ void KF_PadRead(uint8_t* rdram, recomp_context* ctx)
     //8019B606 g_PadKey
     uint16_t btn = *(uint16_t*)GET_PTR(0x8019B606);
     //printf("btn <%d>\n",btn);
-    static bool save = false;
-    if (!save && btn == 256)
-    {
-        save = true;
-        GR_SaveVRAM("vram_debug_game.gta", 0, 0, 1024, 512, 0);
-        save = false;
-        ctx->r2 = (uint32_t)buttons;
-        btn = 0;
-        return;
-    }
+    // static bool save = false;
+    // if (!save && btn == 256)
+    // {
+        // save = true;
+        // GR_SaveVRAM("vram_debug_game.tga", 0, 0, 1024, 512, 0);
+        // save = false;
+        // ctx->r2 = (uint32_t)buttons;
+        // btn = 0;
+        // return;
+    // }
 
     ctx->r2 = (uint32_t)buttons;
 }

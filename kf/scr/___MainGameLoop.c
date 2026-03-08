@@ -604,13 +604,18 @@ L_80013D74:
     ctx->r5 = ADD32(ctx->r16, 0);
     KF_GpuUpdate(rdram, ctx);
 
-    u_short raw = *(u_short*)&g_pad1_buf[2];
-    raw = ((raw >> 8) & 0xFF) | ((raw << 8) & 0xFF00);
-    u_short buttons = ~raw;
-    if (buttons) {
-        printf("[PAD] raw=%04X buttons=%04X\n", *(u_short*)&g_pad1_buf[2], buttons);
+    //u_short raw = *(u_short*)&g_pad1_buf[2];
+    //raw = ((raw >> 8) & 0xFF) | ((raw << 8) & 0xFF00);
+    //u_short buttons = ~raw;
+    //if (buttons) {
+    //    printf("[PAD] raw=%04X buttons=%04X\n", *(u_short*)&g_pad1_buf[2], buttons);
+    //}
+    static uint8_t last_phys = 255;
+    uint8_t cur_phys = MEM_B(0, 0x8019B4CE);
+    if (cur_phys != last_phys) {
+        printf("[WATCH] g_PhysicsReady changed %d -> %d\n", last_phys, cur_phys);
+        last_phys = cur_phys;
     }
-
     goto after_47;
     // addu        $a1, $s0, $zero
     ctx->r5 = ADD32(ctx->r16, 0);

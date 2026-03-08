@@ -997,7 +997,7 @@ L_8003CC88:
 	{
 		lo = S32(S64(S32(ctx->r2)) / S64(S32(ctx->r16))); hi = S32(S64(S32(ctx->r2)) % S64(S32(ctx->r16)));
 	}
-    
+    else { lo = 0; hi = 0; }
     // bne         $s0, $zero, L_8003CCA4
     if (ctx->r16 != 0) {
         // nop

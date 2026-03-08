@@ -285,7 +285,7 @@ L_80033C58:
     ctx->r29 = ADD32(ctx->r29, 0X80);
     // jr          $ra
     // nop
-
+    //printf("UpdateCamera  end\n");
     return;
     // nop
 

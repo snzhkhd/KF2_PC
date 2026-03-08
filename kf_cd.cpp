@@ -50,7 +50,7 @@ void KFCD_CdControl(uint8_t* rdram, recomp_context* ctx)
         g_cdReq.count = 1;
         g_cdReading = 1;
         ctx->r2 = 1;
-        printf("CdlReadS    ctx->r2 = 1;\n");
+     //   printf("CdlReadS    ctx->r2 = 1;\n");
         return;
     }
 
@@ -58,14 +58,14 @@ void KFCD_CdControl(uint8_t* rdram, recomp_context* ctx)
     {
         g_cdReading = 0;
         ctx->r2 = 1;
-        printf("CdlPause ctx->r2 = 1;\n");
+    //    printf("CdlPause ctx->r2 = 1;\n");
         return;
     }
 
     case 0x0E: // CdlSetmode
     {
         ctx->r2 = 1;
-        printf("CdlSetmode ctx->r2 = 1;\n");
+    //    printf("CdlSetmode ctx->r2 = 1;\n");
         return;
     }
     case 0x11: // CdlGetlocP (получить позицию головы)
@@ -85,7 +85,7 @@ void KFCD_CdControl(uint8_t* rdram, recomp_context* ctx)
             res[3] = 1;         // track
         }
         ctx->r2 = 1; // Успех
-        printf("CdlGetlocP\n");
+    //    printf("CdlGetlocP\n");
         return;
     }
     case 0x15: // SeekL
@@ -141,10 +141,10 @@ void KFCD_CdlReadN(uint8_t* rdram, recomp_context* ctx)
     }
 
     int real_lba = base_lba + g_cd_pass_count;
-    printf("[CdlReadN] stream=%08X type=%02X lba=%d to_read=%d total_sectors=%d "
+    /*printf("[CdlReadN] stream=%08X type=%02X lba=%d to_read=%d total_sectors=%d "
         "remain=%d dst=%08X pass=%d\n",
         *p_active, stream[0], real_lba, to_read, sectors,
-        *(uint16_t*)(stream + 34), dst, g_cd_pass_count);
+        *(uint16_t*)(stream + 34), dst, g_cd_pass_count);*/
 
 
     for (int i = 0; i < to_read; i++) {
@@ -298,4 +298,10 @@ void KDCD_SetupDmaTransfer(uint8_t* rdram, recomp_context* ctx)
     }
 
     ctx->r2 = 0; // Сообщаем об успехе
+}
+
+void KFCD_ResetReadState()
+{
+    g_cd_pass_count = 0;
+    g_cd_last_stream = 0;
 }

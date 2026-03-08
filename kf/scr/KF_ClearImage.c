@@ -17,8 +17,8 @@ void KF_ClearImage(uint8_t* rdram, recomp_context* ctx)
     RECT16* rect = (RECT16*)GET_PTR(rect_addr);
 
     if (rect) {
-        printf("[HLE GPU] ClearImage(x=%d, y=%d, w=%d, h=%d, R=%d, G=%d, B=%d)\n",
-            rect->x, rect->y, rect->w, rect->h, r, g, b);
+        /*printf("[HLE GPU] ClearImage(x=%d, y=%d, w=%d, h=%d, R=%d, G=%d, B=%d)\n",
+            rect->x, rect->y, rect->w, rect->h, r, g, b);*/
 
         // Вызываем функцию очистки экрана из Psy-X (OpenGL)
         ClearImage(rect, r, g, b);

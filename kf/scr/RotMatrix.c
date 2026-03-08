@@ -1,23 +1,8 @@
 #include "recomp.h"
 #include "disable_warnings.h"
-#include "psx/libgte.h"
 
-// MATRIX* RotMatrix(SVECTOR* r, MATRIX* m);
 void KF_RotMatrix(uint8_t* rdram, recomp_context* ctx) 
 {
-    //SVECTOR* r = (SVECTOR*)GET_PTR(ctx->r4); // a0 - входные углы
-    //MATRIX* m = (MATRIX*)GET_PTR(ctx->r5);  // a1 - матрица (результат)
-
-    //if (r && m) 
-    //{
-    //    ctx_to_gte(ctx);
-    //    RotMatrix(r, m);
-    //    gte_to_ctx(ctx);
-    //}
-
-    //// Возвращаем в v0 адрес результирующей матрицы (из r5)
-    //ctx->r2 = ctx->r5;
-
 
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;

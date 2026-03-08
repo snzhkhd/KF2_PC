@@ -29,7 +29,6 @@ void AsyncDataLoad(uint8_t* rdram, recomp_context* ctx)
             recomp_func_t handler = nullptr;
             if (type == 0x10)
             {
-                //handler = lookup_recomp_func(0x80017DB4);
                 handler = lookup_recomp_func(0x80017DB4);
                 if (handler) {
                     stream[36] = 0;
@@ -42,9 +41,6 @@ void AsyncDataLoad(uint8_t* rdram, recomp_context* ctx)
                     int base_lba = KFCD_CdPosToInt(base_loc);
                     uint32_t dst = *(uint32_t*)(stream + 12);
 
-                    printf("[0x10 full read] base_lba=%d total=%d dst=%08X\n",
-                        base_lba, total, dst);
-
                     // Читаем ВСЁ за один раз
                     uint8_t* dst_ptr = (uint8_t*)GET_PTR(dst);
                     for (int i = 0; i < total; i++) {
@@ -52,23 +48,49 @@ void AsyncDataLoad(uint8_t* rdram, recomp_context* ctx)
                         fread(dst_ptr + i * 2048, 1, 2048, g_cdImage);
                     }
 
-                    // НЕ трогаем stream[12]! handler сам знает где данные
+                    //printf("[RTMD] BEFORE handler 1:\n");
+                    //uint8_t* chk = (uint8_t*)GET_PTR(0x80130A90);
+                    //printf("  bytes 12-15: %02X %02X %02X %02X  (VertexTop obj0)\n",
+                    //    chk[12], chk[13], chk[14], chk[15]);
+                    //printf("  bytes 16-19: %02X %02X %02X %02X  (VertexNum obj0 = %d)\n",
+                    //    chk[16], chk[17], chk[18], chk[19], *(uint32_t*)(chk + 16));
+
+
                     *(uint16_t*)(stream + 16) = 0;
                     *(uint16_t*)(stream + 34) = 0;
                     stream[36] = 1;
 
+                    // КЛЮЧЕВОЙ ФИКС: сброс CD state чтобы повторное чтение
+                    // из handler шло с правильного LBA
+                    g_cdCurrentSector = base_lba;
+                    KFCD_ResetReadState();
+
                     ctx->r4 = *p_active;
                     handler(rdram, ctx);
+
+                    //printf("[RTMD] AFTER handler 1:\n");
+                    //printf("  bytes 12-15: %02X %02X %02X %02X\n", chk[12], chk[13], chk[14], chk[15]);
+                    //printf("  bytes 16-19: %02X %02X %02X %02X  (VertexNum = %d)\n",
+                    //    chk[16], chk[17], chk[18], chk[19], *(uint32_t*)(chk + 16));
+
+
+                    // Снова сброс — handler мог сдвинуть pass_count
+                    g_cdCurrentSector = base_lba;
+                    KFCD_ResetReadState();
 
                     stream[36] = 1;
                     ctx->r4 = *p_active;
                     handler(rdram, ctx);
 
+                    //printf("[RTMD] AFTER handler 2:\n");
+                    //printf("  bytes 12-15: %02X %02X %02X %02X\n", chk[12], chk[13], chk[14], chk[15]);
+                    //printf("  bytes 16-19: %02X %02X %02X %02X  (VertexNum = %d)\n",
+                    //    chk[16], chk[17], chk[18], chk[19], *(uint32_t*)(chk + 16));
+
                     ctx->r4 = saved_r4;
                     ctx->r31 = saved_ra;
-
-                    // ВАЖНО: не даём провалиться в нижний if(handler)
                     handler = nullptr;
+                    
                 }
             }
             else if (type == 0x30) 
@@ -89,10 +111,11 @@ void AsyncDataLoad(uint8_t* rdram, recomp_context* ctx)
                 ctx->r4 = saved_r4;
                 ctx->r31 = saved_ra;
             }
-            printf("[IRQ sim 0x10] stream[16]=%d stream[34]=%d\n",
+            /*printf("[IRQ sim 0x10] stream[16]=%d stream[34]=%d\n",
                 *(uint16_t*)(stream + 16),
-                *(uint16_t*)(stream + 34));
+                *(uint16_t*)(stream + 34));*/
         }
+        
     }
 
     uint64_t hi = 0, lo = 0, result = 0;

@@ -3,7 +3,6 @@
 
 void CdCheckStatus(uint8_t* rdram, recomp_context* ctx) 
 {
-    printf("-->CdCheckStatus\n");
 
     int a1 = ctx->r4;
     uint8_t* a2 = (uint8_t*)ctx->r5;
