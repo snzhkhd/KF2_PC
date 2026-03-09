@@ -4,16 +4,12 @@
 
 void KF_SpuMalloc(uint8_t* rdram, recomp_context* ctx)
 {
-    printf("KF_SpuMalloc\n");
-    // 1. Àğãóìåíò 'size' (ñêîëüêî áàéò çâóêîâîé ïàìÿòè íóæíî)
-    // Ïåğåäàåòñÿ ïî çíà÷åíèş â r4 (a0)
     int size = (int)ctx->r4;
-
-    // 2. Âûçûâàåì Psy-X
-    // Áèáëèîòåêà ñàìà íàéäåò ñâîáîäíûé áëîê â ıìóëèğóåìîé çâóêîâîé ïàìÿòè
     int spu_addr = SpuMalloc(size);
-
-    // 3. Çàïèñûâàåì ğåçóëüòàò (îôñåò â SPU RAM) â r2 (v0)
+    printf("[SpuMalloc] size=%d addr=%08X (prev transferred=%d/%d)\n",
+        size, (uint32_t)spu_addr, g_spu_transferred, g_spu_total_size);
+    g_spu_total_size = size;
+    g_spu_transferred = 0;
     ctx->r2 = (uint32_t)spu_addr;
 }
 

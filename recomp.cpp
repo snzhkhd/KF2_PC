@@ -561,7 +561,7 @@ void mips_interpret(uint8_t* rdram, recomp_context* ctx, uint32_t start_pc) {
                 }
             }
                 break;
-            case 0x09: do_branch = true; branch_target = r[rs]; is_link = true; r[rd ? rd : 31] = pc + 8; printf("[INTERP JALR] %08X -> %08X\n", pc, branch_target); break; // jalr
+            case 0x09: do_branch = true; branch_target = r[rs]; is_link = true; r[rd ? rd : 31] = pc + 8;  break; // jalr
             case 0x0C: break; // syscall
             case 0x0D: break; // break
             case 0x10: r[rd] = ctx->hi; break;
@@ -592,7 +592,7 @@ void mips_interpret(uint8_t* rdram, recomp_context* ctx, uint32_t start_pc) {
             }
             break;
         case 0x02: do_branch = true; branch_target = target; break;
-        case 0x03: r[31] = pc + 8; do_branch = true; branch_target = target; is_link = true; printf("[INTERP JAL] %08X -> %08X\n", pc, target); break;
+        case 0x03: r[31] = pc + 8; do_branch = true; branch_target = target; is_link = true; break;
         case 0x04: if (r[rs] == r[rt]) { do_branch = true; branch_target = pc + 4 + (imm << 2); } break;
         case 0x05: if (r[rs] != r[rt]) { do_branch = true; branch_target = pc + 4 + (imm << 2); } break;
         case 0x06: if ((int32_t)r[rs] <= 0) { do_branch = true; branch_target = pc + 4 + (imm << 2); } break;
@@ -627,11 +627,7 @@ void mips_interpret(uint8_t* rdram, recomp_context* ctx, uint32_t start_pc) {
         case 0x28:
         {   uint32_t addr = r[rs] + imm;
             if (is_valid_ps1_addr(addr)) {
-                // WATCHPOINT
-                if ((addr & 0x1FFFFFFF) == (0x8019B4CE & 0x1FFFFFFF)) {
-                    printf("[WATCH] g_PhysicsReady WRITE %d -> %d at PC=%08X ra=%08X\n",
-                        MEM_B(0, 0x8019B4CE), (uint8_t)r[rt], pc, r[31]);
-                }
+
                 MEM_B(imm, r[rs]) = (uint8_t)r[rt];
         }
         } break;
@@ -639,9 +635,7 @@ void mips_interpret(uint8_t* rdram, recomp_context* ctx, uint32_t start_pc) {
         {   uint32_t addr = r[rs] + imm;
             if (is_valid_ps1_addr(addr)) {
                 uint32_t phys = addr & 0x1FFFFFFF;
-                if (phys == 0x0019B4CE || phys == 0x0019B4CF) {
-                    printf("[WATCH sh] addr=%08X val=%04X at PC=%08X\n", addr, (uint16_t)r[rt], pc);
-                }
+
                 MEM_H(imm, r[rs]) = (uint16_t)r[rt];
             }
         } break;
@@ -649,9 +643,7 @@ void mips_interpret(uint8_t* rdram, recomp_context* ctx, uint32_t start_pc) {
         { uint32_t addr = r[rs] + imm;
         if (is_valid_ps1_addr(addr)) {
             uint32_t phys = addr & 0x1FFFFFFF;
-            if (phys >= 0x0019B4CC && phys <= 0x0019B4CE) {
-                printf("[WATCH sw] addr=%08X val=%08X at PC=%08X\n", addr, r[rt], pc);
-            }
+
             MEM_W(imm, r[rs]) = r[rt];
         }
         } break;

@@ -303,7 +303,7 @@ int PsyX_SPUAL_Alloc(int size)
 
 int PsyX_SPUAL_InitAlloc(int num, char* top)
 {
-	s_spuMallocVal = 0;
+	s_spuMallocVal = 0x1010;
 	return 0;
 }
 

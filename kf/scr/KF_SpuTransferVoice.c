@@ -20,26 +20,33 @@ void KF_SpuTransferVoice(uint8_t* rdram, recomp_context* ctx)
     }
 
     uint32_t spu_addr = MEM_W(0, 0x801DEFA4 + voice * 4);
-    if (spu_addr == 0) spu_addr = 0x1010;
-
-    if (size > 0x7F000) size = 0x7F000;
     uint8_t* src = (uint8_t*)GET_PTR(src_addr);
 
-    printf("[SPU Transfer] voice=%d src=%08X size=%d spu=%08X\n",
-        voice, src_addr, size, spu_addr);
-
-    printf("[SPU Transfer] voice=%d spu_addr_from_table=%08X\n",
-        voice, MEM_W(0, 0x801DEFA4 + voice * 4));
+    // Обрезаем последний чанк
+    uint32_t remaining = g_spu_total_size - g_spu_transferred;
+    uint32_t to_write = (size > remaining) ? remaining : size;
 
     SpuSetTransferMode(SpuTransByDMA);
-    SpuSetTransferStartAddr(spu_addr);
-    SpuWrite(src, size);
+    SpuSetTransferStartAddr(spu_addr + g_spu_transferred);
 
-    MEM_B(0, 0x8019E6F0 + voice) = 1;
+    printf("[SPU data] first 4: %02X %02X %02X %02X\n",
+        src[0], src[1], src[2], src[3]);
 
-    // Возвращаем voice number — НЕ -1!
-    // Это скажет ProcessCDAudioLoad что трансфер завершён
-    ctx->r2 = (uint32_t)voice;
+    SpuWrite(src, to_write);
+    g_spu_transferred += to_write;
+
+    static int tc = 0;
+    printf("[SPU Transfer #%d] voice=%d size=%d written=%d total=%d/%d\n",
+        ++tc, voice, size, to_write, g_spu_transferred, g_spu_total_size);
+
+    if (g_spu_transferred >= g_spu_total_size) {
+        MEM_B(0, 0x8019E6F0 + voice) = 1;
+        g_spu_transferred = 0;
+        ctx->r2 = (uint32_t)voice;
+    }
+    else {
+        ctx->r2 = (uint32_t)-2;
+    }
 
 //    printf("[sub_80051EB0] a1=%08X a2=%d a3=%d g_SPUVoiceActive[a3]=%d\n",
 //        ctx->r4, ctx->r5, (int16_t)ctx->r6,

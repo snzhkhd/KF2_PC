@@ -7,11 +7,12 @@ void KF_SpuUpdateTick(uint8_t* rdram, recomp_context* ctx)
 {
     uint8_t max_voices = MEM_BU(0, 0x8019B628);
 
-    // ќбновл€ем голоса из внутренних таблиц
     for (int i = 0; i < 24 && i < max_voices; i++) {
         uint8_t flags = MEM_BU(0, 0x80078A38 + i);
         if (flags == 0) continue;
 
+        // ¬нутренн€€ таблица: 16 байт на голос (8 halfwords)
+        // Layout: volL, volR, pitch, startAddr, ADSR1, ADSR2, ...
         uint32_t base = 0x800788B8 + i * 16;
 
         SpuVoiceAttr attr;
@@ -19,21 +20,35 @@ void KF_SpuUpdateTick(uint8_t* rdram, recomp_context* ctx)
         attr.voice = (1 << i);
         attr.mask = 0;
 
-        if (flags & 1) {  // volume
-            attr.volume.left = (int16_t)MEM_H(0, base);
-            attr.volume.right = (int16_t)MEM_H(2, base);
+        if (flags & 1) {
+            attr.volume.left = (int16_t)MEM_HS(0, base);
+            attr.volume.right = (int16_t)MEM_HS(2, base);
             attr.mask |= SPU_VOICE_VOLL | SPU_VOICE_VOLR;
         }
-        if (flags & 4) {  // pitch
+        if (flags & 4) {
             attr.pitch = MEM_HU(4, base);
             attr.mask |= SPU_VOICE_PITCH;
+        }
+        if (flags & 8) {
+            uint32_t raw_addr = MEM_HU(6, base);
+            uint32_t real_addr = raw_addr << 3;
+            if (real_addr < 0x80000) {
+                attr.addr = real_addr;
+                attr.mask |= SPU_VOICE_WDSA;
+                printf("[SPU Play] voice=%d addr=%08X pitch=%04X\n",
+                    i, real_addr, MEM_HU(4, base));
+            }
+        }
+        if (flags & 0x10) {
+            attr.adsr1 = MEM_HU(8, base);
+            attr.adsr2 = MEM_HU(10, base);
+            attr.mask |= SPU_VOICE_ADSR_ADSR1 | SPU_VOICE_ADSR_ADSR2;
         }
 
         if (attr.mask) {
             SpuSetVoiceAttr(&attr);
         }
 
-        // —брасываем флаги
         MEM_B(0, 0x80078A38 + i) = 0;
     }
 
@@ -56,10 +71,6 @@ void KF_SpuUpdateTick(uint8_t* rdram, recomp_context* ctx)
         MEM_H(0, 0x801DF028) = 0;
         MEM_H(0, 0x801DF030) = 0;
     }
-
-    // Reverb
-    MEM_H(0, 0x80079170);  // просто оставл€ем
-    MEM_H(0, 0x80079178);
 
     ctx->r2 = 0;
 //    uint64_t hi = 0, lo = 0, result = 0;

@@ -4,20 +4,12 @@
 
 void KF_SpuInitMalloc(uint8_t* rdram, recomp_context* ctx)
 {
-    // 1. Первый аргумент (int num) — количество блоков.
-    // Передается по значению в r4 (a0).
     int num = (int)ctx->r4;
-
-    // 2. Второй аргумент (char *top) — указатель на буфер в RAM игры.
-    // Это адрес, поэтому превращаем его в наш указатель через GET_PTR.
     char* top = (char*)GET_PTR(ctx->r5);
-
-    // 3. Вызываем Psy-X. 
+    printf("[SpuInitMalloc] num=%d table_ps1=%08X\n", num, ctx->r5);
     int result = SpuInitMalloc(num, top);
-
-    // 4. Записываем результат в r2 (v0).
+    printf("[SpuInitMalloc] result=%d\n", result);
     ctx->r2 = (uint32_t)result;
-    ;
 }
 
 

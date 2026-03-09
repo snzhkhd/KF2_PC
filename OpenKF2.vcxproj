@@ -958,7 +958,7 @@
     <ClCompile Include="kf\scr\sub_80056C3C.c" />
     <ClCompile Include="kf\scr\sub_80056D94.c" />
     <ClCompile Include="kf\scr\sub_80056FE4.c" />
-    <ClCompile Include="kf\scr\sub_800570D0.c" />
+    <ClCompile Include="kf\scr\KF_SpuUpdateTick.c" />
     <ClCompile Include="kf\scr\sub_80057484.c" />
     <ClCompile Include="kf\scr\sub_800579E4.c" />
     <ClCompile Include="kf\scr\sub_80057C6C.c" />

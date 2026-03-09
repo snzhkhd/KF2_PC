@@ -2484,7 +2484,7 @@
     <ClCompile Include="kf\scr\sub_800568CC.c">
       <Filter>Исходные файлы\kf_scr</Filter>
     </ClCompile>
-    <ClCompile Include="kf\scr\sub_800570D0.c">
+    <ClCompile Include="kf\scr\KF_SpuUpdateTick.c">
       <Filter>Исходные файлы\kf_scr</Filter>
     </ClCompile>
     <ClCompile Include="kf\scr\sub_800579E4.c">
