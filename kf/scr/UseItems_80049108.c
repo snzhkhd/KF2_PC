@@ -116,7 +116,7 @@ L_80049178:
     // ori         $a3, $zero, 0x6A4
     ctx->r7 = 0 | 0X6A4;
     // lh          $v0, 0x2($s6)
-    ctx->r2 = MEM_H(0X2, ctx->r22);
+    ctx->r2 = MEM_HS(0X2, ctx->r22);
     // ori         $v1, $zero, 0x200
     ctx->r3 = 0 | 0X200;
     // sw          $v1, 0x14($sp)
@@ -276,7 +276,7 @@ L_80049248:
     // ori         $a3, $zero, 0x6A4
     ctx->r7 = 0 | 0X6A4;
     // lh          $v0, 0x2($s6)
-    ctx->r2 = MEM_H(0X2, ctx->r22);
+    ctx->r2 = MEM_HS(0X2, ctx->r22);
     // ori         $v1, $zero, 0x200
     ctx->r3 = 0 | 0X200;
     // sw          $v1, 0x14($sp)
@@ -568,7 +568,7 @@ L_800493F0:
     // lui         $v0, 0x8017
     ctx->r2 = S32(0X8017 << 16);
     // lh          $v0, 0x79D4($v0)
-    ctx->r2 = MEM_H(0X79D4, ctx->r2);
+    ctx->r2 = MEM_HS(0X79D4, ctx->r2);
     // nop
 
     // bne         $v0, $zero, L_800493F0
@@ -645,7 +645,7 @@ L_80049458:
     // lui         $v0, 0x8017
     ctx->r2 = S32(0X8017 << 16);
     // lh          $v0, 0x79D4($v0)
-    ctx->r2 = MEM_H(0X79D4, ctx->r2);
+    ctx->r2 = MEM_HS(0X79D4, ctx->r2);
     // nop
 
     // bne         $v0, $zero, L_80049458
@@ -687,7 +687,7 @@ L_80049458:
     // addu        $s0, $s0, $v0
     ctx->r16 = ADD32(ctx->r16, ctx->r2);
     // lh          $a0, 0x26($s0)
-    ctx->r4 = MEM_H(0X26, ctx->r16);
+    ctx->r4 = MEM_HS(0X26, ctx->r16);
     // jal         0x80014FAC
     // addiu       $a1, $sp, 0x20
     ctx->r5 = ADD32(ctx->r29, 0X20);
@@ -901,7 +901,7 @@ L_80049604:
     // ori         $a3, $zero, 0x6A4
     ctx->r7 = 0 | 0X6A4;
     // lh          $v0, 0x2($s6)
-    ctx->r2 = MEM_H(0X2, ctx->r22);
+    ctx->r2 = MEM_HS(0X2, ctx->r22);
     // ori         $v1, $zero, 0x200
     ctx->r3 = 0 | 0X200;
     // sw          $v1, 0x14($sp)
@@ -1060,7 +1060,7 @@ L_800496E0:
     // ori         $a3, $zero, 0x6A4
     ctx->r7 = 0 | 0X6A4;
     // lh          $v0, 0x2($s6)
-    ctx->r2 = MEM_H(0X2, ctx->r22);
+    ctx->r2 = MEM_HS(0X2, ctx->r22);
     // ori         $v1, $zero, 0x200
     ctx->r3 = 0 | 0X200;
     // sw          $v1, 0x14($sp)
@@ -1475,11 +1475,11 @@ L_800498A4:
     // sw          $v0, 0x1C($sp)
     MEM_W(0X1C, ctx->r29) = ctx->r2;
     // lh          $a3, 0x0($s0)
-    ctx->r7 = MEM_H(0X0, ctx->r16);
+    ctx->r7 = MEM_HS(0X0, ctx->r16);
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4A4A($v0)
-    ctx->r2 = MEM_H(-0X4A4A, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4A4A, ctx->r2);
     // ori         $a2, $zero, 0x5DC
     ctx->r6 = 0 | 0X5DC;
     // jal         0x80048874
@@ -1503,11 +1503,11 @@ L_800498A4:
     // sw          $v0, 0x1C($sp)
     MEM_W(0X1C, ctx->r29) = ctx->r2;
     // lh          $a3, 0x0($s0)
-    ctx->r7 = MEM_H(0X0, ctx->r16);
+    ctx->r7 = MEM_HS(0X0, ctx->r16);
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4A4A($v0)
-    ctx->r2 = MEM_H(-0X4A4A, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4A4A, ctx->r2);
     // ori         $a2, $zero, 0x3E8
     ctx->r6 = 0 | 0X3E8;
     // jal         0x80048874
@@ -1640,7 +1640,7 @@ L_80049A30:
     // sh          $v0, 0x10($s1)
     MEM_H(0X10, ctx->r17) = ctx->r2;
     // lh          $v0, 0x10($s1)
-    ctx->r2 = MEM_H(0X10, ctx->r17);
+    ctx->r2 = MEM_HS(0X10, ctx->r17);
     // addiu       $s2, $s2, 0x8
     ctx->r18 = ADD32(ctx->r18, 0X8);
     // bgtz        $v0, L_80049A14
@@ -1753,7 +1753,7 @@ L_80049AB8:
     // ori         $a3, $zero, 0x6A4
     ctx->r7 = 0 | 0X6A4;
     // lh          $v0, 0x2($s6)
-    ctx->r2 = MEM_H(0X2, ctx->r22);
+    ctx->r2 = MEM_HS(0X2, ctx->r22);
     // ori         $v1, $zero, 0x200
     ctx->r3 = 0 | 0X200;
     // sw          $v1, 0x14($sp)
@@ -1862,9 +1862,9 @@ L_80049B60:
     // ori         $a3, $zero, 0x1F40
     ctx->r7 = 0 | 0X1F40;
     // lh          $a1, 0x2($s6)
-    ctx->r5 = MEM_H(0X2, ctx->r22);
+    ctx->r5 = MEM_HS(0X2, ctx->r22);
     // lh          $a2, 0x0($s6)
-    ctx->r6 = MEM_H(0X0, ctx->r22);
+    ctx->r6 = MEM_HS(0X0, ctx->r22);
     // ori         $v0, $zero, 0x1F4
     ctx->r2 = 0 | 0X1F4;
     // sw          $v0, 0x10($sp)

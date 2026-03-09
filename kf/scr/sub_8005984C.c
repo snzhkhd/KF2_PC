@@ -44,7 +44,7 @@ void sub_8005984C(uint8_t* rdram, recomp_context* ctx) {
     // lui         $v0, 0x8017
     ctx->r2 = S32(0X8017 << 16);
     // lh          $v0, -0x2568($v0)
-    ctx->r2 = MEM_H(-0X2568, ctx->r2);
+    ctx->r2 = MEM_HS(-0X2568, ctx->r2);
     // sll         $v1, $a1, 16
     ctx->r3 = S32(ctx->r5) << 16;
     // sra         $a1, $v1, 16

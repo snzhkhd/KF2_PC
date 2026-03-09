@@ -36,7 +36,7 @@ void sub_8003E414(uint8_t* rdram, recomp_context* ctx) {
     // addu        $s3, $a1, $zero
     ctx->r19 = ADD32(ctx->r5, 0);
     // lh          $v0, 0x50($s0)
-    ctx->r2 = MEM_H(0X50, ctx->r16);
+    ctx->r2 = MEM_HS(0X50, ctx->r16);
     // nop
 
     // mult        $v0, $v0
@@ -44,7 +44,7 @@ void sub_8003E414(uint8_t* rdram, recomp_context* ctx) {
     // mflo        $v1
     ctx->r3 = lo;
     // lh          $v0, 0x54($s0)
-    ctx->r2 = MEM_H(0X54, ctx->r16);
+    ctx->r2 = MEM_HS(0X54, ctx->r16);
     // nop
 
     // mult        $v0, $v0
@@ -70,7 +70,7 @@ void sub_8003E414(uint8_t* rdram, recomp_context* ctx) {
     // addu        $v0, $zero, $zero
     ctx->r2 = ADD32(0, 0);
     // lh          $a0, 0x50($s0)
-    ctx->r4 = MEM_H(0X50, ctx->r16);
+    ctx->r4 = MEM_HS(0X50, ctx->r16);
     // nop
 
     // mult        $a0, $s2
@@ -128,7 +128,7 @@ L_8003E4B8:
     ctx->r5 = ADD32(0, 0);
     after_1:
     // lh          $a0, 0x54($s0)
-    ctx->r4 = MEM_H(0X54, ctx->r16);
+    ctx->r4 = MEM_HS(0X54, ctx->r16);
     // nop
 
     // mult        $a0, $s2

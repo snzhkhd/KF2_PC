@@ -146,11 +146,17 @@ void KFCD_CdlReadN(uint8_t* rdram, recomp_context* ctx)
         *p_active, stream[0], real_lba, to_read, sectors,
         *(uint16_t*)(stream + 34), dst, g_cd_pass_count);*/
 
+    //printf("[CdlReadN] stream=%08X type=%02X lba=%d sectors=%d dst=%08X\n",
+    //    *p_active, stream[0], real_lba, to_read, dst);
 
     for (int i = 0; i < to_read; i++) {
         fseek(g_cdImage, (uint32_t)(real_lba + i) * 2352 + 24, SEEK_SET);
         fread(dst_ptr + i * 2048, 1, 2048, g_cdImage);
     }
+    //printf("[CdlReadN done] first 12 bytes at %08X: ", dst);
+    //uint8_t* dp = (uint8_t*)GET_PTR(dst);
+    //for (int i = 0; i < 12; i++) printf("%02X ", dp[i]);
+    //printf("\n");
 
     g_cd_pass_count += to_read;
     stream[36] = 1;

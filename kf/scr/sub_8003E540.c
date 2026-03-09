@@ -76,7 +76,7 @@ void sub_8003E540(uint8_t* rdram, recomp_context* ctx) {
     // lw          $a2, 0x18($sp)
     ctx->r6 = MEM_W(0X18, ctx->r29);
     // lh          $a0, 0x50($s2)
-    ctx->r4 = MEM_H(0X50, ctx->r18);
+    ctx->r4 = MEM_HS(0X50, ctx->r18);
     // jal         0x80014D48
     // nop
 
@@ -86,7 +86,7 @@ void sub_8003E540(uint8_t* rdram, recomp_context* ctx) {
 
     after_3:
     // lh          $a0, 0x54($s2)
-    ctx->r4 = MEM_H(0X54, ctx->r18);
+    ctx->r4 = MEM_HS(0X54, ctx->r18);
     // sh          $v0, 0x50($s2)
     MEM_H(0X50, ctx->r18) = ctx->r2;
     // lw          $a1, 0x14($sp)

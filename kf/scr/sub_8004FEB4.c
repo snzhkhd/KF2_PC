@@ -640,7 +640,7 @@ L_800502A4:
     // lui         $v1, 0x800A
     ctx->r3 = S32(0X800A << 16);
     // lh          $v1, -0x21A4($v1)
-    ctx->r3 = MEM_H(-0X21A4, ctx->r3);
+    ctx->r3 = MEM_HS(-0X21A4, ctx->r3);
     // lhu         $v0, 0x4($a0)
     ctx->r2 = MEM_HU(0X4, ctx->r4);
     // nop
@@ -1031,7 +1031,7 @@ L_80050504:
     // nop
 
     // lh          $v0, 0x0($v0)
-    ctx->r2 = MEM_H(0X0, ctx->r2);
+    ctx->r2 = MEM_HS(0X0, ctx->r2);
     // nop
 
     // beq         $v0, $zero, L_80050564

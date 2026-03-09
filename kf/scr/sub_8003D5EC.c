@@ -99,7 +99,7 @@ L_8003D644:
     // addiu       $a0, $s2, 0x2C
     ctx->r4 = ADD32(ctx->r18, 0X2C);
     // lh          $v1, 0x4($s0)
-    ctx->r3 = MEM_H(0X4, ctx->r16);
+    ctx->r3 = MEM_HS(0X4, ctx->r16);
     // lw          $v0, 0x18($s7)
     ctx->r2 = MEM_W(0X18, ctx->r23);
     // nop
@@ -125,7 +125,7 @@ L_8003D644:
     // sw          $v0, 0x28($sp)
     MEM_W(0X28, ctx->r29) = ctx->r2;
     // lh          $v0, 0x8($s0)
-    ctx->r2 = MEM_H(0X8, ctx->r16);
+    ctx->r2 = MEM_HS(0X8, ctx->r16);
     // lw          $v1, 0x12($s0)
     ctx->r3 = MEM_W(0X12, ctx->r16);
     // addu        $a2, $s4, $zero

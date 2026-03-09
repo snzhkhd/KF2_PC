@@ -34,7 +34,7 @@ void ProcessCDAudioLoad(uint8_t* rdram, recomp_context* ctx)
     //{
     //    printf("[ProcessCDAudioLoad] VAB stream detected, forcing complete\n");
 
-    //    // Симулируем **(v0+28) = 1
+    //    //  **(v0+28) = 1
     //    uint32_t channel_ptr = *(uint32_t*)(stream + 28);
     //    if (channel_ptr) {
     //        uint32_t* channel = (uint32_t*)GET_PTR(channel_ptr);
@@ -50,7 +50,7 @@ void ProcessCDAudioLoad(uint8_t* rdram, recomp_context* ctx)
     //        ctx->r31 = saved_ra;
     //    }
 
-    //    // stream+16 = 0 (оригинал делает это)
+    //    // stream+16 = 0 (  )
     //    *(uint16_t*)(stream + 16) = 0;
 
     //    printf("[ProcessCDAudioLoad] VAB stream complete, NextCdTask called\n");
@@ -121,7 +121,7 @@ void ProcessCDAudioLoad(uint8_t* rdram, recomp_context* ctx)
     ctx->r19 = ADD32(ctx->r16, 0X2);
     after_1:
     // lh          $v0, 0x1A($s0)
-    ctx->r2 = MEM_H(0X1A, ctx->r16);
+    ctx->r2 = MEM_HS(0X1A, ctx->r16);
     // ori         $s2, $zero, 0x1
     ctx->r18 = 0 | 0X1;
     // lui         $v1, 0x801A
@@ -136,7 +136,7 @@ L_800149F0:
     // lw          $a0, 0xC($s0)
     ctx->r4 = MEM_W(0XC, ctx->r16);
     // lh          $a2, 0x0($s1)
-    ctx->r6 = MEM_H(0X0, ctx->r17);
+    ctx->r6 = MEM_HS(0X0, ctx->r17);
     // jal         0x80051EB0
     // ori         $a1, $zero, 0x9000
     ctx->r5 = 0 | 0X9000;
@@ -160,7 +160,7 @@ L_800149F0:
     // addiu       $v0, $zero, -0x2
     ctx->r2 = ADD32(0, -0X2);
     // lh          $a0, 0x0($s1)
-    ctx->r4 = MEM_H(0X0, ctx->r17);
+    ctx->r4 = MEM_HS(0X0, ctx->r17);
     // jal         0x8005D010
     // nop
 
@@ -243,7 +243,7 @@ L_80014A50:
 
 L_80014A74:
     // lh          $v0, 0x0($s1)
-    ctx->r2 = MEM_H(0X0, ctx->r17);
+    ctx->r2 = MEM_HS(0X0, ctx->r17);
     // nop
 
     // bne         $v1, $v0, L_80014AB0

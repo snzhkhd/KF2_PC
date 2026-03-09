@@ -6,7 +6,7 @@ void sub_80036690(uint8_t* rdram, recomp_context* ctx) {
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
     // lh          $t1, 0x0($a2)
-    ctx->r9 = MEM_H(0X0, ctx->r6);
+    ctx->r9 = MEM_HS(0X0, ctx->r6);
     // addiu       $v0, $zero, -0x1
     ctx->r2 = ADD32(0, -0X1);
     // addiu       $t1, $t1, -0x1
@@ -41,7 +41,7 @@ L_800366AC:
     // addiu       $a2, $a2, 0x2
     ctx->r6 = ADD32(ctx->r6, 0X2);
     // lh          $v1, 0x0($a2)
-    ctx->r3 = MEM_H(0X0, ctx->r6);
+    ctx->r3 = MEM_HS(0X0, ctx->r6);
     // nop
 
     // addiu       $v1, $v1, -0x1

@@ -24,11 +24,11 @@ void sub_8002B974(uint8_t* rdram, recomp_context* ctx) {
     // sw          $s0, 0x10($sp)
     MEM_W(0X10, ctx->r29) = ctx->r16;
     // lh          $a1, 0x0($s1)
-    ctx->r5 = MEM_H(0X0, ctx->r17);
+    ctx->r5 = MEM_HS(0X0, ctx->r17);
     // lui         $a2, 0x801A
     ctx->r6 = S32(0X801A << 16);
     // lh          $a2, -0x49E4($a2)
-    ctx->r6 = MEM_H(-0X49E4, ctx->r6);
+    ctx->r6 = MEM_HS(-0X49E4, ctx->r6);
     // jal         0x80014ED4
     // ori         $a3, $zero, 0x8
     ctx->r7 = 0 | 0X8;
@@ -42,11 +42,11 @@ void sub_8002B974(uint8_t* rdram, recomp_context* ctx) {
     // lui         $a1, 0x801A
     ctx->r5 = S32(0X801A << 16);
     // lh          $a1, -0x4A3A($a1)
-    ctx->r5 = MEM_H(-0X4A3A, ctx->r5);
+    ctx->r5 = MEM_HS(-0X4A3A, ctx->r5);
     // lui         $a2, 0x801A
     ctx->r6 = S32(0X801A << 16);
     // lh          $a2, -0x49E2($a2)
-    ctx->r6 = MEM_H(-0X49E2, ctx->r6);
+    ctx->r6 = MEM_HS(-0X49E2, ctx->r6);
     // ori         $a3, $zero, 0x8
     ctx->r7 = 0 | 0X8;
     // lui         $at, 0x801A
@@ -66,11 +66,11 @@ void sub_8002B974(uint8_t* rdram, recomp_context* ctx) {
     // lui         $a1, 0x801A
     ctx->r5 = S32(0X801A << 16);
     // lh          $a1, -0x4A38($a1)
-    ctx->r5 = MEM_H(-0X4A38, ctx->r5);
+    ctx->r5 = MEM_HS(-0X4A38, ctx->r5);
     // lui         $a2, 0x801A
     ctx->r6 = S32(0X801A << 16);
     // lh          $a2, -0x49E0($a2)
-    ctx->r6 = MEM_H(-0X49E0, ctx->r6);
+    ctx->r6 = MEM_HS(-0X49E0, ctx->r6);
     // ori         $a3, $zero, 0x8
     ctx->r7 = 0 | 0X8;
     // lui         $at, 0x801A

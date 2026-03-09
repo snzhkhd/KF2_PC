@@ -38,7 +38,7 @@ void RotMatrixZ_C(uint8_t* rdram, recomp_context* ctx) {
     ctx->r16 = ADD32(ctx->r2, 0);
     after_1:
     // lh          $v1, 0x0($s1)
-    ctx->r3 = MEM_H(0X0, ctx->r17);
+    ctx->r3 = MEM_HS(0X0, ctx->r17);
     // nop
 
     // mult        $s0, $v1
@@ -46,7 +46,7 @@ void RotMatrixZ_C(uint8_t* rdram, recomp_context* ctx) {
     // mflo        $a0
     ctx->r4 = lo;
     // lh          $v1, 0x6($s1)
-    ctx->r3 = MEM_H(0X6, ctx->r17);
+    ctx->r3 = MEM_HS(0X6, ctx->r17);
     // nop
 
     // mult        $v0, $v1
@@ -60,7 +60,7 @@ void RotMatrixZ_C(uint8_t* rdram, recomp_context* ctx) {
     // sh          $a0, 0x10($sp)
     MEM_H(0X10, ctx->r29) = ctx->r4;
     // lh          $v1, 0x2($s1)
-    ctx->r3 = MEM_H(0X2, ctx->r17);
+    ctx->r3 = MEM_HS(0X2, ctx->r17);
     // nop
 
     // mult        $s0, $v1
@@ -68,7 +68,7 @@ void RotMatrixZ_C(uint8_t* rdram, recomp_context* ctx) {
     // mflo        $v1
     ctx->r3 = lo;
     // lh          $a0, 0x8($s1)
-    ctx->r4 = MEM_H(0X8, ctx->r17);
+    ctx->r4 = MEM_HS(0X8, ctx->r17);
     // nop
 
     // mult        $v0, $a0
@@ -82,7 +82,7 @@ void RotMatrixZ_C(uint8_t* rdram, recomp_context* ctx) {
     // sh          $v1, 0x12($sp)
     MEM_H(0X12, ctx->r29) = ctx->r3;
     // lh          $v1, 0x4($s1)
-    ctx->r3 = MEM_H(0X4, ctx->r17);
+    ctx->r3 = MEM_HS(0X4, ctx->r17);
     // nop
 
     // mult        $s0, $v1
@@ -90,7 +90,7 @@ void RotMatrixZ_C(uint8_t* rdram, recomp_context* ctx) {
     // mflo        $v1
     ctx->r3 = lo;
     // lh          $a0, 0xA($s1)
-    ctx->r4 = MEM_H(0XA, ctx->r17);
+    ctx->r4 = MEM_HS(0XA, ctx->r17);
     // nop
 
     // mult        $v0, $a0
@@ -104,7 +104,7 @@ void RotMatrixZ_C(uint8_t* rdram, recomp_context* ctx) {
     // sh          $v1, 0x14($sp)
     MEM_H(0X14, ctx->r29) = ctx->r3;
     // lh          $v1, 0x0($s1)
-    ctx->r3 = MEM_H(0X0, ctx->r17);
+    ctx->r3 = MEM_HS(0X0, ctx->r17);
     // nop
 
     // mult        $v0, $v1
@@ -112,7 +112,7 @@ void RotMatrixZ_C(uint8_t* rdram, recomp_context* ctx) {
     // mflo        $a1
     ctx->r5 = lo;
     // lh          $v1, 0x6($s1)
-    ctx->r3 = MEM_H(0X6, ctx->r17);
+    ctx->r3 = MEM_HS(0X6, ctx->r17);
     // nop
 
     // mult        $s0, $v1
@@ -120,7 +120,7 @@ void RotMatrixZ_C(uint8_t* rdram, recomp_context* ctx) {
     // mflo        $a3
     ctx->r7 = lo;
     // lh          $v1, 0x2($s1)
-    ctx->r3 = MEM_H(0X2, ctx->r17);
+    ctx->r3 = MEM_HS(0X2, ctx->r17);
     // nop
 
     // mult        $v0, $v1
@@ -128,7 +128,7 @@ void RotMatrixZ_C(uint8_t* rdram, recomp_context* ctx) {
     // mflo        $a0
     ctx->r4 = lo;
     // lh          $v1, 0x8($s1)
-    ctx->r3 = MEM_H(0X8, ctx->r17);
+    ctx->r3 = MEM_HS(0X8, ctx->r17);
     // nop
 
     // mult        $s0, $v1
@@ -136,7 +136,7 @@ void RotMatrixZ_C(uint8_t* rdram, recomp_context* ctx) {
     // mflo        $a2
     ctx->r6 = lo;
     // lh          $v1, 0x4($s1)
-    ctx->r3 = MEM_H(0X4, ctx->r17);
+    ctx->r3 = MEM_HS(0X4, ctx->r17);
     // nop
 
     // mult        $v0, $v1
@@ -144,7 +144,7 @@ void RotMatrixZ_C(uint8_t* rdram, recomp_context* ctx) {
     // mflo        $v1
     ctx->r3 = lo;
     // lh          $v0, 0xA($s1)
-    ctx->r2 = MEM_H(0XA, ctx->r17);
+    ctx->r2 = MEM_HS(0XA, ctx->r17);
     // nop
 
     // mult        $s0, $v0

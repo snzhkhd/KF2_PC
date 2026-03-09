@@ -4,7 +4,7 @@
 void RenderMenuFrame(uint8_t* rdram, recomp_context* ctx) 
 {
    
-    // До
+    // 
     //uint32_t ctx240 = MEM_W(0xF0, MEM_W(0, 0x80076198));
     //printf("[RenderMenuFrame] before ctx+240=0x%08X\n", ctx240);
 
@@ -14,7 +14,7 @@ void RenderMenuFrame(uint8_t* rdram, recomp_context* ctx)
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4A66($v0)
-    ctx->r2 = MEM_H(-0X4A66, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4A66, ctx->r2);
     // addiu       $sp, $sp, -0x38
     ctx->r29 = ADD32(ctx->r29, -0X38);
     // sw          $s4, 0x28($sp)
@@ -74,7 +74,7 @@ void RenderMenuFrame(uint8_t* rdram, recomp_context* ctx)
     // addu        $s2, $v1, $v0
     ctx->r18 = ADD32(ctx->r3, ctx->r2);
     // lh          $v0, 0x0($s2)
-    ctx->r2 = MEM_H(0X0, ctx->r18);
+    ctx->r2 = MEM_HS(0X0, ctx->r18);
     // nop
 
     // beq         $v0, $zero, L_80022820
@@ -219,15 +219,15 @@ L_8002288C:
     // jr          $ra
     // nop
 
-    // После  
+    //   
     //uint32_t ot_base = MEM_W(0, 0x8019015C); // g_GpuCommandBuffer
     //uint32_t* ot20 = (uint32_t*)GET_PTR(ot_base + 80);  // index 20
-    //uint32_t* ot0 = (uint32_t*)GET_PTR(ot_base);        // index 0 (терминатор)
+    //uint32_t* ot0 = (uint32_t*)GET_PTR(ot_base);        // index 0 ()
 
     //printf("[OTag check] base=0x%08X ot[0]=0x%08X ot[20]=0x%08X\n",
     //    ot_base, *ot0, *ot20);
 
-    //// Если ot[20] != 0 — примитив там, проверяем его данные
+    ////  ot[20] != 0   ,   
     //uint32_t prim_addr = *ot20 & 0x00FFFFFF;
     //if (prim_addr > 0x10000) {
     //    uint32_t* prim = (uint32_t*)GET_PTR(prim_addr | 0x80000000);

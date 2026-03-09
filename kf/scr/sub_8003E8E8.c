@@ -76,11 +76,11 @@ void sub_8003E8E8(uint8_t* rdram, recomp_context* ctx) {
     ctx->r5 = ADD32(ctx->r29, 0X20);
     after_2:
     // lh          $a1, 0x18($sp)
-    ctx->r5 = MEM_H(0X18, ctx->r29);
+    ctx->r5 = MEM_HS(0X18, ctx->r29);
     // lh          $a2, 0x20($sp)
-    ctx->r6 = MEM_H(0X20, ctx->r29);
+    ctx->r6 = MEM_HS(0X20, ctx->r29);
     // lh          $a0, 0x50($s3)
-    ctx->r4 = MEM_H(0X50, ctx->r19);
+    ctx->r4 = MEM_HS(0X50, ctx->r19);
     // jal         0x80014D48
     // nop
 
@@ -90,13 +90,13 @@ void sub_8003E8E8(uint8_t* rdram, recomp_context* ctx) {
 
     after_3:
     // lh          $a0, 0x52($s3)
-    ctx->r4 = MEM_H(0X52, ctx->r19);
+    ctx->r4 = MEM_HS(0X52, ctx->r19);
     // sh          $v0, 0x50($s3)
     MEM_H(0X50, ctx->r19) = ctx->r2;
     // lh          $a1, 0x1A($sp)
-    ctx->r5 = MEM_H(0X1A, ctx->r29);
+    ctx->r5 = MEM_HS(0X1A, ctx->r29);
     // lh          $a2, 0x22($sp)
-    ctx->r6 = MEM_H(0X22, ctx->r29);
+    ctx->r6 = MEM_HS(0X22, ctx->r29);
     // jal         0x80014D48
     // nop
 
@@ -106,13 +106,13 @@ void sub_8003E8E8(uint8_t* rdram, recomp_context* ctx) {
 
     after_4:
     // lh          $a0, 0x54($s3)
-    ctx->r4 = MEM_H(0X54, ctx->r19);
+    ctx->r4 = MEM_HS(0X54, ctx->r19);
     // sh          $v0, 0x52($s3)
     MEM_H(0X52, ctx->r19) = ctx->r2;
     // lh          $a1, 0x1C($sp)
-    ctx->r5 = MEM_H(0X1C, ctx->r29);
+    ctx->r5 = MEM_HS(0X1C, ctx->r29);
     // lh          $a2, 0x24($sp)
-    ctx->r6 = MEM_H(0X24, ctx->r29);
+    ctx->r6 = MEM_HS(0X24, ctx->r29);
     // jal         0x80014D48
     // nop
 
@@ -136,7 +136,7 @@ void sub_8003E8E8(uint8_t* rdram, recomp_context* ctx) {
     // sltu        $s0, $zero, $v0
     ctx->r16 = 0 < ctx->r2 ? 1 : 0;
     // lh          $a0, 0x52($s3)
-    ctx->r4 = MEM_H(0X52, ctx->r19);
+    ctx->r4 = MEM_HS(0X52, ctx->r19);
     // lw          $v1, 0x30($s3)
     ctx->r3 = MEM_W(0X30, ctx->r19);
     // lhu         $a3, 0x1C($s3)

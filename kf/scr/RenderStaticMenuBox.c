@@ -77,7 +77,7 @@ L_8001C5F4:
     // addu        $s0, $zero, $zero
     ctx->r16 = ADD32(0, 0);
     // lh          $v0, 0x0($s7)
-    ctx->r2 = MEM_H(0X0, ctx->r23);
+    ctx->r2 = MEM_HS(0X0, ctx->r23);
     // addu        $a0, $fp, $zero
     ctx->r4 = ADD32(ctx->r30, 0);
     // sll         $a1, $v0, 2
@@ -105,7 +105,7 @@ L_8001C5F4:
     ctx->r5 = ADD32(ctx->r5, ctx->r20);
     after_1:
     // lh          $v0, 0x0($s7)
-    ctx->r2 = MEM_H(0X0, ctx->r23);
+    ctx->r2 = MEM_HS(0X0, ctx->r23);
     // addiu       $a0, $fp, -0x30
     ctx->r4 = ADD32(ctx->r30, -0X30);
     // sll         $a1, $v0, 2

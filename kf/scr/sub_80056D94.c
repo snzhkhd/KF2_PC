@@ -42,7 +42,7 @@ void sub_80056D94(uint8_t* rdram, recomp_context* ctx) {
     // addu        $at, $at, $a0
     ctx->r1 = ADD32(ctx->r1, ctx->r4);
     // lh          $v0, 0x0($at)
-    ctx->r2 = MEM_H(0X0, ctx->r1);
+    ctx->r2 = MEM_HS(0X0, ctx->r1);
     // sll         $a1, $a1, 16
     ctx->r5 = S32(ctx->r5) << 16;
     // sra         $a1, $a1, 16
@@ -62,7 +62,7 @@ void sub_80056D94(uint8_t* rdram, recomp_context* ctx) {
     // addu        $at, $at, $a0
     ctx->r1 = ADD32(ctx->r1, ctx->r4);
     // lh          $v1, 0x0($at)
-    ctx->r3 = MEM_H(0X0, ctx->r1);
+    ctx->r3 = MEM_HS(0X0, ctx->r1);
     // sll         $v0, $t0, 16
     ctx->r2 = S32(ctx->r8) << 16;
     // sra         $v0, $v0, 16
@@ -82,7 +82,7 @@ void sub_80056D94(uint8_t* rdram, recomp_context* ctx) {
     // addu        $at, $at, $a0
     ctx->r1 = ADD32(ctx->r1, ctx->r4);
     // lh          $v1, 0x0($at)
-    ctx->r3 = MEM_H(0X0, ctx->r1);
+    ctx->r3 = MEM_HS(0X0, ctx->r1);
     // sll         $v0, $a3, 16
     ctx->r2 = S32(ctx->r7) << 16;
     // sra         $v0, $v0, 16

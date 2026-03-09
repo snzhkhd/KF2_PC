@@ -130,7 +130,7 @@ void sub_800336D4(uint8_t* rdram, recomp_context* ctx) {
     ctx->r4 = ADD32(ctx->r16, 0X50);
     after_7:
     // lh          $a0, 0x66($s0)
-    ctx->r4 = MEM_H(0X66, ctx->r16);
+    ctx->r4 = MEM_HS(0X66, ctx->r16);
     // jal         0x8002FBC0
     // nop
 
@@ -158,7 +158,7 @@ void sub_800336D4(uint8_t* rdram, recomp_context* ctx) {
     // lui         $v0, 0x8017
     ctx->r2 = S32(0X8017 << 16);
     // lh          $v0, 0x79D4($v0)
-    ctx->r2 = MEM_H(0X79D4, ctx->r2);
+    ctx->r2 = MEM_HS(0X79D4, ctx->r2);
     // lbu         $s0, 0x0($s3)
     ctx->r16 = MEM_BU(0X0, ctx->r19);
     // bne         $v0, $v1, L_800337F8

@@ -26,7 +26,7 @@ void sub_8003EA30(uint8_t* rdram, recomp_context* ctx) {
     // sw          $s0, 0x10($sp)
     MEM_W(0X10, ctx->r29) = ctx->r16;
     // lh          $a1, 0x2($s1)
-    ctx->r5 = MEM_H(0X2, ctx->r17);
+    ctx->r5 = MEM_HS(0X2, ctx->r17);
     // lui         $s0, 0x8017
     ctx->r16 = S32(0X8017 << 16);
     // lw          $s0, 0x79B4($s0)
@@ -44,9 +44,9 @@ void sub_8003EA30(uint8_t* rdram, recomp_context* ctx) {
     ctx->r4 = ADD32(ctx->r16, 0);
     after_0:
     // lh          $a0, 0x40($s0)
-    ctx->r4 = MEM_H(0X40, ctx->r16);
+    ctx->r4 = MEM_HS(0X40, ctx->r16);
     // lh          $a1, 0x0($s1)
-    ctx->r5 = MEM_H(0X0, ctx->r17);
+    ctx->r5 = MEM_HS(0X0, ctx->r17);
     // jal         0x80014C84
     // ori         $a2, $zero, 0x8
     ctx->r6 = 0 | 0X8;

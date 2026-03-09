@@ -50,7 +50,7 @@ void sub_8005B73C(uint8_t* rdram, recomp_context* ctx) {
     // addu        $s0, $s0, $v0
     ctx->r16 = ADD32(ctx->r16, ctx->r2);
     // lh          $a1, 0x4C($s0)
-    ctx->r5 = MEM_H(0X4C, ctx->r16);
+    ctx->r5 = MEM_HS(0X4C, ctx->r16);
     // lw          $a0, 0x4($s0)
     ctx->r4 = MEM_W(0X4, ctx->r16);
     // lbu         $v0, 0x12($s0)

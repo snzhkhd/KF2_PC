@@ -16,7 +16,7 @@ void sub_8004BC5C(uint8_t* rdram, recomp_context* ctx) {
     // lwr         $v1, 0x0($a3)
     ctx->r3 = do_lwr(rdram, ctx->r3, 0X0, ctx->r7);
     // lb          $a0, 0x4($a3)
-    ctx->r4 = MEM_B(0X4, ctx->r7);
+    ctx->r4 = MEM_BS(0X4, ctx->r7);
     // swl         $v1, 0x3($v0)
     do_swl(rdram, 0X3, ctx->r2, ctx->r3);
     // swr         $v1, 0x0($v0)

@@ -36,9 +36,9 @@ void sub_8002536C(uint8_t* rdram, recomp_context* ctx) {
     // lwr         $v0, 0x0($a1)
     ctx->r2 = do_lwr(rdram, ctx->r2, 0X0, ctx->r5);
     // lb          $v1, 0x4($a1)
-    ctx->r3 = MEM_B(0X4, ctx->r5);
+    ctx->r3 = MEM_BS(0X4, ctx->r5);
     // lb          $a0, 0x5($a1)
-    ctx->r4 = MEM_B(0X5, ctx->r5);
+    ctx->r4 = MEM_BS(0X5, ctx->r5);
     // swl         $v0, 0x293($sp)
     do_swl(rdram, 0X293, ctx->r29, ctx->r2);
     // swr         $v0, 0x290($sp)
@@ -60,9 +60,9 @@ void sub_8002536C(uint8_t* rdram, recomp_context* ctx) {
     ctx->r6 = 0 | 0X22;
     after_0:
     // lb          $v0, 0x80($gp)
-    ctx->r2 = MEM_B(0X80, ctx->r28);
+    ctx->r2 = MEM_BS(0X80, ctx->r28);
     // lb          $v1, 0x81($gp)
-    ctx->r3 = MEM_B(0X81, ctx->r28);
+    ctx->r3 = MEM_BS(0X81, ctx->r28);
     // sb          $v0, 0x2B8($sp)
     MEM_B(0X2B8, ctx->r29) = ctx->r2;
     // sb          $v1, 0x2B9($sp)
@@ -181,9 +181,9 @@ L_80025448:
     ctx->r2 = ADD32(ctx->r11, ctx->r9);
 L_80025478:
     // lb          $v1, 0x0($v0)
-    ctx->r3 = MEM_B(0X0, ctx->r2);
+    ctx->r3 = MEM_BS(0X0, ctx->r2);
     // lb          $a0, 0x1($v0)
-    ctx->r4 = MEM_B(0X1, ctx->r2);
+    ctx->r4 = MEM_BS(0X1, ctx->r2);
     // sb          $v1, 0x2C0($sp)
     MEM_B(0X2C0, ctx->r29) = ctx->r3;
     // sb          $a0, 0x2C1($sp)
@@ -263,9 +263,9 @@ L_800254C0:
     ctx->r2 = ADD32(ctx->r11, ctx->r9);
 L_80025508:
     // lb          $v1, 0x0($v0)
-    ctx->r3 = MEM_B(0X0, ctx->r2);
+    ctx->r3 = MEM_BS(0X0, ctx->r2);
     // lb          $a0, 0x1($v0)
-    ctx->r4 = MEM_B(0X1, ctx->r2);
+    ctx->r4 = MEM_BS(0X1, ctx->r2);
     // sb          $v1, 0x2C0($sp)
     MEM_B(0X2C0, ctx->r29) = ctx->r3;
     // sb          $a0, 0x2C1($sp)

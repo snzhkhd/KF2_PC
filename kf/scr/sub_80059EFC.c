@@ -50,7 +50,7 @@ void sub_80059EFC(uint8_t* rdram, recomp_context* ctx) {
     // addu        $s1, $v0, $v1
     ctx->r17 = ADD32(ctx->r2, ctx->r3);
     // lh          $v0, 0x70($s1)
-    ctx->r2 = MEM_H(0X70, ctx->r17);
+    ctx->r2 = MEM_HS(0X70, ctx->r17);
     // lw          $v1, 0x88($s1)
     ctx->r3 = MEM_W(0X88, ctx->r17);
     // nop
@@ -66,7 +66,7 @@ void sub_80059EFC(uint8_t* rdram, recomp_context* ctx) {
     // addu        $a2, $v0, $zero
     ctx->r6 = ADD32(ctx->r2, 0);
     // lh          $v1, 0x6E($s1)
-    ctx->r3 = MEM_H(0X6E, ctx->r17);
+    ctx->r3 = MEM_HS(0X6E, ctx->r17);
     // nop
 
     // blez        $v1, L_80059F88
@@ -150,7 +150,7 @@ L_80059FC0:
     // sra         $a0, $s3, 16
     ctx->r4 = S32(ctx->r19) >> 16;
     // lh          $v1, 0x70($s1)
-    ctx->r3 = MEM_H(0X70, ctx->r17);
+    ctx->r3 = MEM_HS(0X70, ctx->r17);
     // addu        $s0, $s0, $v0
     ctx->r16 = ADD32(ctx->r16, ctx->r2);
     // slt         $v0, $s0, $v1

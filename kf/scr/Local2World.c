@@ -58,7 +58,7 @@ void Local2World(uint8_t* rdram, recomp_context* ctx) {
     // lui         $a2, 0x801A
     ctx->r6 = S32(0X801A << 16);
     // lh          $a2, -0x4AAC($a2)
-    ctx->r6 = MEM_H(-0X4AAC, ctx->r6);
+    ctx->r6 = MEM_HS(-0X4AAC, ctx->r6);
     // addu        $v0, $v0, $v1
     ctx->r2 = ADD32(ctx->r2, ctx->r3);
     // sh          $v0, 0x24($sp)
@@ -140,7 +140,7 @@ void Local2World(uint8_t* rdram, recomp_context* ctx) {
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4A08($v0)
-    ctx->r2 = MEM_H(-0X4A08, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4A08, ctx->r2);
     // lui         $a0, 0x801A
     ctx->r4 = S32(0X801A << 16);
     // lw          $a0, -0x4A60($a0)
@@ -148,7 +148,7 @@ void Local2World(uint8_t* rdram, recomp_context* ctx) {
     // lui         $a1, 0x801A
     ctx->r5 = S32(0X801A << 16);
     // lh          $a1, -0x4A04($a1)
-    ctx->r5 = MEM_H(-0X4A04, ctx->r5);
+    ctx->r5 = MEM_HS(-0X4A04, ctx->r5);
     // addu        $v0, $v0, $a0
     ctx->r2 = ADD32(ctx->r2, ctx->r4);
     // addu        $v0, $v0, $a1

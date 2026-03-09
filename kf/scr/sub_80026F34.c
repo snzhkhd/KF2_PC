@@ -230,7 +230,7 @@ L_80027050:
     ctx->r5 = ADD32(ctx->r16, 0);
     after_2:
     // lh          $v1, 0x1A($sp)
-    ctx->r3 = MEM_H(0X1A, ctx->r29);
+    ctx->r3 = MEM_HS(0X1A, ctx->r29);
     // nop
 
     // slti        $v0, $v1, 0xC9
@@ -460,11 +460,11 @@ L_80027170:
 
 L_80027190:
     // lh          $v0, 0x12($sp)
-    ctx->r2 = MEM_H(0X12, ctx->r29);
+    ctx->r2 = MEM_HS(0X12, ctx->r29);
     // lui         $v1, 0x801A
     ctx->r3 = S32(0X801A << 16);
     // lh          $v1, -0x4A4A($v1)
-    ctx->r3 = MEM_H(-0X4A4A, ctx->r3);
+    ctx->r3 = MEM_HS(-0X4A4A, ctx->r3);
     // nop
 
     // subu        $v0, $v0, $v1

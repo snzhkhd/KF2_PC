@@ -26,7 +26,7 @@ void KF_PlayerCopyPositionRotation(uint8_t* rdram, recomp_context* ctx)
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4A08($v0)
-    ctx->r2 = MEM_H(-0X4A08, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4A08, ctx->r2);
     // lui         $v1, 0x801A
     ctx->r3 = S32(0X801A << 16);
     // lw          $v1, -0x4A60($v1)
@@ -34,7 +34,7 @@ void KF_PlayerCopyPositionRotation(uint8_t* rdram, recomp_context* ctx)
     // lui         $a2, 0x801A
     ctx->r6 = S32(0X801A << 16);
     // lh          $a2, -0x4A04($a2)
-    ctx->r6 = MEM_H(-0X4A04, ctx->r6);
+    ctx->r6 = MEM_HS(-0X4A04, ctx->r6);
     // addu        $v0, $v0, $v1
     ctx->r2 = ADD32(ctx->r2, ctx->r3);
     // addu        $v0, $v0, $a2

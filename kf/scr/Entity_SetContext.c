@@ -60,7 +60,7 @@ void Entity_SetContext(uint8_t* rdram, recomp_context* ctx) {
     // nop
 
     // lh          $v1, 0x22($a1)
-    ctx->r3 = MEM_H(0X22, ctx->r5);
+    ctx->r3 = MEM_HS(0X22, ctx->r5);
     // nop
 
     // sll         $v0, $v1, 5

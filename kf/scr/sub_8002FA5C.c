@@ -65,7 +65,7 @@ L_8002FA80:
     // sll         $v0, $a1, 16
     ctx->r2 = S32(ctx->r5) << 16;
     // lh          $v1, 0xC($s0)
-    ctx->r3 = MEM_H(0XC, ctx->r16);
+    ctx->r3 = MEM_HS(0XC, ctx->r16);
     // sra         $v0, $v0, 16
     ctx->r2 = S32(ctx->r2) >> 16;
     // sh          $a1, 0x2($s0)
@@ -122,13 +122,15 @@ L_8002FAE0:
     // jal         0x800632F8
     // addiu       $a0, $sp, 0x10
     ctx->r4 = ADD32(ctx->r29, 0X10);
+
     LoadImageWithCallback(rdram, ctx);
+
     goto after_0;
     // addiu       $a0, $sp, 0x10
     ctx->r4 = ADD32(ctx->r29, 0X10);
     after_0:
     // lh          $v0, 0x2($s0)
-    ctx->r2 = MEM_H(0X2, ctx->r16);
+    ctx->r2 = MEM_HS(0X2, ctx->r16);
     // nop
 
     // beq         $v0, $zero, L_8002FB90
@@ -140,9 +142,9 @@ L_8002FAE0:
     // addiu       $a0, $sp, 0x10
     ctx->r4 = ADD32(ctx->r29, 0X10);
     // lh          $v1, 0x14($sp)
-    ctx->r3 = MEM_H(0X14, ctx->r29);
+    ctx->r3 = MEM_HS(0X14, ctx->r29);
     // lh          $v0, 0x16($sp)
-    ctx->r2 = MEM_H(0X16, ctx->r29);
+    ctx->r2 = MEM_HS(0X16, ctx->r29);
     // nop
 
     // mult        $v1, $v0
@@ -176,7 +178,7 @@ L_8002FAE0:
     // j           L_8002FB94
     // addiu       $s0, $s0, 0x18
     ctx->r16 = ADD32(ctx->r16, 0X18);
-    goto L_8002FB94;
+    goto LABEL_10;
     // addiu       $s0, $s0, 0x18
     ctx->r16 = ADD32(ctx->r16, 0X18);
 L_8002FB80:
@@ -191,7 +193,7 @@ L_8002FB80:
 L_8002FB90:
     // addiu       $s0, $s0, 0x18
     ctx->r16 = ADD32(ctx->r16, 0X18);
-L_8002FB94:
+LABEL_10:
     // addiu       $s2, $s2, -0x1
     ctx->r18 = ADD32(ctx->r18, -0X1);
     // addiu       $v0, $zero, -0x1

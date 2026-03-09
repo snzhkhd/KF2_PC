@@ -93,7 +93,7 @@ L_800445A8:
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);
     // lh          $a1, 0x34($s2)
-    ctx->r5 = MEM_H(0X34, ctx->r18);
+    ctx->r5 = MEM_HS(0X34, ctx->r18);
     // jal         0x80015D18
     // ori         $a2, $zero, 0xC00
     ctx->r6 = 0 | 0XC00;
@@ -105,7 +105,7 @@ L_800445A8:
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);
     // lh          $a1, 0x36($s2)
-    ctx->r5 = MEM_H(0X36, ctx->r18);
+    ctx->r5 = MEM_HS(0X36, ctx->r18);
     // ori         $a2, $zero, 0xC00
     ctx->r6 = 0 | 0XC00;
     // jal         0x80015D18
@@ -119,7 +119,7 @@ L_800445A8:
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);
     // lh          $a1, 0x38($s2)
-    ctx->r5 = MEM_H(0X38, ctx->r18);
+    ctx->r5 = MEM_HS(0X38, ctx->r18);
     // ori         $a2, $zero, 0xC00
     ctx->r6 = 0 | 0XC00;
     // jal         0x80015D18

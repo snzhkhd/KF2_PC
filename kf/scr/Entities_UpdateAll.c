@@ -193,7 +193,7 @@ L_80042158:
     // nop
 
     // lh          $v0, -0x20($s0)
-    ctx->r2 = MEM_H(-0X20, ctx->r16);
+    ctx->r2 = MEM_HS(-0X20, ctx->r16);
     // nop
 
     // sll         $v1, $v0, 4

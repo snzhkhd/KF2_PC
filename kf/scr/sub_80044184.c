@@ -58,7 +58,7 @@ void sub_80044184(uint8_t* rdram, recomp_context* ctx) {
     // lhu         $v1, 0x2($s0)
     ctx->r3 = MEM_HU(0X2, ctx->r16);
     // lh          $a0, 0x34($s1)
-    ctx->r4 = MEM_H(0X34, ctx->r17);
+    ctx->r4 = MEM_HS(0X34, ctx->r17);
     // addu        $v0, $v0, $v1
     ctx->r2 = ADD32(ctx->r2, ctx->r3);
     // sh          $v0, 0x36($s1)
@@ -68,7 +68,7 @@ void sub_80044184(uint8_t* rdram, recomp_context* ctx) {
     // lhu         $v1, 0x4($s0)
     ctx->r3 = MEM_HU(0X4, ctx->r16);
     // lh          $a1, 0x36($s1)
-    ctx->r5 = MEM_H(0X36, ctx->r17);
+    ctx->r5 = MEM_HS(0X36, ctx->r17);
     // addu        $v0, $v0, $v1
     ctx->r2 = ADD32(ctx->r2, ctx->r3);
     // sll         $a2, $v0, 16
@@ -96,7 +96,7 @@ void sub_80044184(uint8_t* rdram, recomp_context* ctx) {
     // nop
 
     // lh          $v0, 0x34($s1)
-    ctx->r2 = MEM_H(0X34, ctx->r17);
+    ctx->r2 = MEM_HS(0X34, ctx->r17);
     // nop
 
     // mult        $v0, $s2
@@ -144,7 +144,7 @@ L_80044258:
     // mflo        $a0
     ctx->r4 = lo;
     // lh          $v0, 0x36($s1)
-    ctx->r2 = MEM_H(0X36, ctx->r17);
+    ctx->r2 = MEM_HS(0X36, ctx->r17);
     // nop
 
     // mult        $v0, $s2
@@ -192,7 +192,7 @@ L_80044294:
     // mflo        $v1
     ctx->r3 = lo;
     // lh          $v0, 0x38($s1)
-    ctx->r2 = MEM_H(0X38, ctx->r17);
+    ctx->r2 = MEM_HS(0X38, ctx->r17);
     // nop
 
     // mult        $v0, $s2
@@ -247,7 +247,7 @@ L_800442D0:
     MEM_H(0X38, ctx->r17) = ctx->r2;
 L_800442E0:
     // lh          $v0, 0x34($s1)
-    ctx->r2 = MEM_H(0X34, ctx->r17);
+    ctx->r2 = MEM_HS(0X34, ctx->r17);
     // lw          $v1, 0x14($s1)
     ctx->r3 = MEM_W(0X14, ctx->r17);
     // lw          $a0, 0x18($s1)
@@ -259,9 +259,9 @@ L_800442E0:
     // sw          $v0, 0x14($s1)
     MEM_W(0X14, ctx->r17) = ctx->r2;
     // lh          $v0, 0x36($s1)
-    ctx->r2 = MEM_H(0X36, ctx->r17);
+    ctx->r2 = MEM_HS(0X36, ctx->r17);
     // lh          $v1, 0x38($s1)
-    ctx->r3 = MEM_H(0X38, ctx->r17);
+    ctx->r3 = MEM_HS(0X38, ctx->r17);
     // addu        $v0, $v0, $a0
     ctx->r2 = ADD32(ctx->r2, ctx->r4);
     // addu        $v1, $v1, $a1

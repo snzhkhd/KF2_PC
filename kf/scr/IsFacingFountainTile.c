@@ -18,7 +18,7 @@ void IsFacingFountainTile(uint8_t* rdram, recomp_context* ctx) {
     // sw          $ra, 0x20($sp)
     MEM_W(0X20, ctx->r29) = ctx->r31;
     // lh          $a0, 0x2($s0)
-    ctx->r4 = MEM_H(0X2, ctx->r16);
+    ctx->r4 = MEM_HS(0X2, ctx->r16);
     // jal         0x800601F4
     // nop
 
@@ -38,7 +38,7 @@ void IsFacingFountainTile(uint8_t* rdram, recomp_context* ctx) {
     // sll         $v1, $v1, 5
     ctx->r3 = S32(ctx->r3) << 5;
     // lh          $a0, 0x2($s0)
-    ctx->r4 = MEM_H(0X2, ctx->r16);
+    ctx->r4 = MEM_HS(0X2, ctx->r16);
     // lw          $s0, 0x0($s1)
     ctx->r16 = MEM_W(0X0, ctx->r17);
     // sra         $v1, $v1, 12

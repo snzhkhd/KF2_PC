@@ -38,7 +38,7 @@ void RotMatrixY_C(uint8_t* rdram, recomp_context* ctx) {
     ctx->r16 = ADD32(ctx->r2, 0);
     after_1:
     // lh          $v1, 0x6($s1)
-    ctx->r3 = MEM_H(0X6, ctx->r17);
+    ctx->r3 = MEM_HS(0X6, ctx->r17);
     // nop
 
     // mult        $s0, $v1
@@ -46,7 +46,7 @@ void RotMatrixY_C(uint8_t* rdram, recomp_context* ctx) {
     // mflo        $a0
     ctx->r4 = lo;
     // lh          $v1, 0xC($s1)
-    ctx->r3 = MEM_H(0XC, ctx->r17);
+    ctx->r3 = MEM_HS(0XC, ctx->r17);
     // nop
 
     // mult        $v0, $v1
@@ -60,7 +60,7 @@ void RotMatrixY_C(uint8_t* rdram, recomp_context* ctx) {
     // sh          $a0, 0x16($sp)
     MEM_H(0X16, ctx->r29) = ctx->r4;
     // lh          $v1, 0x8($s1)
-    ctx->r3 = MEM_H(0X8, ctx->r17);
+    ctx->r3 = MEM_HS(0X8, ctx->r17);
     // nop
 
     // mult        $s0, $v1
@@ -68,7 +68,7 @@ void RotMatrixY_C(uint8_t* rdram, recomp_context* ctx) {
     // mflo        $v1
     ctx->r3 = lo;
     // lh          $a0, 0xE($s1)
-    ctx->r4 = MEM_H(0XE, ctx->r17);
+    ctx->r4 = MEM_HS(0XE, ctx->r17);
     // nop
 
     // mult        $v0, $a0
@@ -82,7 +82,7 @@ void RotMatrixY_C(uint8_t* rdram, recomp_context* ctx) {
     // sh          $v1, 0x18($sp)
     MEM_H(0X18, ctx->r29) = ctx->r3;
     // lh          $v1, 0xA($s1)
-    ctx->r3 = MEM_H(0XA, ctx->r17);
+    ctx->r3 = MEM_HS(0XA, ctx->r17);
     // nop
 
     // mult        $s0, $v1
@@ -90,7 +90,7 @@ void RotMatrixY_C(uint8_t* rdram, recomp_context* ctx) {
     // mflo        $v1
     ctx->r3 = lo;
     // lh          $a0, 0x10($s1)
-    ctx->r4 = MEM_H(0X10, ctx->r17);
+    ctx->r4 = MEM_HS(0X10, ctx->r17);
     // nop
 
     // mult        $v0, $a0
@@ -104,7 +104,7 @@ void RotMatrixY_C(uint8_t* rdram, recomp_context* ctx) {
     // sh          $v1, 0x1A($sp)
     MEM_H(0X1A, ctx->r29) = ctx->r3;
     // lh          $v1, 0x6($s1)
-    ctx->r3 = MEM_H(0X6, ctx->r17);
+    ctx->r3 = MEM_HS(0X6, ctx->r17);
     // nop
 
     // mult        $v0, $v1
@@ -112,7 +112,7 @@ void RotMatrixY_C(uint8_t* rdram, recomp_context* ctx) {
     // mflo        $a1
     ctx->r5 = lo;
     // lh          $v1, 0xC($s1)
-    ctx->r3 = MEM_H(0XC, ctx->r17);
+    ctx->r3 = MEM_HS(0XC, ctx->r17);
     // nop
 
     // mult        $s0, $v1
@@ -120,7 +120,7 @@ void RotMatrixY_C(uint8_t* rdram, recomp_context* ctx) {
     // mflo        $a3
     ctx->r7 = lo;
     // lh          $v1, 0x8($s1)
-    ctx->r3 = MEM_H(0X8, ctx->r17);
+    ctx->r3 = MEM_HS(0X8, ctx->r17);
     // nop
 
     // mult        $v0, $v1
@@ -128,7 +128,7 @@ void RotMatrixY_C(uint8_t* rdram, recomp_context* ctx) {
     // mflo        $a0
     ctx->r4 = lo;
     // lh          $v1, 0xE($s1)
-    ctx->r3 = MEM_H(0XE, ctx->r17);
+    ctx->r3 = MEM_HS(0XE, ctx->r17);
     // nop
 
     // mult        $s0, $v1
@@ -136,7 +136,7 @@ void RotMatrixY_C(uint8_t* rdram, recomp_context* ctx) {
     // mflo        $a2
     ctx->r6 = lo;
     // lh          $v1, 0xA($s1)
-    ctx->r3 = MEM_H(0XA, ctx->r17);
+    ctx->r3 = MEM_HS(0XA, ctx->r17);
     // nop
 
     // mult        $v0, $v1
@@ -144,7 +144,7 @@ void RotMatrixY_C(uint8_t* rdram, recomp_context* ctx) {
     // mflo        $v1
     ctx->r3 = lo;
     // lh          $v0, 0x10($s1)
-    ctx->r2 = MEM_H(0X10, ctx->r17);
+    ctx->r2 = MEM_HS(0X10, ctx->r17);
     // nop
 
     // mult        $s0, $v0

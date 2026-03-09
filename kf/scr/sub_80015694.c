@@ -8,7 +8,7 @@ void sub_80015694(uint8_t* rdram, recomp_context* ctx) {
     // sll         $a0, $a0, 16
     ctx->r4 = S32(ctx->r4) << 16;
     // lh          $v0, 0x0($a1)
-    ctx->r2 = MEM_H(0X0, ctx->r5);
+    ctx->r2 = MEM_HS(0X0, ctx->r5);
     // sra         $a0, $a0, 16
     ctx->r4 = S32(ctx->r4) >> 16;
     // mult        $v0, $a0
@@ -16,7 +16,7 @@ void sub_80015694(uint8_t* rdram, recomp_context* ctx) {
     // mflo        $a2
     ctx->r6 = lo;
     // lh          $v0, 0x2($a1)
-    ctx->r2 = MEM_H(0X2, ctx->r5);
+    ctx->r2 = MEM_HS(0X2, ctx->r5);
     // nop
 
     // mult        $v0, $a0
@@ -24,7 +24,7 @@ void sub_80015694(uint8_t* rdram, recomp_context* ctx) {
     // mflo        $v1
     ctx->r3 = lo;
     // lh          $v0, 0x4($a1)
-    ctx->r2 = MEM_H(0X4, ctx->r5);
+    ctx->r2 = MEM_HS(0X4, ctx->r5);
     // nop
 
     // mult        $v0, $a0

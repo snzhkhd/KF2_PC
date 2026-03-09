@@ -91,9 +91,9 @@ L_800489A4:
     // nop
 
     // lh          $a0, 0x0($s3)
-    ctx->r4 = MEM_H(0X0, ctx->r19);
+    ctx->r4 = MEM_HS(0X0, ctx->r19);
     // lh          $a1, 0x0($s5)
-    ctx->r5 = MEM_H(0X0, ctx->r21);
+    ctx->r5 = MEM_HS(0X0, ctx->r21);
     // jal         0x80015D30
     // addu        $a2, $s4, $zero
     ctx->r6 = ADD32(ctx->r20, 0);
@@ -105,9 +105,9 @@ L_800489A4:
     // sh          $v0, 0x24($s2)
     MEM_H(0X24, ctx->r18) = ctx->r2;
     // lh          $a0, 0x4($s3)
-    ctx->r4 = MEM_H(0X4, ctx->r19);
+    ctx->r4 = MEM_HS(0X4, ctx->r19);
     // lh          $a1, 0x4($s5)
-    ctx->r5 = MEM_H(0X4, ctx->r21);
+    ctx->r5 = MEM_HS(0X4, ctx->r21);
     // jal         0x80015D30
     // addu        $a2, $s4, $zero
     ctx->r6 = ADD32(ctx->r20, 0);

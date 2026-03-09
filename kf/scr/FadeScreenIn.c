@@ -88,7 +88,7 @@ L_800398E4:
     goto after_3;
     // addu        $a1, $s1, $zero
     ctx->r5 = ADD32(ctx->r17, 0);
-    after_3:
+after_3:
     // addiu       $a0, $sp, 0x10
     ctx->r4 = ADD32(ctx->r29, 0X10);
     // jal         0x800360A0
@@ -123,7 +123,6 @@ L_800398E4:
     ctx->r29 = ADD32(ctx->r29, 0X40);
     // jr          $ra
     // nop
-
     return;
     // nop
 

@@ -295,9 +295,9 @@ L_80036F7C:
     // nop
 
     // lh          $v0, 0x0($a1)
-    ctx->r2 = MEM_H(0X0, ctx->r5);
+    ctx->r2 = MEM_HS(0X0, ctx->r5);
     // lh          $a0, 0x18($sp)
-    ctx->r4 = MEM_H(0X18, ctx->r29);
+    ctx->r4 = MEM_HS(0X18, ctx->r29);
     // lw          $v1, 0x24($sp)
     ctx->r3 = MEM_W(0X24, ctx->r29);
     // subu        $v0, $v0, $a0
@@ -315,9 +315,9 @@ L_80036F7C:
     // sh          $v0, 0x18($sp)
     MEM_H(0X18, ctx->r29) = ctx->r2;
     // lh          $v0, 0x0($a1)
-    ctx->r2 = MEM_H(0X0, ctx->r5);
+    ctx->r2 = MEM_HS(0X0, ctx->r5);
     // lh          $a0, 0x1A($sp)
-    ctx->r4 = MEM_H(0X1A, ctx->r29);
+    ctx->r4 = MEM_HS(0X1A, ctx->r29);
     // nop
 
     // subu        $v0, $v0, $a0
@@ -333,9 +333,9 @@ L_80036F7C:
     // sh          $v0, 0x1A($sp)
     MEM_H(0X1A, ctx->r29) = ctx->r2;
     // lh          $v0, 0x2($a1)
-    ctx->r2 = MEM_H(0X2, ctx->r5);
+    ctx->r2 = MEM_HS(0X2, ctx->r5);
     // lh          $a0, 0x1C($sp)
-    ctx->r4 = MEM_H(0X1C, ctx->r29);
+    ctx->r4 = MEM_HS(0X1C, ctx->r29);
     // nop
 
     // subu        $v0, $v0, $a0

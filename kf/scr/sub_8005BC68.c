@@ -8,11 +8,11 @@ void sub_8005BC68(uint8_t* rdram, recomp_context* ctx) {
     // addu        $a3, $a0, $zero
     ctx->r7 = ADD32(ctx->r4, 0);
     // lh          $v0, 0xC($a3)
-    ctx->r2 = MEM_H(0XC, ctx->r7);
+    ctx->r2 = MEM_HS(0XC, ctx->r7);
     // addiu       $a0, $zero, -0x8000
     ctx->r4 = ADD32(0, -0X8000);
     // lh          $v1, 0xA($a3)
-    ctx->r3 = MEM_H(0XA, ctx->r7);
+    ctx->r3 = MEM_HS(0XA, ctx->r7);
     // sltu        $v0, $zero, $v0
     ctx->r2 = 0 < ctx->r2 ? 1 : 0;
     // negu        $v0, $v0
@@ -24,7 +24,7 @@ void sub_8005BC68(uint8_t* rdram, recomp_context* ctx) {
     // sltu        $v1, $zero, $v1
     ctx->r3 = 0 < ctx->r3 ? 1 : 0;
     // lh          $v0, 0x10($a3)
-    ctx->r2 = MEM_H(0X10, ctx->r7);
+    ctx->r2 = MEM_HS(0X10, ctx->r7);
     // negu        $v1, $v1
     ctx->r3 = SUB32(0, ctx->r3);
     // beq         $v0, $zero, L_8005BCA0

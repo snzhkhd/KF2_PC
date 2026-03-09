@@ -507,6 +507,18 @@ void mips_interpret(uint8_t* rdram, recomp_context* ctx, uint32_t start_pc) {
     uint32_t pc = start_pc;
     uint32_t return_addr = ctx->r31;
     uint32_t* r = &ctx->r0;
+    //printf("[INTERP] ENTER pc=%08X ra=%08X\n", start_pc, ctx->r31);
+
+    //if (pc == 0x801A132C)
+    //{
+    //    printf("[SCRIPT 132C] args: r4=%08X r5=%08X r6=%08X r7=%08X\n",
+    //        ctx->r4, ctx->r5, ctx->r6, ctx->r7);
+    //    printf("[SCRIPT 132C] disasm:\n");
+    //    for (int i = 0; i < 160; i += 4) {
+    //        printf("  %08X: %08X\n", 0x801A132C + i, MEM_W(0, 0x801A132C + i));
+    //    }
+    //}
+
 
     for (int steps = 0; steps < 100000; steps++) 
     {
@@ -549,7 +561,7 @@ void mips_interpret(uint8_t* rdram, recomp_context* ctx, uint32_t start_pc) {
                 }
             }
                 break;
-            case 0x09: do_branch = true; branch_target = r[rs]; is_link = true; r[rd ? rd : 31] = pc + 8; break; // jalr
+            case 0x09: do_branch = true; branch_target = r[rs]; is_link = true; r[rd ? rd : 31] = pc + 8; printf("[INTERP JALR] %08X -> %08X\n", pc, branch_target); break; // jalr
             case 0x0C: break; // syscall
             case 0x0D: break; // break
             case 0x10: r[rd] = ctx->hi; break;
@@ -580,7 +592,7 @@ void mips_interpret(uint8_t* rdram, recomp_context* ctx, uint32_t start_pc) {
             }
             break;
         case 0x02: do_branch = true; branch_target = target; break;
-        case 0x03: r[31] = pc + 8; do_branch = true; branch_target = target; is_link = true; break;
+        case 0x03: r[31] = pc + 8; do_branch = true; branch_target = target; is_link = true; printf("[INTERP JAL] %08X -> %08X\n", pc, target); break;
         case 0x04: if (r[rs] == r[rt]) { do_branch = true; branch_target = pc + 4 + (imm << 2); } break;
         case 0x05: if (r[rs] != r[rt]) { do_branch = true; branch_target = pc + 4 + (imm << 2); } break;
         case 0x06: if ((int32_t)r[rs] <= 0) { do_branch = true; branch_target = pc + 4 + (imm << 2); } break;
@@ -696,7 +708,11 @@ void mips_interpret(uint8_t* rdram, recomp_context* ctx, uint32_t start_pc) {
             r[0] = 0;
 
             // jr $ra — return
-            if (branch_target == return_addr) return;
+            if (branch_target == return_addr)
+            {
+                //printf("[INTERP] EXIT pc=%08X\n", pc);
+                return;
+            }
 
             // jal/jalr to known recompiled function
             if (is_link) {
@@ -716,5 +732,4 @@ void mips_interpret(uint8_t* rdram, recomp_context* ctx, uint32_t start_pc) {
             pc = pc + 4;
         }
     }
-    printf("[INTERP] Hit step limit at PC=%08X\n", pc);
 }

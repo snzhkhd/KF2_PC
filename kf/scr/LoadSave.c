@@ -48,7 +48,7 @@ void LoadSave(uint8_t* rdram, recomp_context* ctx)
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4ADA($v0)
-    ctx->r2 = MEM_H(-0X4ADA, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4ADA, ctx->r2);
     // nop
 
     // beq         $v0, $zero, L_80026078
@@ -77,7 +77,7 @@ L_80026078:
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4AD8($v0)
-    ctx->r2 = MEM_H(-0X4AD8, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4AD8, ctx->r2);
     // nop
 
     // beq         $v0, $zero, L_800260A0

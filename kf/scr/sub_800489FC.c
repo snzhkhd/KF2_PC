@@ -49,7 +49,7 @@ void sub_800489FC(uint8_t* rdram, recomp_context* ctx) {
     MEM_H(0X18, ctx->r16) = ctx->r6;
 L_80048A48:
     // lh          $a0, 0x18($s0)
-    ctx->r4 = MEM_H(0X18, ctx->r16);
+    ctx->r4 = MEM_HS(0X18, ctx->r16);
     // sra         $a1, $s3, 16
     ctx->r5 = S32(ctx->r19) >> 16;
     // jal         0x80015798

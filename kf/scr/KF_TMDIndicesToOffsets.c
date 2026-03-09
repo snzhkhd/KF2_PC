@@ -3,13 +3,20 @@
 
 void KF_TMDIndicesToOffsets(uint8_t* rdram, recomp_context* ctx) 
 {
-  /*  printf("[KF_TMDIndicesToOffsets] a1=%08X *(a1+8)=%d\n", ctx->r4, *(int*)(GET_PTR(ctx->r4) + 8));*/
-
-    uint64_t hi = 0, lo = 0, result = 0;
-    unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
-    int c1cs = 0; 
+  //  printf("[KF_TMDIndicesToOffsets] a1=%08X *(a1+8)=%d\n", ctx->r4, *(int*)(GET_PTR(ctx->r4) + 8));
+    //printf("KF_TMDIndicesToOffsets \n");
+    //uint64_t hi = 0, lo = 0, result = 0;
+    //unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
+    //int c1cs = 0; 
     // lw          $t0, 0x8($a0)
     ctx->r8 = MEM_W(0X8, ctx->r4);
+
+    //uint32_t tmd_addr = ctx->r4;
+    //uint8_t* p = (uint8_t*)GET_PTR(tmd_addr);
+    //printf("[TMDIndicesToOffsets] addr=%08X id=%08X flags=%08X nobj=%d\n",
+    //    tmd_addr,
+    //    *(uint32_t*)p, *(uint32_t*)(p + 4), *(uint32_t*)(p + 8));
+
     // addiu       $v0, $zero, -0x1
     ctx->r2 = ADD32(0, -0X1);
     // addiu       $t0, $t0, -0x1
@@ -31,13 +38,25 @@ L_8003014C:
     ctx->r2 = MEM_W(0X0, ctx->r9);
     // lw          $a2, 0x4($t1)
     ctx->r6 = MEM_W(0X4, ctx->r9);
+
+    //printf("[TMD obj] VertexTop=%08X PrimNum=%d (0x%08X)\n",
+    //    ctx->r2, (int32_t)ctx->r6, ctx->r6);
+
     // addiu       $v0, $v0, 0xC
     ctx->r2 = ADD32(ctx->r2, 0XC);
     // addu        $a3, $a0, $v0
     ctx->r7 = ADD32(ctx->r4, ctx->r2);
 L_8003015C:
+  
     // addiu       $a2, $a2, -0x1
     ctx->r6 = ADD32(ctx->r6, -0X1);
+
+  /*  static int tmd_loop = 0;
+    if (tmd_loop++ < 10) {
+        printf("[TMD loop] a2=%d (0x%08X) obj_idx=%d\n",
+            (int32_t)ctx->r6, ctx->r6, (int32_t)ctx->r8);
+    }*/
+
     // beq         $a2, $t2, L_800303F4
     if (ctx->r6 == ctx->r10) {
         // addiu       $a1, $a3, 0x4
@@ -431,6 +450,7 @@ L_80030390:
     // j           L_8003015C
     // sh          $v1, 0x1C($a1)
     MEM_H(0X1C, ctx->r5) = ctx->r3;
+    
     goto L_8003015C;
     // sh          $v1, 0x1C($a1)
     MEM_H(0X1C, ctx->r5) = ctx->r3;
@@ -441,6 +461,7 @@ L_800303F4:
     if (ctx->r8 != ctx->r10) {
         // addiu       $t1, $t1, 0x1C
         ctx->r9 = ADD32(ctx->r9, 0X1C);
+        
         goto L_8003014C;
     }
     // addiu       $t1, $t1, 0x1C
@@ -450,7 +471,7 @@ L_80030400:
     ctx->r29 = ADD32(ctx->r29, 0X8);
     // jr          $ra
     // nop
-
+    //printf("MOLoadedCallback return\n");
     return;
     // nop
 

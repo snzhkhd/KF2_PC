@@ -10,7 +10,7 @@ void sub_8001A3C8(uint8_t* rdram, recomp_context* ctx) {
     // addiu       $v1, $v1, -0x4AE2
     ctx->r3 = ADD32(ctx->r3, -0X4AE2);
     // lh          $v0, 0x0($v1)
-    ctx->r2 = MEM_H(0X0, ctx->r3);
+    ctx->r2 = MEM_HS(0X0, ctx->r3);
     // nop
 
     // slti        $v0, $v0, 0x41

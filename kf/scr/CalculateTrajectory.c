@@ -111,11 +111,11 @@ L_800283A0:
     // lui         $a1, 0x801A
     ctx->r5 = S32(0X801A << 16);
     // lh          $a1, -0x4A4A($a1)
-    ctx->r5 = MEM_H(-0X4A4A, ctx->r5);
+    ctx->r5 = MEM_HS(-0X4A4A, ctx->r5);
     // lui         $a2, 0x801A
     ctx->r6 = S32(0X801A << 16);
     // lh          $a2, -0x4A4C($a2)
-    ctx->r6 = MEM_H(-0X4A4C, ctx->r6);
+    ctx->r6 = MEM_HS(-0X4A4C, ctx->r6);
     // ori         $a3, $zero, 0x55F0
     ctx->r7 = 0 | 0X55F0;
     // sw          $v0, 0x10($sp)

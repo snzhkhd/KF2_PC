@@ -80,7 +80,7 @@ void sub_8001C068(uint8_t* rdram, recomp_context* ctx) {
     // lui         $v0, 0x8017
     ctx->r2 = S32(0X8017 << 16);
     // lh          $v0, 0x79D4($v0)
-    ctx->r2 = MEM_H(0X79D4, ctx->r2);
+    ctx->r2 = MEM_HS(0X79D4, ctx->r2);
     // nop
 
     // beq         $v0, $zero, L_8001C118
@@ -111,7 +111,7 @@ L_8001C0F4:
     // lui         $v0, 0x8017
     ctx->r2 = S32(0X8017 << 16);
     // lh          $v0, 0x79D4($v0)
-    ctx->r2 = MEM_H(0X79D4, ctx->r2);
+    ctx->r2 = MEM_HS(0X79D4, ctx->r2);
     // nop
 
     // bne         $v0, $zero, L_8001C0F4

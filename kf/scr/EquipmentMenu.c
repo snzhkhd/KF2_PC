@@ -12,7 +12,7 @@ void EquipmentMenu(uint8_t* rdram, recomp_context* ctx) {
     // lui         $v1, 0x801A
     ctx->r3 = S32(0X801A << 16);
     // lh          $v1, -0x4A66($v1)
-    ctx->r3 = MEM_H(-0X4A66, ctx->r3);
+    ctx->r3 = MEM_HS(-0X4A66, ctx->r3);
     // addiu       $v0, $zero, -0x63
     ctx->r2 = ADD32(0, -0X63);
     // sw          $ra, 0x23C($sp)

@@ -32,7 +32,7 @@ void sub_8003D8E4(uint8_t* rdram, recomp_context* ctx) {
     // sw          $zero, 0x48($sp)
     MEM_W(0X48, ctx->r29) = 0;
     // lh          $v0, 0x0($a0)
-    ctx->r2 = MEM_H(0X0, ctx->r4);
+    ctx->r2 = MEM_HS(0X0, ctx->r4);
     // lui         $s2, 0x8017
     ctx->r18 = S32(0X8017 << 16);
     // lw          $s2, 0x79B4($s2)
@@ -46,7 +46,7 @@ void sub_8003D8E4(uint8_t* rdram, recomp_context* ctx) {
     // addu        $fp, $a1, $zero
     ctx->r30 = ADD32(ctx->r5, 0);
     // lh          $v0, 0x4($a0)
-    ctx->r2 = MEM_H(0X4, ctx->r4);
+    ctx->r2 = MEM_HS(0X4, ctx->r4);
     // nop
 
     // beq         $v0, $zero, L_8003DD7C
@@ -67,9 +67,9 @@ L_8003D93C:
     // sw          $zero, 0x30($sp)
     MEM_W(0X30, ctx->r29) = 0;
     // lh          $s3, 0x0($t0)
-    ctx->r19 = MEM_H(0X0, ctx->r8);
+    ctx->r19 = MEM_HS(0X0, ctx->r8);
     // lh          $s0, 0x4($t0)
-    ctx->r16 = MEM_H(0X4, ctx->r8);
+    ctx->r16 = MEM_HS(0X4, ctx->r8);
     // addu        $s7, $s3, $zero
     ctx->r23 = ADD32(ctx->r19, 0);
     // addu        $s6, $s0, $zero

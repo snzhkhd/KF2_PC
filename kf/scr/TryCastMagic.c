@@ -180,7 +180,7 @@ L_80029D28:
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4ADA($v0)
-    ctx->r2 = MEM_H(-0X4ADA, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4ADA, ctx->r2);
     // nop
 
     // bne         $v0, $zero, L_80029EFC
@@ -201,7 +201,7 @@ L_80029D44:
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4AD8($v0)
-    ctx->r2 = MEM_H(-0X4AD8, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4AD8, ctx->r2);
     // nop
 
     // bne         $v0, $zero, L_80029EFC

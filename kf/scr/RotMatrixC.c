@@ -24,7 +24,7 @@ void RotMatrixC(uint8_t* rdram, recomp_context* ctx) {
     // sw          $s1, 0x14($sp)
     MEM_W(0X14, ctx->r29) = ctx->r17;
     // lh          $a0, 0x0($s0)
-    ctx->r4 = MEM_H(0X0, ctx->r16);
+    ctx->r4 = MEM_HS(0X0, ctx->r16);
     // jal         0x800602D0
     // addu        $s5, $a1, $zero
     ctx->r21 = ADD32(ctx->r5, 0);
@@ -34,7 +34,7 @@ void RotMatrixC(uint8_t* rdram, recomp_context* ctx) {
     ctx->r21 = ADD32(ctx->r5, 0);
     after_0:
     // lh          $a0, 0x2($s0)
-    ctx->r4 = MEM_H(0X2, ctx->r16);
+    ctx->r4 = MEM_HS(0X2, ctx->r16);
     // jal         0x800602D0
     // addu        $s4, $v0, $zero
     ctx->r20 = ADD32(ctx->r2, 0);
@@ -44,7 +44,7 @@ void RotMatrixC(uint8_t* rdram, recomp_context* ctx) {
     ctx->r20 = ADD32(ctx->r2, 0);
     after_1:
     // lh          $a0, 0x4($s0)
-    ctx->r4 = MEM_H(0X4, ctx->r16);
+    ctx->r4 = MEM_HS(0X4, ctx->r16);
     // jal         0x800602D0
     // addu        $s3, $v0, $zero
     ctx->r19 = ADD32(ctx->r2, 0);
@@ -54,7 +54,7 @@ void RotMatrixC(uint8_t* rdram, recomp_context* ctx) {
     ctx->r19 = ADD32(ctx->r2, 0);
     after_2:
     // lh          $a0, 0x0($s0)
-    ctx->r4 = MEM_H(0X0, ctx->r16);
+    ctx->r4 = MEM_HS(0X0, ctx->r16);
     // jal         0x800601F4
     // addu        $s1, $v0, $zero
     ctx->r17 = ADD32(ctx->r2, 0);
@@ -64,7 +64,7 @@ void RotMatrixC(uint8_t* rdram, recomp_context* ctx) {
     ctx->r17 = ADD32(ctx->r2, 0);
     after_3:
     // lh          $a0, 0x2($s0)
-    ctx->r4 = MEM_H(0X2, ctx->r16);
+    ctx->r4 = MEM_HS(0X2, ctx->r16);
     // jal         0x800601F4
     // addu        $s2, $v0, $zero
     ctx->r18 = ADD32(ctx->r2, 0);
@@ -74,7 +74,7 @@ void RotMatrixC(uint8_t* rdram, recomp_context* ctx) {
     ctx->r18 = ADD32(ctx->r2, 0);
     after_4:
     // lh          $a0, 0x4($s0)
-    ctx->r4 = MEM_H(0X4, ctx->r16);
+    ctx->r4 = MEM_HS(0X4, ctx->r16);
     // jal         0x800601F4
     // addu        $s0, $v0, $zero
     ctx->r16 = ADD32(ctx->r2, 0);

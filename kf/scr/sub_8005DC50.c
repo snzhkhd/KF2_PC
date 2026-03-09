@@ -70,7 +70,7 @@ L_8005DCA4:
     // addu        $t5, $t5, $t4
     ctx->r13 = ADD32(ctx->r13, ctx->r12);
     // lh          $t5, 0x1FC($t5)
-    ctx->r13 = MEM_H(0X1FC, ctx->r13);
+    ctx->r13 = MEM_HS(0X1FC, ctx->r13);
     // nop
 
     // bltz        $t1, L_8005DCD0

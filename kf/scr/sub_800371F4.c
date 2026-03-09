@@ -3,7 +3,7 @@
 
 void sub_800371F4(uint8_t* rdram, recomp_context* ctx) 
 {
-    //printf("sub_800371F4 - last \n");
+
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -31,7 +31,7 @@ void sub_800371F4(uint8_t* rdram, recomp_context* ctx)
     MEM_W(0X20, ctx->r29) = ctx->r31;
 L_80037220:
     // lh          $v0, 0x0($s0)
-    ctx->r2 = MEM_H(0X0, ctx->r16);
+    ctx->r2 = MEM_HS(0X0, ctx->r16);
     // nop
 
     // bne         $v0, $s3, L_80037238
@@ -45,12 +45,15 @@ L_80037220:
     // jal         0x80037138
     // addu        $a0, $s0, $zero
     ctx->r4 = ADD32(ctx->r16, 0);
+
     Resource_UnlinkAndFree(rdram, ctx);
     goto after_0;
+
     // addu        $a0, $s0, $zero
     ctx->r4 = ADD32(ctx->r16, 0);
     after_0:
 L_80037238:
+
     // andi        $v0, $s1, 0xFFFF
     ctx->r2 = ctx->r17 & 0XFFFF;
     // bne         $v0, $zero, L_80037220
@@ -75,7 +78,6 @@ L_80037238:
     ctx->r29 = ADD32(ctx->r29, 0X28);
     // jr          $ra
     // nop
-
     return;
     // nop
 

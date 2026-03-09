@@ -22,7 +22,7 @@ void InitListWidget(uint8_t* rdram, recomp_context* ctx) {
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4A66($v0)
-    ctx->r2 = MEM_H(-0X4A66, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4A66, ctx->r2);
     // lui         $a0, 0x8006
     ctx->r4 = S32(0X8006 << 16);
     // addiu       $a0, $a0, 0x7B98

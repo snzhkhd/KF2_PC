@@ -382,7 +382,7 @@ L_80055518:
     // lui         $v1, 0x8013
     ctx->r3 = S32(0X8013 << 16);
     // lh          $v1, 0xA88($v1)
-    ctx->r3 = MEM_H(0XA88, ctx->r3);
+    ctx->r3 = MEM_HS(0XA88, ctx->r3);
     // ori         $v0, $zero, 0x1
     ctx->r2 = 0 | 0X1;
     // bne         $v1, $v0, L_80055540

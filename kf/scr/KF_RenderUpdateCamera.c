@@ -125,7 +125,7 @@ L_800300D8:
     MEM_H(0X12, ctx->r29) = ctx->r2;
     after_0:
     // lh          $a0, 0x10($sp)
-    ctx->r4 = MEM_H(0X10, ctx->r29);
+    ctx->r4 = MEM_HS(0X10, ctx->r29);
     // jal         0x80015304
     // addiu       $a1, $s0, -0x50
     ctx->r5 = ADD32(ctx->r16, -0X50);

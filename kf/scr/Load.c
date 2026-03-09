@@ -44,7 +44,7 @@ void KF_SaveLoad(uint8_t* rdram, recomp_context* ctx) {
     // sh          $a2, 0x18($sp)
     MEM_H(0X18, ctx->r29) = ctx->r6;
     // lh          $a0, 0x0($a1)
-    ctx->r4 = MEM_H(0X0, ctx->r5);
+    ctx->r4 = MEM_HS(0X0, ctx->r5);
     // ori         $v0, $zero, 0x7B
     ctx->r2 = 0 | 0X7B;
     // sh          $v0, 0x1A($sp)
@@ -118,7 +118,7 @@ void KF_SaveLoad(uint8_t* rdram, recomp_context* ctx) {
     // sh          $a2, 0x34($sp)
     MEM_H(0X34, ctx->r29) = ctx->r6;
     // lh          $a1, 0x0($a1)
-    ctx->r5 = MEM_H(0X0, ctx->r5);
+    ctx->r5 = MEM_HS(0X0, ctx->r5);
     // addiu       $a0, $a0, 0x18
     ctx->r4 = ADD32(ctx->r4, 0X18);
     // sh          $v0, 0x36($sp)

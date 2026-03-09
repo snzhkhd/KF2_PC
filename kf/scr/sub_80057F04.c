@@ -49,7 +49,7 @@ L_80057F30:
     // addu        $at, $at, $v1
     ctx->r1 = ADD32(ctx->r1, ctx->r3);
     // lh          $v0, 0x0($at)
-    ctx->r2 = MEM_H(0X0, ctx->r1);
+    ctx->r2 = MEM_HS(0X0, ctx->r1);
     // nop
 
     // bne         $v0, $s1, L_80057F70

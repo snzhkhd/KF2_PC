@@ -8,7 +8,7 @@ void sub_80026E38(uint8_t* rdram, recomp_context* ctx) {
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4B2C($v0)
-    ctx->r2 = MEM_H(-0X4B2C, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4B2C, ctx->r2);
     // nop
 
     // mult        $a0, $v0

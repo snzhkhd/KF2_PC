@@ -52,7 +52,7 @@ void KF_CompMatrix(uint8_t* rdram, recomp_context* ctx) {
     // lw          $t1, 0x8($a1)
     ctx->r9 = MEM_W(0X8, ctx->r5);
     // lh          $t2, 0xE($a1)
-    ctx->r10 = MEM_H(0XE, ctx->r5);
+    ctx->r10 = MEM_HS(0XE, ctx->r5);
     // sll         $t1, $t1, 16
     ctx->r9 = S32(ctx->r9) << 16;
     // or          $t0, $t0, $t1

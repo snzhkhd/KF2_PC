@@ -70,7 +70,7 @@ void sub_8003DF98(uint8_t* rdram, recomp_context* ctx) {
     // sb          $v0, 0xD($s0)
     MEM_B(0XD, ctx->r16) = ctx->r2;
     // lh          $v0, 0x30($sp)
-    ctx->r2 = MEM_H(0X30, ctx->r29);
+    ctx->r2 = MEM_HS(0X30, ctx->r29);
     // lw          $a0, 0x30($s0)
     ctx->r4 = MEM_W(0X30, ctx->r16);
     // ori         $v1, $zero, 0x1

@@ -36,11 +36,11 @@ void Update3dPreview(uint8_t* rdram, recomp_context* ctx) {
     // nop
 
     // lh          $v1, 0x106($gp)
-    ctx->r3 = MEM_H(0X106, ctx->r28);
+    ctx->r3 = MEM_HS(0X106, ctx->r28);
     // lh          $v0, 0x104($gp)
-    ctx->r2 = MEM_H(0X104, ctx->r28);
+    ctx->r2 = MEM_HS(0X104, ctx->r28);
     // lh          $a2, 0x108($gp)
-    ctx->r6 = MEM_H(0X108, ctx->r28);
+    ctx->r6 = MEM_HS(0X108, ctx->r28);
     // sw          $v1, 0x28($sp)
     MEM_W(0X28, ctx->r29) = ctx->r3;
     // lhu         $v1, 0x10E($gp)

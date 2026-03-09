@@ -49,7 +49,7 @@ void DrawTextureNPatch(uint8_t* rdram, recomp_context* ctx) {
     MEM_W(0X20, ctx->r29) = ctx->r7;
 L_800242EC:
     // lh          $fp, 0xA($s0)
-    ctx->r30 = MEM_H(0XA, ctx->r16);
+    ctx->r30 = MEM_HS(0XA, ctx->r16);
     // ori         $v0, $zero, 0x1
     ctx->r2 = 0 | 0X1;
     // bne         $s6, $v0, L_80024314
@@ -102,7 +102,7 @@ L_80024328:
     ctx->r21 = S32(ctx->r2) << 2;
 L_8002433C:
     // lh          $s1, 0x8($s0)
-    ctx->r17 = MEM_H(0X8, ctx->r16);
+    ctx->r17 = MEM_HS(0X8, ctx->r16);
     // ori         $v0, $zero, 0x1
     ctx->r2 = 0 | 0X1;
     // bne         $s3, $v0, L_80024364

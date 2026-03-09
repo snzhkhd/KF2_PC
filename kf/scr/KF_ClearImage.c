@@ -8,19 +8,19 @@ void KF_ClearImage(uint8_t* rdram, recomp_context* ctx)
     uint32_t rect_addr = ctx->r4;
     uint32_t color = ctx->r5;
 
-    // Распаковываем цвет
+    //  
     uint8_t r = color & 0xFF;
     uint8_t g = (color >> 8) & 0xFF;
     uint8_t b = (color >> 16) & 0xFF;
 
-    // Получаем реальный указатель на RECT в памяти ПК
+    //     RECT   
     RECT16* rect = (RECT16*)GET_PTR(rect_addr);
 
     if (rect) {
         /*printf("[HLE GPU] ClearImage(x=%d, y=%d, w=%d, h=%d, R=%d, G=%d, B=%d)\n",
             rect->x, rect->y, rect->w, rect->h, r, g, b);*/
 
-        // Вызываем функцию очистки экрана из Psy-X (OpenGL)
+        //      Psy-X (OpenGL)
         ClearImage(rect, r, g, b);
     }
 
@@ -41,7 +41,7 @@ void KF_ClearImage(uint8_t* rdram, recomp_context* ctx)
     // sw          $s0, 0x10($sp)
     MEM_W(0X10, ctx->r29) = ctx->r16;
     // lh          $v1, 0x4($t0)
-    ctx->r3 = MEM_H(0X4, ctx->r8);
+    ctx->r3 = MEM_HS(0X4, ctx->r8);
     // nop
 
     // bltz        $v1, L_80064530
@@ -89,7 +89,7 @@ L_80064530:
     ctx->r2 = ADD32(0, 0);
 L_80064534:
     // lh          $v1, 0x6($t0)
-    ctx->r3 = MEM_H(0X6, ctx->r8);
+    ctx->r3 = MEM_HS(0X6, ctx->r8);
     // nop
 
     // bltz        $v1, L_80064574

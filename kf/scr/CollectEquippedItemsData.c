@@ -146,7 +146,7 @@ L_8001ADCC:
 
 L_8001AE04:
     // lh          $v0, 0x0($t2)
-    ctx->r2 = MEM_H(0X0, ctx->r10);
+    ctx->r2 = MEM_HS(0X0, ctx->r10);
     // nop
 
     // sll         $a0, $v0, 4
@@ -171,7 +171,7 @@ L_8001AE04:
     ctx->r2 = S32(ctx->r2) << 3;
 L_8001AE30:
     // lh          $v1, 0x0($t2)
-    ctx->r3 = MEM_H(0X0, ctx->r10);
+    ctx->r3 = MEM_HS(0X0, ctx->r10);
     // nop
 
     // sll         $v0, $v1, 1

@@ -8,7 +8,7 @@ void sub_8002A338(uint8_t* rdram, recomp_context* ctx) {
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4A02($v0)
-    ctx->r2 = MEM_H(-0X4A02, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4A02, ctx->r2);
     // addiu       $sp, $sp, -0x18
     ctx->r29 = ADD32(ctx->r29, -0X18);
     // slti        $v0, $v0, 0xC8

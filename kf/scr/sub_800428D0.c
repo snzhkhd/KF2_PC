@@ -16,7 +16,7 @@ void sub_800428D0(uint8_t* rdram, recomp_context* ctx) {
     // sw          $ra, 0x20($sp)
     MEM_W(0X20, ctx->r29) = ctx->r31;
     // lh          $v0, 0x34($a1)
-    ctx->r2 = MEM_H(0X34, ctx->r5);
+    ctx->r2 = MEM_HS(0X34, ctx->r5);
     // lw          $v1, 0x14($a1)
     ctx->r3 = MEM_W(0X14, ctx->r5);
     // sll         $v0, $v0, 3
@@ -26,7 +26,7 @@ void sub_800428D0(uint8_t* rdram, recomp_context* ctx) {
     // sw          $v1, 0x10($sp)
     MEM_W(0X10, ctx->r29) = ctx->r3;
     // lh          $v0, 0x36($a1)
-    ctx->r2 = MEM_H(0X36, ctx->r5);
+    ctx->r2 = MEM_HS(0X36, ctx->r5);
     // lw          $v1, 0x18($a1)
     ctx->r3 = MEM_W(0X18, ctx->r5);
     // sll         $v0, $v0, 3
@@ -36,7 +36,7 @@ void sub_800428D0(uint8_t* rdram, recomp_context* ctx) {
     // sw          $v1, 0x14($sp)
     MEM_W(0X14, ctx->r29) = ctx->r3;
     // lh          $v0, 0x38($a1)
-    ctx->r2 = MEM_H(0X38, ctx->r5);
+    ctx->r2 = MEM_HS(0X38, ctx->r5);
     // lw          $v1, 0x1C($a1)
     ctx->r3 = MEM_W(0X1C, ctx->r5);
     // ori         $a1, $zero, 0x1388

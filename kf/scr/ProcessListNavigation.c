@@ -865,7 +865,7 @@ L_80020A5C:
     // addu        $v0, $s1, $zero
     ctx->r2 = ADD32(ctx->r17, 0);
     // lh          $v0, 0x108($gp)
-    ctx->r2 = MEM_H(0X108, ctx->r28);
+    ctx->r2 = MEM_HS(0X108, ctx->r28);
     // nop
 
     // addu        $v1, $v0, $zero

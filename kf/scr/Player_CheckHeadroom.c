@@ -12,7 +12,7 @@ void Player_CheckHeadroom(uint8_t* rdram, recomp_context* ctx) {
     // lui         $v1, 0x801A
     ctx->r3 = S32(0X801A << 16);
     // lh          $v1, -0x4A08($v1)
-    ctx->r3 = MEM_H(-0X4A08, ctx->r3);
+    ctx->r3 = MEM_HS(-0X4A08, ctx->r3);
     // lui         $a0, 0x801A
     ctx->r4 = S32(0X801A << 16);
     // lw          $a0, -0x4A60($a0)
@@ -20,7 +20,7 @@ void Player_CheckHeadroom(uint8_t* rdram, recomp_context* ctx) {
     // lui         $a1, 0x801A
     ctx->r5 = S32(0X801A << 16);
     // lh          $a1, -0x4A04($a1)
-    ctx->r5 = MEM_H(-0X4A04, ctx->r5);
+    ctx->r5 = MEM_HS(-0X4A04, ctx->r5);
     // addiu       $sp, $sp, -0x18
     ctx->r29 = ADD32(ctx->r29, -0X18);
     // sw          $ra, 0x10($sp)
@@ -63,7 +63,7 @@ L_80025E84:
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4A08($v0)
-    ctx->r2 = MEM_H(-0X4A08, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4A08, ctx->r2);
     // lui         $a0, 0x801A
     ctx->r4 = S32(0X801A << 16);
     // lw          $a0, -0x4A60($a0)
@@ -71,7 +71,7 @@ L_80025E84:
     // lui         $a1, 0x801A
     ctx->r5 = S32(0X801A << 16);
     // lh          $a1, -0x4A04($a1)
-    ctx->r5 = MEM_H(-0X4A04, ctx->r5);
+    ctx->r5 = MEM_HS(-0X4A04, ctx->r5);
     // addiu       $v1, $v1, 0x640
     ctx->r3 = ADD32(ctx->r3, 0X640);
     // addu        $v0, $v0, $a0

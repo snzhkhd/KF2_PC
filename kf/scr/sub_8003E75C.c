@@ -46,7 +46,7 @@ void sub_8003E75C(uint8_t* rdram, recomp_context* ctx) {
     // addu        $a2, $s2, $zero
     ctx->r6 = ADD32(ctx->r18, 0);
     // lh          $a0, 0x42($s0)
-    ctx->r4 = MEM_H(0X42, ctx->r16);
+    ctx->r4 = MEM_HS(0X42, ctx->r16);
     // jal         0x8003E540
     // addu        $a3, $s1, $zero
     ctx->r7 = ADD32(ctx->r17, 0);

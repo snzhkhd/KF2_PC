@@ -18,7 +18,7 @@ void UpdateTileLighting(uint8_t* rdram, recomp_context* ctx) {
     // sw          $s0, 0x38($sp)
     MEM_W(0X38, ctx->r29) = ctx->r16;
     // lh          $v1, 0x0($s1)
-    ctx->r3 = MEM_H(0X0, ctx->r17);
+    ctx->r3 = MEM_HS(0X0, ctx->r17);
     // addiu       $v0, $zero, -0x1
     ctx->r2 = ADD32(0, -0X1);
     // beq         $v1, $v0, L_800342EC
@@ -110,7 +110,7 @@ void UpdateTileLighting(uint8_t* rdram, recomp_context* ctx) {
     ctx->r4 = ADD32(ctx->r16, 0);
     after_1:
     // lh          $a0, 0x66($s0)
-    ctx->r4 = MEM_H(0X66, ctx->r16);
+    ctx->r4 = MEM_HS(0X66, ctx->r16);
     // jal         0x8002FBC0
     // nop
 
@@ -140,19 +140,19 @@ void UpdateTileLighting(uint8_t* rdram, recomp_context* ctx) {
     // nop
 
     // lh          $v0, 0x34($a0)
-    ctx->r2 = MEM_H(0X34, ctx->r4);
+    ctx->r2 = MEM_HS(0X34, ctx->r4);
     // nop
 
     // sw          $v0, 0x2C($sp)
     MEM_W(0X2C, ctx->r29) = ctx->r2;
     // lh          $v0, 0x36($a0)
-    ctx->r2 = MEM_H(0X36, ctx->r4);
+    ctx->r2 = MEM_HS(0X36, ctx->r4);
     // addiu       $a1, $sp, 0x18
     ctx->r5 = ADD32(ctx->r29, 0X18);
     // sw          $v0, 0x30($sp)
     MEM_W(0X30, ctx->r29) = ctx->r2;
     // lh          $v0, 0x38($a0)
-    ctx->r2 = MEM_H(0X38, ctx->r4);
+    ctx->r2 = MEM_HS(0X38, ctx->r4);
     // addiu       $a0, $a0, 0x3C
     ctx->r4 = ADD32(ctx->r4, 0X3C);
     // jal         0x8005F698
@@ -204,7 +204,7 @@ void UpdateTileLighting(uint8_t* rdram, recomp_context* ctx) {
     // lbu         $a2, -0x4AA2($a2)
     ctx->r6 = MEM_BU(-0X4AA2, ctx->r6);
     // lh          $a3, 0x0($s1)
-    ctx->r7 = MEM_H(0X0, ctx->r17);
+    ctx->r7 = MEM_HS(0X0, ctx->r17);
     // lw          $v0, 0x4($s0)
     ctx->r2 = MEM_W(0X4, ctx->r16);
     // ori         $a1, $zero, 0x20

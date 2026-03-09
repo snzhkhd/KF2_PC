@@ -78,7 +78,7 @@ L_8003EC0C:
     // addu        $a2, $v0, $v1
     ctx->r6 = ADD32(ctx->r2, ctx->r3);
     // lh          $v0, 0xC($a2)
-    ctx->r2 = MEM_H(0XC, ctx->r6);
+    ctx->r2 = MEM_HS(0XC, ctx->r6);
     // lw          $v1, 0x2C($s0)
     ctx->r3 = MEM_W(0X2C, ctx->r16);
     // nop
@@ -88,7 +88,7 @@ L_8003EC0C:
     // sw          $v0, 0x0($s1)
     MEM_W(0X0, ctx->r17) = ctx->r2;
     // lh          $v0, 0xE($a2)
-    ctx->r2 = MEM_H(0XE, ctx->r6);
+    ctx->r2 = MEM_HS(0XE, ctx->r6);
     // lw          $v1, 0x30($s0)
     ctx->r3 = MEM_W(0X30, ctx->r16);
     // nop
@@ -98,7 +98,7 @@ L_8003EC0C:
     // sw          $v0, 0x4($s1)
     MEM_W(0X4, ctx->r17) = ctx->r2;
     // lh          $v1, 0x10($a2)
-    ctx->r3 = MEM_H(0X10, ctx->r6);
+    ctx->r3 = MEM_HS(0X10, ctx->r6);
     // lw          $a0, 0x34($s0)
     ctx->r4 = MEM_W(0X34, ctx->r16);
     // addu        $v0, $s1, $zero

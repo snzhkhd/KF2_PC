@@ -44,7 +44,7 @@ void sub_80044EC0(uint8_t* rdram, recomp_context* ctx) {
     // addu        $s2, $v0, $zero
     ctx->r18 = ADD32(ctx->r2, 0);
     // lh          $a0, 0x34($s3)
-    ctx->r4 = MEM_H(0X34, ctx->r19);
+    ctx->r4 = MEM_HS(0X34, ctx->r19);
     // lw          $v1, 0x14($s3)
     ctx->r3 = MEM_W(0X14, ctx->r19);
     // ori         $v0, $zero, 0x1000
@@ -54,7 +54,7 @@ void sub_80044EC0(uint8_t* rdram, recomp_context* ctx) {
     // sw          $v1, 0x28($sp)
     MEM_W(0X28, ctx->r29) = ctx->r3;
     // lh          $a0, 0x36($s3)
-    ctx->r4 = MEM_H(0X36, ctx->r19);
+    ctx->r4 = MEM_HS(0X36, ctx->r19);
     // lw          $v1, 0x18($s3)
     ctx->r3 = MEM_W(0X18, ctx->r19);
     // div         $zero, $v0, $s1
@@ -102,7 +102,7 @@ L_80044F48:
     // sw          $v1, 0x2C($sp)
     MEM_W(0X2C, ctx->r29) = ctx->r3;
     // lh          $v1, 0x38($s3)
-    ctx->r3 = MEM_H(0X38, ctx->r19);
+    ctx->r3 = MEM_HS(0X38, ctx->r19);
     // lw          $v0, 0x1C($s3)
     ctx->r2 = MEM_W(0X1C, ctx->r19);
     // addiu       $s1, $s1, -0x1

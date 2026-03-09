@@ -50,7 +50,7 @@ void OptionsMenu(uint8_t* rdram, recomp_context* ctx) {
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4A66($v0)
-    ctx->r2 = MEM_H(-0X4A66, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4A66, ctx->r2);
     // ori         $t1, $zero, 0x2D
     ctx->r9 = 0 | 0X2D;
     // sw          $ra, 0x64($sp)
@@ -142,7 +142,7 @@ void OptionsMenu(uint8_t* rdram, recomp_context* ctx) {
     // lui         $a1, 0x801A
     ctx->r5 = S32(0X801A << 16);
     // lh          $a1, -0x4A66($a1)
-    ctx->r5 = MEM_H(-0X4A66, ctx->r5);
+    ctx->r5 = MEM_HS(-0X4A66, ctx->r5);
     // addiu       $a0, $a0, 0x18
     ctx->r4 = ADD32(ctx->r4, 0X18);
     // sh          $v0, 0x34($sp)

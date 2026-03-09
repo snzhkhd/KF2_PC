@@ -83,7 +83,7 @@ L_8001C3F8:
     // lui         $v1, 0x801A
     ctx->r3 = S32(0X801A << 16);
     // lh          $v1, -0x4A66($v1)
-    ctx->r3 = MEM_H(-0X4A66, ctx->r3);
+    ctx->r3 = MEM_HS(-0X4A66, ctx->r3);
     // nop
 
     // bne         $v1, $zero, L_8001C478

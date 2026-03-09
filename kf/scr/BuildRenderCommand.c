@@ -18,9 +18,9 @@ void BuildRenderCommand(uint8_t* rdram, recomp_context* ctx) {
     // sw          $ra, 0x20($sp)
     MEM_W(0X20, ctx->r29) = ctx->r31;
     // lh          $a0, 0x0($s0)
-    ctx->r4 = MEM_H(0X0, ctx->r16);
+    ctx->r4 = MEM_HS(0X0, ctx->r16);
     // lh          $a1, 0x2($s0)
-    ctx->r5 = MEM_H(0X2, ctx->r16);
+    ctx->r5 = MEM_HS(0X2, ctx->r16);
     // jal         0x800640B8
     // nop
 
@@ -64,9 +64,9 @@ void BuildRenderCommand(uint8_t* rdram, recomp_context* ctx) {
     // sw          $v0, 0x8($s1)
     MEM_W(0X8, ctx->r17) = ctx->r2;
     // lh          $a0, 0x8($s0)
-    ctx->r4 = MEM_H(0X8, ctx->r16);
+    ctx->r4 = MEM_HS(0X8, ctx->r16);
     // lh          $a1, 0xA($s0)
-    ctx->r5 = MEM_H(0XA, ctx->r16);
+    ctx->r5 = MEM_HS(0XA, ctx->r16);
     // jal         0x80064250
     // nop
 
@@ -183,7 +183,7 @@ void BuildRenderCommand(uint8_t* rdram, recomp_context* ctx) {
     ctx->r2 = ADD32(ctx->r3, 0);
 L_80063ED8:
     // lh          $v1, 0x16($sp)
-    ctx->r3 = MEM_H(0X16, ctx->r29);
+    ctx->r3 = MEM_HS(0X16, ctx->r29);
     // nop
 
     // bltz        $v1, L_80063F1C

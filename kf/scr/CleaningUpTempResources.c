@@ -25,7 +25,7 @@ void CleaningUpTempResources(uint8_t* rdram, recomp_context* ctx) {
     MEM_W(0X1C, ctx->r29) = ctx->r31;
 L_800371A8:
     // lh          $v0, 0x0($s0)
-    ctx->r2 = MEM_H(0X0, ctx->r16);
+    ctx->r2 = MEM_HS(0X0, ctx->r16);
     // nop
 
     // beq         $v0, $zero, L_800371C4

@@ -185,7 +185,7 @@ L_80042300:
     // ori         $v0, $zero, 0x4
     ctx->r2 = 0 | 0X4;
     // lh          $v0, 0x1B($s0)
-    ctx->r2 = MEM_H(0X1B, ctx->r16);
+    ctx->r2 = MEM_HS(0X1B, ctx->r16);
     // nop
 
     // bne         $v0, $s6, L_80042410
@@ -204,7 +204,7 @@ L_80042300:
     MEM_H(0X1B, ctx->r16) = ctx->r2;
 L_80042410:
     // lh          $v0, 0x1D($s0)
-    ctx->r2 = MEM_H(0X1D, ctx->r16);
+    ctx->r2 = MEM_HS(0X1D, ctx->r16);
     // nop
 
     // bne         $v0, $s6, L_8004243C

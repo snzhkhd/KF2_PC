@@ -243,11 +243,11 @@ L_8004FCB8:
     // lui         $v0, 0x8001
     ctx->r2 = S32(0X8001 << 16);
     // lh          $v0, 0x31A4($v0)
-    ctx->r2 = MEM_H(0X31A4, ctx->r2);
+    ctx->r2 = MEM_HS(0X31A4, ctx->r2);
     // lui         $v1, 0x8001
     ctx->r3 = S32(0X8001 << 16);
     // lb          $v1, 0x31A6($v1)
-    ctx->r3 = MEM_B(0X31A6, ctx->r3);
+    ctx->r3 = MEM_BS(0X31A6, ctx->r3);
     // sh          $v0, 0x20($s5)
     MEM_H(0X20, ctx->r21) = ctx->r2;
     // sb          $v1, 0x22($s5)

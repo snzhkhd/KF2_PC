@@ -100,13 +100,13 @@ void LoadPopupsTexturOrTalk(uint8_t* rdram, recomp_context* ctx) {
     ctx->r4 = ADD32(0, 0);
     after_5:
     // lh          $a1, 0xB8($gp)
-    ctx->r5 = MEM_H(0XB8, ctx->r28);
+    ctx->r5 = MEM_HS(0XB8, ctx->r28);
     // lui         $v0, 0x8018
     ctx->r2 = S32(0X8018 << 16);
     // lbu         $v0, 0x138($v0)
     ctx->r2 = MEM_BU(0X138, ctx->r2);
     // lh          $a2, 0xBA($gp)
-    ctx->r6 = MEM_H(0XBA, ctx->r28);
+    ctx->r6 = MEM_HS(0XBA, ctx->r28);
     // sll         $a0, $v0, 1
     ctx->r4 = S32(ctx->r2) << 1;
     // addu        $a0, $a0, $v0

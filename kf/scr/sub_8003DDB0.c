@@ -22,7 +22,7 @@ void sub_8003DDB0(uint8_t* rdram, recomp_context* ctx) {
     // sw          $s2, 0x30($sp)
     MEM_W(0X30, ctx->r29) = ctx->r18;
     // lh          $v0, 0x0($s1)
-    ctx->r2 = MEM_H(0X0, ctx->r17);
+    ctx->r2 = MEM_HS(0X0, ctx->r17);
     // lw          $v1, 0x2C($s0)
     ctx->r3 = MEM_W(0X2C, ctx->r16);
     // nop
@@ -32,7 +32,7 @@ void sub_8003DDB0(uint8_t* rdram, recomp_context* ctx) {
     // sw          $v0, 0x18($sp)
     MEM_W(0X18, ctx->r29) = ctx->r2;
     // lh          $v0, 0x2($s1)
-    ctx->r2 = MEM_H(0X2, ctx->r17);
+    ctx->r2 = MEM_HS(0X2, ctx->r17);
     // lw          $v1, 0x30($s0)
     ctx->r3 = MEM_W(0X30, ctx->r16);
     // nop
@@ -42,7 +42,7 @@ void sub_8003DDB0(uint8_t* rdram, recomp_context* ctx) {
     // sw          $v0, 0x1C($sp)
     MEM_W(0X1C, ctx->r29) = ctx->r2;
     // lh          $v0, 0x4($s1)
-    ctx->r2 = MEM_H(0X4, ctx->r17);
+    ctx->r2 = MEM_HS(0X4, ctx->r17);
     // lw          $v1, 0x34($s0)
     ctx->r3 = MEM_W(0X34, ctx->r16);
     // lui         $a0, 0x8017

@@ -273,7 +273,7 @@ L_800449F8:
     MEM_H(0X2A, ctx->r29) = ctx->r2;
 L_80044A30:
     // lh          $v0, 0x34($s2)
-    ctx->r2 = MEM_H(0X34, ctx->r18);
+    ctx->r2 = MEM_HS(0X34, ctx->r18);
     // nop
 
     // mult        $v0, $s1
@@ -289,7 +289,7 @@ L_80044A30:
     // sh          $v1, 0x28($sp)
     MEM_H(0X28, ctx->r29) = ctx->r3;
     // lh          $v0, 0x36($s2)
-    ctx->r2 = MEM_H(0X36, ctx->r18);
+    ctx->r2 = MEM_HS(0X36, ctx->r18);
     // nop
 
     // mult        $v0, $s1
@@ -305,7 +305,7 @@ L_80044A30:
     // sh          $v1, 0x2A($sp)
     MEM_H(0X2A, ctx->r29) = ctx->r3;
     // lh          $v0, 0x38($s2)
-    ctx->r2 = MEM_H(0X38, ctx->r18);
+    ctx->r2 = MEM_HS(0X38, ctx->r18);
     // nop
 
     // mult        $v0, $s1

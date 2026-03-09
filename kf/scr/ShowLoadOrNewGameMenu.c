@@ -7,13 +7,13 @@
 void ShowLoadOrNewGameMenu(uint8_t* rdram, recomp_context* ctx) 
 {
     printf("ShowLoadOrNewGameMenu\n");
-    static bool dump = false;
-    if (!dump)
-    {
-        dump = true;
-        GR_SaveVRAM("vram_before_menu.png", 0, 0, 1024, 512, 0);
-        printf("[DUMP] VRAM saved before menu render\n");
-    }
+    //static bool dump = false;
+    //if (!dump)
+    //{
+    //    dump = true;
+    //    GR_SaveVRAM("vram_before_menu.png", 0, 0, 1024, 512, 0);
+    //    printf("[DUMP] VRAM saved before menu render\n");
+    //}
 
 
     uint64_t hi = 0, lo = 0, result = 0;
@@ -652,7 +652,6 @@ L_8001D028:
     ctx->r29 = ADD32(ctx->r29, 0X318);
     // jr          $ra
     // nop
-
     return;
     // nop
 

@@ -60,7 +60,7 @@ void sub_80058A90(uint8_t* rdram, recomp_context* ctx) {
     // addu        $at, $at, $t0
     ctx->r1 = ADD32(ctx->r1, ctx->r8);
     // lh          $v1, 0x0($at)
-    ctx->r3 = MEM_H(0X0, ctx->r1);
+    ctx->r3 = MEM_HS(0X0, ctx->r1);
     // sll         $v0, $a1, 16
     ctx->r2 = S32(ctx->r5) << 16;
     // sra         $v0, $v0, 16
@@ -80,7 +80,7 @@ void sub_80058A90(uint8_t* rdram, recomp_context* ctx) {
     // addu        $at, $at, $t0
     ctx->r1 = ADD32(ctx->r1, ctx->r8);
     // lh          $v1, 0x0($at)
-    ctx->r3 = MEM_H(0X0, ctx->r1);
+    ctx->r3 = MEM_HS(0X0, ctx->r1);
     // sra         $v0, $v0, 16
     ctx->r2 = S32(ctx->r2) >> 16;
     // bne         $v1, $v0, L_80058BA0
@@ -98,7 +98,7 @@ void sub_80058A90(uint8_t* rdram, recomp_context* ctx) {
     // addu        $at, $at, $t0
     ctx->r1 = ADD32(ctx->r1, ctx->r8);
     // lh          $v1, 0x0($at)
-    ctx->r3 = MEM_H(0X0, ctx->r1);
+    ctx->r3 = MEM_HS(0X0, ctx->r1);
     // sra         $v0, $v0, 16
     ctx->r2 = S32(ctx->r2) >> 16;
     // bne         $v1, $v0, L_80058BA0
@@ -116,7 +116,7 @@ void sub_80058A90(uint8_t* rdram, recomp_context* ctx) {
     // addu        $at, $at, $t0
     ctx->r1 = ADD32(ctx->r1, ctx->r8);
     // lh          $v1, 0x0($at)
-    ctx->r3 = MEM_H(0X0, ctx->r1);
+    ctx->r3 = MEM_HS(0X0, ctx->r1);
     // sra         $v0, $v0, 16
     ctx->r2 = S32(ctx->r2) >> 16;
     // bne         $v1, $v0, L_80058BA0
@@ -134,7 +134,7 @@ void sub_80058A90(uint8_t* rdram, recomp_context* ctx) {
     // addu        $at, $at, $t0
     ctx->r1 = ADD32(ctx->r1, ctx->r8);
     // lh          $v1, 0x0($at)
-    ctx->r3 = MEM_H(0X0, ctx->r1);
+    ctx->r3 = MEM_HS(0X0, ctx->r1);
     // nop
 
     // bne         $v1, $v0, L_80058B80

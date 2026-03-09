@@ -44,7 +44,7 @@ void UseConsumableItem(uint8_t* rdram, recomp_context* ctx) {
     // addiu       $v1, $v1, -0x4ADC
     ctx->r3 = ADD32(ctx->r3, -0X4ADC);
     // lh          $v0, 0x0($v1)
-    ctx->r2 = MEM_H(0X0, ctx->r3);
+    ctx->r2 = MEM_HS(0X0, ctx->r3);
     // nop
 
     // blez        $v0, L_8001A10C
@@ -61,7 +61,7 @@ L_8001A10C:
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4ADE($v0)
-    ctx->r2 = MEM_H(-0X4ADE, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4ADE, ctx->r2);
     // nop
 
     // slti        $v0, $v0, 0x41

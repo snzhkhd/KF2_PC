@@ -62,7 +62,7 @@ void PrepareReadTask(uint8_t* rdram, recomp_context* ctx) {
     // sh          $v1, 0x22($s2)
     MEM_H(0X22, ctx->r18) = ctx->r3;
     // lh          $v0, 0x22($s2)
-    ctx->r2 = MEM_H(0X22, ctx->r18);
+    ctx->r2 = MEM_HS(0X22, ctx->r18);
     // sh          $v1, 0x20($s2)
     MEM_H(0X20, ctx->r18) = ctx->r3;
     // addu        $v1, $v0, $zero

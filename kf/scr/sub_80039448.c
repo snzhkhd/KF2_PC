@@ -40,15 +40,15 @@ void sub_80039448(uint8_t* rdram, recomp_context* ctx) {
     ctx->r4 = ADD32(ctx->r4, 0X100);
     after_0:
     // lh          $v1, 0x20($sp)
-    ctx->r3 = MEM_H(0X20, ctx->r29);
+    ctx->r3 = MEM_HS(0X20, ctx->r29);
     // lh          $v0, 0x2C($s0)
-    ctx->r2 = MEM_H(0X2C, ctx->r16);
+    ctx->r2 = MEM_HS(0X2C, ctx->r16);
     // nop
 
     // mult        $v1, $v0
     result = S64(S32(ctx->r3)) * S64(S32(ctx->r2)); lo = S32(result >> 0); hi = S32(result >> 32);
     // lh          $v1, 0x22($sp)
-    ctx->r3 = MEM_H(0X22, ctx->r29);
+    ctx->r3 = MEM_HS(0X22, ctx->r29);
     // mflo        $v0
     ctx->r2 = lo;
     // sra         $v0, $v0, 12
@@ -56,13 +56,13 @@ void sub_80039448(uint8_t* rdram, recomp_context* ctx) {
     // sh          $v0, 0x20($sp)
     MEM_H(0X20, ctx->r29) = ctx->r2;
     // lh          $v0, 0x2E($s0)
-    ctx->r2 = MEM_H(0X2E, ctx->r16);
+    ctx->r2 = MEM_HS(0X2E, ctx->r16);
     // nop
 
     // mult        $v1, $v0
     result = S64(S32(ctx->r3)) * S64(S32(ctx->r2)); lo = S32(result >> 0); hi = S32(result >> 32);
     // lh          $v1, 0x24($sp)
-    ctx->r3 = MEM_H(0X24, ctx->r29);
+    ctx->r3 = MEM_HS(0X24, ctx->r29);
     // mflo        $v0
     ctx->r2 = lo;
     // sra         $v0, $v0, 12
@@ -70,7 +70,7 @@ void sub_80039448(uint8_t* rdram, recomp_context* ctx) {
     // sh          $v0, 0x22($sp)
     MEM_H(0X22, ctx->r29) = ctx->r2;
     // lh          $v0, 0x30($s0)
-    ctx->r2 = MEM_H(0X30, ctx->r16);
+    ctx->r2 = MEM_HS(0X30, ctx->r16);
     // nop
 
     // mult        $v1, $v0

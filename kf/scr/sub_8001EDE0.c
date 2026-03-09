@@ -61,7 +61,7 @@ L_8001EE38:
     // addu        $a0, $s6, $zero
     ctx->r4 = ADD32(ctx->r22, 0);
     // lh          $v0, 0x0($s5)
-    ctx->r2 = MEM_H(0X0, ctx->r21);
+    ctx->r2 = MEM_HS(0X0, ctx->r21);
     // addu        $s0, $zero, $zero
     ctx->r16 = ADD32(0, 0);
     // sll         $a1, $v0, 2
@@ -89,7 +89,7 @@ L_8001EE38:
     ctx->r5 = ADD32(ctx->r5, 0X70);
     after_1:
     // lh          $v0, 0x0($s5)
-    ctx->r2 = MEM_H(0X0, ctx->r21);
+    ctx->r2 = MEM_HS(0X0, ctx->r21);
     // addiu       $a0, $s6, -0x30
     ctx->r4 = ADD32(ctx->r22, -0X30);
     // sll         $a1, $v0, 2

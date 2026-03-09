@@ -20,7 +20,7 @@ void sub_80018960(uint8_t* rdram, recomp_context* ctx) {
     // lw          $v0, 0x58($gp)
     ctx->r2 = MEM_W(0X58, ctx->r28);
     // lb          $v1, 0x5C($gp)
-    ctx->r3 = MEM_B(0X5C, ctx->r28);
+    ctx->r3 = MEM_BS(0X5C, ctx->r28);
     // sw          $v0, 0x10($sp)
     MEM_W(0X10, ctx->r29) = ctx->r2;
     // sb          $v1, 0x14($sp)

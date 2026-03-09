@@ -24,6 +24,8 @@ typedef uint32_t gpr;
 #define MEM_B(offset, base) (*(uint8_t*)GET_PTR((base) + (offset)))
 #define MEM_BU(offset, base) (*(uint8_t*)GET_PTR((base) + (offset)))
 
+#define MEM_HS(offset, base) ((int32_t)(int16_t)(*(uint16_t*)GET_PTR((base) + (offset))))
+#define MEM_BS(offset, base) ((int32_t)(int8_t)(*(uint8_t*)GET_PTR((base) + (offset))))
 
 #define WRITE_W(addr, val) (*(uint32_t*)GET_PTR(addr) = (val))
 #define WRITE_H(addr, val) (*(uint16_t*)GET_PTR(addr) = (val))

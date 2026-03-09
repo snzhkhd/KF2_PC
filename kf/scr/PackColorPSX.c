@@ -29,7 +29,7 @@ L_800642A8:
     // sw          $a1, 0x0($sp)
     MEM_W(0X0, ctx->r29) = ctx->r5;
     // lh          $a2, 0x4($a0)
-    ctx->r6 = MEM_H(0X4, ctx->r4);
+    ctx->r6 = MEM_HS(0X4, ctx->r4);
     // nop
 
     // negu        $a2, $a2
@@ -51,7 +51,7 @@ L_800642A8:
     // sll         $v0, $v0, 15
     ctx->r2 = S32(ctx->r2) << 15;
     // lh          $v1, 0x6($a0)
-    ctx->r3 = MEM_H(0X6, ctx->r4);
+    ctx->r3 = MEM_HS(0X6, ctx->r4);
     // lui         $a0, 0xE200
     ctx->r4 = S32(0XE200 << 16);
     // or          $a1, $a1, $a0

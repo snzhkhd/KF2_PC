@@ -27,7 +27,7 @@ void FindFreeAudioChannel(uint8_t* rdram, recomp_context* ctx)
     MEM_W(0X10, ctx->r29) = ctx->r16;
 L_80014AF4:
     // lh          $v0, 0x0($s1)
-    ctx->r2 = MEM_H(0X0, ctx->r17);
+    ctx->r2 = MEM_HS(0X0, ctx->r17);
     // nop
 
     // bne         $v0, $zero, L_80014B0C
@@ -63,7 +63,7 @@ L_80014B0C:
     ctx->r18 = ADD32(0, -0X1);
 L_80014B24:
     // lh          $v1, 0x0($s1)
-    ctx->r3 = MEM_H(0X0, ctx->r17);
+    ctx->r3 = MEM_HS(0X0, ctx->r17);
     // ori         $v0, $zero, 0x2
     ctx->r2 = 0 | 0X2;
     // bne         $v1, $v0, L_80014B88
@@ -82,7 +82,7 @@ L_80014B24:
     ctx->r5 = 0 | 0X81;
 L_80014B40:
     // lh          $a0, 0x0($s0)
-    ctx->r4 = MEM_H(0X0, ctx->r16);
+    ctx->r4 = MEM_HS(0X0, ctx->r16);
     // nop
 
     // beq         $a0, $s2, L_80014B60

@@ -65,7 +65,7 @@ L_8003B9CC:
     // nop
 
     // lh          $v0, 0x58($s0)
-    ctx->r2 = MEM_H(0X58, ctx->r16);
+    ctx->r2 = MEM_HS(0X58, ctx->r16);
     // nop
 
     // bne         $v0, $zero, L_8003BA28

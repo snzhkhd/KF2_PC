@@ -8,7 +8,7 @@ void CalculateNextCdChunk(uint8_t* rdram, recomp_context* ctx)
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
     // lh          $v1, 0x22($a0)
-    ctx->r3 = MEM_H(0X22, ctx->r4);
+    ctx->r3 = MEM_HS(0X22, ctx->r4);
     // nop
 
     // slti        $v0, $v1, 0x11

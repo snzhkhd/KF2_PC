@@ -5,7 +5,7 @@
 void ProcessAssetLoadQueue(uint8_t* rdram, recomp_context* ctx) 
 {
 
-    //// Лог ВСЕГДА, без условий
+    ////  ,  
     //uint32_t* p_active = (uint32_t*)GET_PTR(ADDR_G_ACTIVECDSTREAM);
     //if (p_active)
     //{
@@ -35,7 +35,7 @@ void ProcessAssetLoadQueue(uint8_t* rdram, recomp_context* ctx)
     //        uint16_t* v2 = (uint16_t*)GET_PTR(dst);
     //        if (v2) 
     //        {
-    //            // Проверяем условие break из ProcessAssetLoadQueue
+    //            //   break  ProcessAssetLoadQueue
     //            bool will_break = (v2[0] != v2[4] || v2[1] != v2[5] ||
     //                v2[2] != v2[6] || v2[3] != v2[7] ||
     //                !v2[2] || !v2[3]);
@@ -50,11 +50,11 @@ void ProcessAssetLoadQueue(uint8_t* rdram, recomp_context* ctx)
     //                total);
     //            printf("[PAQ SKIP] will force NextCdTask!\n");
 
-    //            // Если сразу break и total маленький — это не текстурный стрим
+    //            //   break  total      
     //            //if (will_break && total <= 16 && !is_end) 
     //            //{
     //            //    //printf("[PAQ] Non-texture small stream, forcing NextCdTask\n");
-    //            //    stream[36] = 0;  // сбрасываем флаг
+    //            //    stream[36] = 0;  //  
     //            //    recomp_func_t next_task = lookup_recomp_func(0x80017D2C); //0x80017D2C - NextCdTask
     //            //    if (next_task) {
     //            //        uint32_t saved_ra = ctx->r31;
@@ -69,7 +69,7 @@ void ProcessAssetLoadQueue(uint8_t* rdram, recomp_context* ctx)
     //    }
     //}
     //uint32_t stream_ptr = MEM_W(0, ADDR_G_ACTIVECDSTREAM);
- //   printf("ProcessAssetLoadQueue\n");
+
 
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
@@ -138,7 +138,7 @@ L_80017444:
     // ori         $v0, $zero, 0x8000
     ctx->r2 = 0 | 0X8000;
     // lh          $a1, 0x1E($s1)
-    ctx->r5 = MEM_H(0X1E, ctx->r17);
+    ctx->r5 = MEM_HS(0X1E, ctx->r17);
     // subu        $v1, $v0, $s4
     ctx->r3 = SUB32(ctx->r2, ctx->r20);
     // beq         $a1, $zero, L_80017500
@@ -150,7 +150,7 @@ L_80017444:
     // addu        $s3, $a1, $zero
     ctx->r19 = ADD32(ctx->r5, 0);
     // lh          $a0, 0x1C($s1)
-    ctx->r4 = MEM_H(0X1C, ctx->r17);
+    ctx->r4 = MEM_HS(0X1C, ctx->r17);
     // nop
 
     // mult        $a1, $a0

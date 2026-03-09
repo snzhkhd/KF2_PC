@@ -48,7 +48,7 @@ void SpuVoice_Clear(uint8_t* rdram, recomp_context* ctx) {
     // lui         $a0, 0x801E
     ctx->r4 = S32(0X801E << 16);
     // lh          $a0, -0x19C0($a0)
-    ctx->r4 = MEM_H(-0X19C0, ctx->r4);
+    ctx->r4 = MEM_HS(-0X19C0, ctx->r4);
     // nor         $v0, $zero, $v0
     ctx->r2 = ~(0 | ctx->r2);
     // and         $v0, $v0, $v1
@@ -179,7 +179,7 @@ L_8005D3F0:
     // lui         $v1, 0x801E
     ctx->r3 = S32(0X801E << 16);
     // lh          $v1, -0x19C0($v1)
-    ctx->r3 = MEM_H(-0X19C0, ctx->r3);
+    ctx->r3 = MEM_HS(-0X19C0, ctx->r3);
     // addu        $v0, $a0, $v0
     ctx->r2 = ADD32(ctx->r4, ctx->r2);
     // sh          $a3, 0x74($v0)

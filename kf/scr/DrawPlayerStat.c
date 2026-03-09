@@ -42,7 +42,7 @@ void DrawPlayerStat(uint8_t* rdram, recomp_context* ctx) {
     // sw          $s0, 0x58($sp)
     MEM_W(0X58, ctx->r29) = ctx->r16;
     // lh          $a2, 0x0($s6)
-    ctx->r6 = MEM_H(0X0, ctx->r22);
+    ctx->r6 = MEM_HS(0X0, ctx->r22);
     // lui         $s7, 0x8007
     ctx->r23 = S32(0X8007 << 16);
     // addiu       $s7, $s7, -0x6668
@@ -166,7 +166,7 @@ void DrawPlayerStat(uint8_t* rdram, recomp_context* ctx) {
     // lhu         $v0, 0x1A($sp)
     ctx->r2 = MEM_HU(0X1A, ctx->r29);
     // lh          $a2, 0x0($s6)
-    ctx->r6 = MEM_H(0X0, ctx->r22);
+    ctx->r6 = MEM_HS(0X0, ctx->r22);
     // addiu       $v0, $v0, 0x17
     ctx->r2 = ADD32(ctx->r2, 0X17);
     // sll         $v1, $a2, 3
@@ -518,7 +518,7 @@ void DrawPlayerStat(uint8_t* rdram, recomp_context* ctx) {
     // lhu         $v0, 0x1A($sp)
     ctx->r2 = MEM_HU(0X1A, ctx->r29);
     // lh          $a2, 0x0($s6)
-    ctx->r6 = MEM_H(0X0, ctx->r22);
+    ctx->r6 = MEM_HS(0X0, ctx->r22);
     // addiu       $v0, $v0, 0x17
     ctx->r2 = ADD32(ctx->r2, 0X17);
     // sll         $v1, $a2, 3
@@ -636,7 +636,7 @@ void DrawPlayerStat(uint8_t* rdram, recomp_context* ctx) {
     // lhu         $v0, 0x1A($sp)
     ctx->r2 = MEM_HU(0X1A, ctx->r29);
     // lh          $a2, 0x0($s6)
-    ctx->r6 = MEM_H(0X0, ctx->r22);
+    ctx->r6 = MEM_HS(0X0, ctx->r22);
     // addiu       $v0, $v0, 0x17
     ctx->r2 = ADD32(ctx->r2, 0X17);
     // sll         $v1, $a2, 3
@@ -754,7 +754,7 @@ void DrawPlayerStat(uint8_t* rdram, recomp_context* ctx) {
     // lhu         $v0, 0x1A($sp)
     ctx->r2 = MEM_HU(0X1A, ctx->r29);
     // lh          $a2, 0x0($s6)
-    ctx->r6 = MEM_H(0X0, ctx->r22);
+    ctx->r6 = MEM_HS(0X0, ctx->r22);
     // addiu       $v0, $v0, 0x17
     ctx->r2 = ADD32(ctx->r2, 0X17);
     // sll         $v1, $a2, 3
@@ -842,7 +842,7 @@ void DrawPlayerStat(uint8_t* rdram, recomp_context* ctx) {
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4ADC($v0)
-    ctx->r2 = MEM_H(-0X4ADC, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4ADC, ctx->r2);
     // addiu       $v1, $v1, 0x17
     ctx->r3 = ADD32(ctx->r3, 0X17);
     // beq         $v0, $zero, L_800210B0
@@ -854,7 +854,7 @@ void DrawPlayerStat(uint8_t* rdram, recomp_context* ctx) {
     // sh          $v1, 0x3A($sp)
     MEM_H(0X3A, ctx->r29) = ctx->r3;
     // lh          $v0, 0x0($s6)
-    ctx->r2 = MEM_H(0X0, ctx->r22);
+    ctx->r2 = MEM_HS(0X0, ctx->r22);
     // nop
 
     // sll         $v1, $v0, 3
@@ -877,7 +877,7 @@ L_800210B0:
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4AE6($v0)
-    ctx->r2 = MEM_H(-0X4AE6, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4AE6, ctx->r2);
     // nop
 
     // beq         $v0, $zero, L_800210E8
@@ -889,7 +889,7 @@ L_800210B0:
     // nop
 
     // lh          $v0, 0x0($s6)
-    ctx->r2 = MEM_H(0X0, ctx->r22);
+    ctx->r2 = MEM_HS(0X0, ctx->r22);
     // nop
 
     // sll         $v1, $v0, 3
@@ -912,7 +912,7 @@ L_800210E8:
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4ADE($v0)
-    ctx->r2 = MEM_H(-0X4ADE, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4ADE, ctx->r2);
     // nop
 
     // beq         $v0, $zero, L_80021120
@@ -924,7 +924,7 @@ L_800210E8:
     // nop
 
     // lh          $v0, 0x0($s6)
-    ctx->r2 = MEM_H(0X0, ctx->r22);
+    ctx->r2 = MEM_HS(0X0, ctx->r22);
     // nop
 
     // sll         $v1, $v0, 3
@@ -947,7 +947,7 @@ L_80021120:
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4AE8($v0)
-    ctx->r2 = MEM_H(-0X4AE8, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4AE8, ctx->r2);
     // nop
 
     // beq         $v0, $zero, L_80021158
@@ -959,7 +959,7 @@ L_80021120:
     // nop
 
     // lh          $v0, 0x0($s6)
-    ctx->r2 = MEM_H(0X0, ctx->r22);
+    ctx->r2 = MEM_HS(0X0, ctx->r22);
     // nop
 
     // sll         $v1, $v0, 3
@@ -982,7 +982,7 @@ L_80021158:
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4AE2($v0)
-    ctx->r2 = MEM_H(-0X4AE2, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4AE2, ctx->r2);
     // nop
 
     // beq         $v0, $zero, L_80021190
@@ -994,7 +994,7 @@ L_80021158:
     // nop
 
     // lh          $v0, 0x0($s6)
-    ctx->r2 = MEM_H(0X0, ctx->r22);
+    ctx->r2 = MEM_HS(0X0, ctx->r22);
     // nop
 
     // sll         $v1, $v0, 3
@@ -1015,7 +1015,7 @@ L_80021158:
     ctx->r3 = ADD32(ctx->r23, 0XD8);
 L_80021190:
     // lh          $v0, 0x0($s6)
-    ctx->r2 = MEM_H(0X0, ctx->r22);
+    ctx->r2 = MEM_HS(0X0, ctx->r22);
     // nop
 
     // sll         $v1, $v0, 3
@@ -1104,7 +1104,7 @@ L_800211B0:
     // lui         $a2, 0x801A
     ctx->r6 = S32(0X801A << 16);
     // lh          $a2, -0x4A66($a2)
-    ctx->r6 = MEM_H(-0X4A66, ctx->r6);
+    ctx->r6 = MEM_HS(-0X4A66, ctx->r6);
     // addu        $v0, $v0, $s2
     ctx->r2 = ADD32(ctx->r2, ctx->r18);
     // sll         $v1, $a2, 3

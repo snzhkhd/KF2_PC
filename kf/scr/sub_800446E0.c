@@ -28,7 +28,7 @@ void sub_800446E0(uint8_t* rdram, recomp_context* ctx) {
     // sh          $v1, 0x2C($s1)
     MEM_H(0X2C, ctx->r17) = ctx->r3;
     // lh          $v0, 0x2C($s1)
-    ctx->r2 = MEM_H(0X2C, ctx->r17);
+    ctx->r2 = MEM_HS(0X2C, ctx->r17);
     // nop
 
     // mult        $a0, $v0
@@ -68,7 +68,7 @@ void sub_800446E0(uint8_t* rdram, recomp_context* ctx) {
     ctx->r6 = ADD32(ctx->r6, -0X1);
     after_0:
     // lh          $v0, 0x2C($s1)
-    ctx->r2 = MEM_H(0X2C, ctx->r17);
+    ctx->r2 = MEM_HS(0X2C, ctx->r17);
     // nop
 
     // slt         $v0, $v0, $s0

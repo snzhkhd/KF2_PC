@@ -175,7 +175,7 @@ L_8001B810:
     // addiu       $s1, $s1, -0x4A66
     ctx->r17 = ADD32(ctx->r17, -0X4A66);
     // lh          $v0, 0x0($s1)
-    ctx->r2 = MEM_H(0X0, ctx->r17);
+    ctx->r2 = MEM_HS(0X0, ctx->r17);
     // addu        $a3, $s2, $a3
     ctx->r7 = ADD32(ctx->r18, ctx->r7);
     // sll         $v1, $v0, 3

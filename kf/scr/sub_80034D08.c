@@ -92,7 +92,7 @@ L_80034D50:
     ctx->r16 = ADD32(ctx->r16, 0X1);
 L_80034D8C:
     // lh          $v0, 0x0($a0)
-    ctx->r2 = MEM_H(0X0, ctx->r4);
+    ctx->r2 = MEM_HS(0X0, ctx->r4);
     // nop
 
     // bne         $v0, $s5, L_80034DC0
@@ -119,7 +119,7 @@ L_80034DA4:
     // nop
 
     // lh          $v0, 0x0($a0)
-    ctx->r2 = MEM_H(0X0, ctx->r4);
+    ctx->r2 = MEM_HS(0X0, ctx->r4);
     // nop
 
     // bne         $v0, $s4, L_80034DC0

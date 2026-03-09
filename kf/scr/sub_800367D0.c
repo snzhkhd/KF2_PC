@@ -30,7 +30,7 @@ void sub_800367D0(uint8_t* rdram, recomp_context* ctx) {
     // sw          $a2, 0x30($sp)
     MEM_W(0X30, ctx->r29) = ctx->r6;
     // lh          $s4, 0x0($s2)
-    ctx->r20 = MEM_H(0X0, ctx->r18);
+    ctx->r20 = MEM_HS(0X0, ctx->r18);
     // addiu       $s2, $s2, 0x2
     ctx->r18 = ADD32(ctx->r18, 0X2);
     // addu        $s1, $zero, $zero
@@ -67,7 +67,7 @@ L_80036820:
     // addiu       $s2, $s2, 0x2
     ctx->r18 = ADD32(ctx->r18, 0X2);
     // lh          $v0, 0x0($s2)
-    ctx->r2 = MEM_H(0X0, ctx->r18);
+    ctx->r2 = MEM_HS(0X0, ctx->r18);
     // addiu       $s2, $s2, 0x2
     ctx->r18 = ADD32(ctx->r18, 0X2);
     // sll         $v0, $v0, 3

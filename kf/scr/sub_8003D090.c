@@ -136,7 +136,7 @@ void sub_8003D090(uint8_t* rdram, recomp_context* ctx) {
     // sll         $a2, $s2, 16
     ctx->r6 = S32(ctx->r18) << 16;
     // lh          $a0, 0x42($s1)
-    ctx->r4 = MEM_H(0X42, ctx->r17);
+    ctx->r4 = MEM_HS(0X42, ctx->r17);
     // jal         0x80015798
     // sra         $a2, $a2, 16
     ctx->r6 = S32(ctx->r6) >> 16;

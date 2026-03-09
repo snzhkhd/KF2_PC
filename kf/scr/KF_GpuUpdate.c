@@ -3,7 +3,6 @@
 
 void KF_GpuUpdate(uint8_t* rdram, recomp_context* ctx) 
 {
-   // printf("UpdatePlayerSystem\n");
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -29,7 +28,7 @@ void KF_GpuUpdate(uint8_t* rdram, recomp_context* ctx)
     after_1:
     // jal         0x80035D74
     // nop
-
+    ;
     sub_80035D74(rdram, ctx);
     goto after_2;
     // nop
@@ -37,7 +36,7 @@ void KF_GpuUpdate(uint8_t* rdram, recomp_context* ctx)
     after_2:
     // jal         0x8002F1C8
     // nop
-
+    
     sub_8002F1C8(rdram, ctx);
     goto after_3;
     // nop
@@ -45,7 +44,7 @@ void KF_GpuUpdate(uint8_t* rdram, recomp_context* ctx)
     after_3:
     // jal         0x8002FE74
     // nop
-
+    
     KF_RenderBegin(rdram, ctx);
     goto after_4;
     // nop
@@ -53,7 +52,7 @@ void KF_GpuUpdate(uint8_t* rdram, recomp_context* ctx)
     after_4:
     // jal         0x800370FC
     // nop
-
+    
     sub_800370FC(rdram, ctx);
     goto after_5;
     // nop
@@ -61,7 +60,7 @@ void KF_GpuUpdate(uint8_t* rdram, recomp_context* ctx)
     after_5:
     // jal         0x8003417C
     // nop
-
+    
     UpdateTileLighting(rdram, ctx);
     goto after_6;
     // nop
@@ -74,11 +73,11 @@ void KF_GpuUpdate(uint8_t* rdram, recomp_context* ctx)
     // lui         $a0, 0x8007
     ctx->r4 = S32(0X8007 << 16);
     // lh          $a0, -0x1D2E($a0)
-    ctx->r4 = MEM_H(-0X1D2E, ctx->r4);
+    ctx->r4 = MEM_HS(-0X1D2E, ctx->r4);
     // lui         $a1, 0x8019
     ctx->r5 = S32(0X8019 << 16);
     // lh          $a1, 0x4F3E($a1)
-    ctx->r5 = MEM_H(0X4F3E, ctx->r5);
+    ctx->r5 = MEM_HS(0X4F3E, ctx->r5);
     // lui         $v1, 0x801A
     ctx->r3 = S32(0X801A << 16);
     // lbu         $v1, -0x4A73($v1)
@@ -451,7 +450,6 @@ L_800361AC:
     MEM_H(-0X1BD8, ctx->r1) = ctx->r2;
     // jal         0x80033AE8
     // nop
-
     UpdateCamera(rdram, ctx);
     goto after_8;
     // nop
@@ -459,7 +457,6 @@ L_800361AC:
     after_8:
     // jal         0x80035C30
     // nop
-
     UpdateStatusEffects(rdram, ctx);
     goto after_9;
     // nop
@@ -467,7 +464,6 @@ L_800361AC:
     after_9:
     // jal         0x80033A1C
     // nop
-
     KF_RenderTilemap(rdram, ctx);
     goto after_10;
     // nop
@@ -475,7 +471,6 @@ L_800361AC:
     after_10:
     // jal         0x80034F14
     // nop
-
     sub_80034F14(rdram, ctx);
     goto after_11;
     // nop
@@ -483,7 +478,6 @@ L_800361AC:
     after_11:
     // jal         0x80033DB4
     // nop
-
     sub_80033DB4(rdram, ctx);
     goto after_12;
     // nop
@@ -491,7 +485,6 @@ L_800361AC:
     after_12:
     // jal         0x80033E44
     // nop
-
     sub_80033E44(rdram, ctx);
     goto after_13;
     // nop
@@ -499,7 +492,6 @@ L_800361AC:
     after_13:
     // jal         0x80033ED4
     // nop
-
     sub_80033ED4(rdram, ctx);
     goto after_14;
     // nop
@@ -507,7 +499,6 @@ L_800361AC:
     after_14:
     // jal         0x80033FBC
     // nop
-
     sub_80033FBC(rdram, ctx);
     goto after_15;
     // nop
@@ -515,7 +506,6 @@ L_800361AC:
     after_15:
     // jal         0x8002FF0C
     // nop
-
     KF_RenderEnd(rdram, ctx);
     goto after_16;
     // nop
@@ -523,7 +513,6 @@ L_800361AC:
     after_16:
     // jal         0x80017CC8
     // nop
-
     sub_80017CC8(rdram, ctx);
     goto after_17;
     // nop
@@ -531,7 +520,6 @@ L_800361AC:
     after_17:
     // jal         0x800371F4
     // nop
-
     sub_800371F4(rdram, ctx);
     goto after_18;
     // nop
@@ -543,7 +531,6 @@ L_800361AC:
     ctx->r29 = ADD32(ctx->r29, 0X28);
     // jr          $ra
     // nop
- //   printf("UpdatePlayerSystem  end\n");
     return;
     // nop
 

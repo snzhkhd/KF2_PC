@@ -1,7 +1,16 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void MOLoadedCallback(uint8_t* rdram, recomp_context* ctx) {
+void MOLoadedCallback(uint8_t* rdram, recomp_context* ctx) 
+{
+    //uint32_t data_addr = ctx->r4; // или откуда берётся указатель
+    //printf("[MO loaded] addr=%08X\n", data_addr);
+    //uint8_t* p = (uint8_t*)GET_PTR(data_addr);
+    //printf("[MO hex] %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X\n",
+    //    p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10], p[11]);
+    //printf("[MO TMD] id=%08X flags=%08X nobj=%d\n",
+    //    *(uint32_t*)p, *(uint32_t*)(p + 4), *(uint32_t*)(p + 8));
+
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -41,7 +50,6 @@ void MOLoadedCallback(uint8_t* rdram, recomp_context* ctx) {
     ctx->r29 = ADD32(ctx->r29, 0X18);
     // jr          $ra
     // nop
-
     return;
     // nop
 

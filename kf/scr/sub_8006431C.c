@@ -55,9 +55,9 @@ L_8006434C:
     // ori         $v0, $zero, 0x400
     ctx->r2 = 0 | 0X400;
     // lh          $v1, 0x4($a0)
-    ctx->r3 = MEM_H(0X4, ctx->r4);
+    ctx->r3 = MEM_HS(0X4, ctx->r4);
     // lh          $a0, 0x0($a0)
-    ctx->r4 = MEM_H(0X0, ctx->r4);
+    ctx->r4 = MEM_HS(0X0, ctx->r4);
 L_80064368:
     // subu        $v0, $v0, $v1
     ctx->r2 = SUB32(ctx->r2, ctx->r3);
@@ -85,7 +85,7 @@ L_80064374:
     // lhu         $v0, 0x4($a0)
     ctx->r2 = MEM_HU(0X4, ctx->r4);
     // lh          $a0, 0x0($a0)
-    ctx->r4 = MEM_H(0X0, ctx->r4);
+    ctx->r4 = MEM_HS(0X0, ctx->r4);
     // sll         $v0, $v0, 16
     ctx->r2 = S32(ctx->r2) << 16;
     // sra         $v1, $v0, 16
@@ -123,7 +123,7 @@ L_800643AC:
     ctx->r2 = S32(ctx->r3) >> 1;
 L_800643CC:
     // lh          $v0, 0x0($a0)
-    ctx->r2 = MEM_H(0X0, ctx->r4);
+    ctx->r2 = MEM_HS(0X0, ctx->r4);
 L_800643D0:
     // jr          $ra
     // nop

@@ -34,7 +34,7 @@ void sub_80044C74(uint8_t* rdram, recomp_context* ctx) {
     // addiu       $a0, $s0, 0x14
     ctx->r4 = ADD32(ctx->r16, 0X14);
     // lh          $v0, 0x34($s0)
-    ctx->r2 = MEM_H(0X34, ctx->r16);
+    ctx->r2 = MEM_HS(0X34, ctx->r16);
     // lw          $v1, 0x14($s0)
     ctx->r3 = MEM_W(0X14, ctx->r16);
     // lw          $a3, 0x18($s0)
@@ -46,9 +46,9 @@ void sub_80044C74(uint8_t* rdram, recomp_context* ctx) {
     // sw          $v0, 0x14($s0)
     MEM_W(0X14, ctx->r16) = ctx->r2;
     // lh          $v0, 0x36($s0)
-    ctx->r2 = MEM_H(0X36, ctx->r16);
+    ctx->r2 = MEM_HS(0X36, ctx->r16);
     // lh          $v1, 0x38($s0)
-    ctx->r3 = MEM_H(0X38, ctx->r16);
+    ctx->r3 = MEM_HS(0X38, ctx->r16);
     // addu        $v0, $v0, $a3
     ctx->r2 = ADD32(ctx->r2, ctx->r7);
     // addu        $v1, $v1, $t0

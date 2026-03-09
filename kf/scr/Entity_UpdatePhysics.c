@@ -16,11 +16,11 @@ void Entity_UpdatePhysics(uint8_t* rdram, recomp_context* ctx) {
     // lbu         $v0, 0x8($s0)
     ctx->r2 = MEM_BU(0X8, ctx->r16);
     // lh          $a0, 0x24($s0)
-    ctx->r4 = MEM_H(0X24, ctx->r16);
+    ctx->r4 = MEM_HS(0X24, ctx->r16);
     // lbu         $v1, 0x7($s0)
     ctx->r3 = MEM_BU(0X7, ctx->r16);
     // lh          $a1, 0x22($s0)
-    ctx->r5 = MEM_H(0X22, ctx->r16);
+    ctx->r5 = MEM_HS(0X22, ctx->r16);
     // lhu         $a3, 0x1C($s0)
     ctx->r7 = MEM_HU(0X1C, ctx->r16);
     // sll         $v0, $v0, 11
@@ -102,7 +102,7 @@ L_8003B80C:
     // nop
 
     // lh          $v0, 0x26($s0)
-    ctx->r2 = MEM_H(0X26, ctx->r16);
+    ctx->r2 = MEM_HS(0X26, ctx->r16);
     // lw          $v1, 0x30($s0)
     ctx->r3 = MEM_W(0X30, ctx->r16);
     // nop

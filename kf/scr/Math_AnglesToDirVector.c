@@ -74,7 +74,7 @@ void Math_AnglesToDirVector(uint8_t* rdram, recomp_context* ctx) {
     // sh          $a0, 0x54($sp)
     MEM_H(0X54, ctx->r29) = ctx->r4;
     // lh          $a0, 0x2($s0)
-    ctx->r4 = MEM_H(0X2, ctx->r16);
+    ctx->r4 = MEM_HS(0X2, ctx->r16);
     // addiu       $s0, $sp, 0x30
     ctx->r16 = ADD32(ctx->r29, 0X30);
     // jal         0x80015378

@@ -75,7 +75,7 @@ L_800372E8:
     // lbu         $v0, -0x8($s1)
     ctx->r2 = MEM_BU(-0X8, ctx->r17);
     // lh          $v1, -0x2($s1)
-    ctx->r3 = MEM_H(-0X2, ctx->r17);
+    ctx->r3 = MEM_HS(-0X2, ctx->r17);
     // sll         $v0, $v0, 11
     ctx->r2 = S32(ctx->r2) << 11;
     // addu        $v0, $v0, $v1
@@ -85,7 +85,7 @@ L_800372E8:
     // lbu         $v0, -0x9($s1)
     ctx->r2 = MEM_BU(-0X9, ctx->r17);
     // lh          $v1, -0x4($s1)
-    ctx->r3 = MEM_H(-0X4, ctx->r17);
+    ctx->r3 = MEM_HS(-0X4, ctx->r17);
     // sll         $v0, $v0, 11
     ctx->r2 = S32(ctx->r2) << 11;
     // addu        $v0, $v0, $v1
@@ -107,7 +107,7 @@ L_800372E8:
     ctx->r7 = ADD32(0, 0);
     after_0:
     // lh          $v1, 0x0($s1)
-    ctx->r3 = MEM_H(0X0, ctx->r17);
+    ctx->r3 = MEM_HS(0X0, ctx->r17);
     // nop
 
     // addu        $v0, $v0, $v1

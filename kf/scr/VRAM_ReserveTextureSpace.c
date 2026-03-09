@@ -84,7 +84,7 @@ void VRAM_ReserveTextureSpace(uint8_t* rdram, recomp_context* ctx)
     // sll         $v0, $a0, 16
     ctx->r2 = S32(ctx->r4) << 16;
     // lh          $v1, 0xC($s0)
-    ctx->r3 = MEM_H(0XC, ctx->r16);
+    ctx->r3 = MEM_HS(0XC, ctx->r16);
     // sra         $v0, $v0, 16
     ctx->r2 = S32(ctx->r2) >> 16;
     // mult        $v1, $v0

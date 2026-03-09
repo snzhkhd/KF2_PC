@@ -193,9 +193,9 @@ L_8004267C:
     // sll         $v0, $v0, 16
     ctx->r2 = S32(ctx->r2) << 16;
     // lh          $a0, 0x42($s1)
-    ctx->r4 = MEM_H(0X42, ctx->r17);
+    ctx->r4 = MEM_HS(0X42, ctx->r17);
     // lh          $a2, 0x18($s2)
-    ctx->r6 = MEM_H(0X18, ctx->r18);
+    ctx->r6 = MEM_HS(0X18, ctx->r18);
     // jal         0x80015798
     // sra         $a1, $v0, 16
     ctx->r5 = S32(ctx->r2) >> 16;

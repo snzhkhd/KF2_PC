@@ -8,7 +8,7 @@ void sub_80036A8C(uint8_t* rdram, recomp_context* ctx) {
     // addu        $v1, $zero, $zero
     ctx->r3 = ADD32(0, 0);
     // lh          $a2, 0x0($a0)
-    ctx->r6 = MEM_H(0X0, ctx->r4);
+    ctx->r6 = MEM_HS(0X0, ctx->r4);
     // addiu       $v0, $zero, -0x1
     ctx->r2 = ADD32(0, -0X1);
     // addiu       $a2, $a2, -0x1
@@ -27,7 +27,7 @@ void sub_80036A8C(uint8_t* rdram, recomp_context* ctx) {
     ctx->r7 = ADD32(0, -0X1);
 L_80036AAC:
     // lh          $v0, 0x0($a0)
-    ctx->r2 = MEM_H(0X0, ctx->r4);
+    ctx->r2 = MEM_HS(0X0, ctx->r4);
     // nop
 
     // bne         $v0, $t0, L_80036AE0
@@ -41,7 +41,7 @@ L_80036AAC:
     // addiu       $a0, $a0, 0x2
     ctx->r4 = ADD32(ctx->r4, 0X2);
     // lh          $v0, 0x0($a0)
-    ctx->r2 = MEM_H(0X0, ctx->r4);
+    ctx->r2 = MEM_HS(0X0, ctx->r4);
     // nop
 
     // addu        $v1, $v1, $v0

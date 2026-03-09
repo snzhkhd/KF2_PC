@@ -30,7 +30,7 @@ void sin_1(uint8_t* rdram, recomp_context* ctx) {
     // addu        $at, $at, $v0
     ctx->r1 = ADD32(ctx->r1, ctx->r2);
     // lh          $v0, 0x0($at)
-    ctx->r2 = MEM_H(0X0, ctx->r1);
+    ctx->r2 = MEM_HS(0X0, ctx->r1);
     // j           L_800602C8
     // nop
 
@@ -51,7 +51,7 @@ L_8006025C:
     // addu        $at, $at, $v0
     ctx->r1 = ADD32(ctx->r1, ctx->r2);
     // lh          $v0, 0x0($at)
-    ctx->r2 = MEM_H(0X0, ctx->r1);
+    ctx->r2 = MEM_HS(0X0, ctx->r1);
     // j           L_800602C8
     // nop
 
@@ -82,7 +82,7 @@ L_80060280:
     // addu        $at, $at, $v0
     ctx->r1 = ADD32(ctx->r1, ctx->r2);
     // lh          $v0, 0x0($at)
-    ctx->r2 = MEM_H(0X0, ctx->r1);
+    ctx->r2 = MEM_HS(0X0, ctx->r1);
     // j           L_800602C8
     // negu        $v0, $v0
     ctx->r2 = SUB32(0, ctx->r2);
@@ -97,7 +97,7 @@ L_800602B0:
     // addu        $at, $at, $v0
     ctx->r1 = ADD32(ctx->r1, ctx->r2);
     // lh          $v0, 0x0($at)
-    ctx->r2 = MEM_H(0X0, ctx->r1);
+    ctx->r2 = MEM_HS(0X0, ctx->r1);
     // nop
 
     // negu        $v0, $v0

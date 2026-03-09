@@ -8,7 +8,7 @@ void KF_RotMatrix(uint8_t* rdram, recomp_context* ctx)
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0;
     // lh          $t7, 0x0($a0)
-    ctx->r15 = MEM_H(0X0, ctx->r4);
+    ctx->r15 = MEM_HS(0X0, ctx->r4);
     // addu        $v0, $a1, $zero
     ctx->r2 = ADD32(ctx->r5, 0);
     // bgez        $t7, L_8005F6DC
@@ -71,7 +71,7 @@ L_8005F6DC:
     ctx->r8 = S32(ctx->r25) >> 16;
 L_8005F6FC:
     // lh          $t7, 0x2($a0)
-    ctx->r15 = MEM_H(0X2, ctx->r4);
+    ctx->r15 = MEM_HS(0X2, ctx->r4);
     // nop
 
     // bgez        $t7, L_8005F740
@@ -138,7 +138,7 @@ L_8005F764:
     // multu       $t1, $t3
     result = U64(U32(ctx->r9)) * U64(U32(ctx->r11)); lo = S32(result >> 0); hi = S32(result >> 32);
     // lh          $t7, 0x4($a0)
-    ctx->r15 = MEM_H(0X4, ctx->r4);
+    ctx->r15 = MEM_HS(0X4, ctx->r4);
     // sh          $t6, 0x4($a1)
     MEM_H(0X4, ctx->r5) = ctx->r14;
     // mflo        $t8

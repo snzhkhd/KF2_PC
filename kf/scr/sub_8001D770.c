@@ -206,7 +206,7 @@ L_8001D83C:
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4A66($v0)
-    ctx->r2 = MEM_H(-0X4A66, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4A66, ctx->r2);
     // addu        $a3, $s2, $a3
     ctx->r7 = ADD32(ctx->r18, ctx->r7);
     // sll         $v1, $v0, 3
@@ -306,7 +306,7 @@ L_8001D83C:
     // addu        $at, $at, $v0
     ctx->r1 = ADD32(ctx->r1, ctx->r2);
     // lb          $v1, 0x0($at)
-    ctx->r3 = MEM_B(0X0, ctx->r1);
+    ctx->r3 = MEM_BS(0X0, ctx->r1);
     // lui         $at, 0x8007
     ctx->r1 = S32(0X8007 << 16);
     // addiu       $at, $at, -0x624F
@@ -314,7 +314,7 @@ L_8001D83C:
     // addu        $at, $at, $v0
     ctx->r1 = ADD32(ctx->r1, ctx->r2);
     // lb          $t2, 0x0($at)
-    ctx->r10 = MEM_B(0X0, ctx->r1);
+    ctx->r10 = MEM_BS(0X0, ctx->r1);
     // sb          $v1, 0x10($a3)
     MEM_B(0X10, ctx->r7) = ctx->r3;
     // sb          $t2, 0x11($a3)

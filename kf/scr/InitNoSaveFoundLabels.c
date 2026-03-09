@@ -20,7 +20,7 @@ void InitNoSaveFoundLabels(uint8_t* rdram, recomp_context* ctx)
     // sh          $v0, 0x2($a0)
     MEM_H(0X2, ctx->r4) = ctx->r2;
     // lh          $v0, 0x0($a2)
-    ctx->r2 = MEM_H(0X0, ctx->r6);
+    ctx->r2 = MEM_HS(0X0, ctx->r6);
     // lui         $a1, 0x8007
     ctx->r5 = S32(0X8007 << 16);
     // addiu       $a1, $a1, -0x6428
@@ -94,7 +94,7 @@ void InitNoSaveFoundLabels(uint8_t* rdram, recomp_context* ctx)
     // sh          $v0, 0x2($a0)
     MEM_H(0X2, ctx->r4) = ctx->r2;
     // lh          $v0, 0x0($a2)
-    ctx->r2 = MEM_H(0X0, ctx->r6);
+    ctx->r2 = MEM_HS(0X0, ctx->r6);
     // nop
 
     // sll         $v1, $v0, 3
@@ -168,7 +168,7 @@ void InitNoSaveFoundLabels(uint8_t* rdram, recomp_context* ctx)
     // sh          $v0, 0x2($a0)
     MEM_H(0X2, ctx->r4) = ctx->r2;
     // lh          $v0, 0x0($a2)
-    ctx->r2 = MEM_H(0X0, ctx->r6);
+    ctx->r2 = MEM_HS(0X0, ctx->r6);
     // addiu       $a1, $a1, -0x48
     ctx->r5 = ADD32(ctx->r5, -0X48);
     // sll         $v1, $v0, 3

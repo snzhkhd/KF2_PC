@@ -35,7 +35,7 @@ void sub_800145F8(uint8_t* rdram, recomp_context* ctx) {
     ctx->r3 = ADD32(0, -0X1);
 L_80014628:
     // lh          $v0, 0x0($s0)
-    ctx->r2 = MEM_H(0X0, ctx->r16);
+    ctx->r2 = MEM_HS(0X0, ctx->r16);
     // nop
 
     // bne         $v0, $v1, L_80014640
@@ -71,7 +71,7 @@ L_80014640:
     ctx->r17 = ADD32(0, -0X1);
 L_80014658:
     // lh          $v0, 0x2($s0)
-    ctx->r2 = MEM_H(0X2, ctx->r16);
+    ctx->r2 = MEM_HS(0X2, ctx->r16);
     // nop
 
     // bne         $v0, $s3, L_8001467C

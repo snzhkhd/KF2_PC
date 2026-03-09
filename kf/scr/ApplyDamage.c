@@ -84,7 +84,7 @@ void ApplyDamage(uint8_t* rdram, recomp_context* ctx) {
     // sh          $t1, 0x48($sp)
     MEM_H(0X48, ctx->r29) = ctx->r9;
     // lh          $v1, 0x22($s2)
-    ctx->r3 = MEM_H(0X22, ctx->r18);
+    ctx->r3 = MEM_HS(0X22, ctx->r18);
     // nop
 
     // sll         $v0, $v1, 5
@@ -146,7 +146,7 @@ L_8003C800:
     // ori         $v0, $zero, 0x1A
     ctx->r2 = 0 | 0X1A;
     // lh          $v0, 0x70($s2)
-    ctx->r2 = MEM_H(0X70, ctx->r18);
+    ctx->r2 = MEM_HS(0X70, ctx->r18);
     // nop
 
     // bne         $v0, $zero, L_8003CD68
@@ -581,7 +581,7 @@ L_8003CA20:
     // sra         $a1, $v0, 16
     ctx->r5 = S32(ctx->r2) >> 16;
     // lh          $a0, 0x42($s2)
-    ctx->r4 = MEM_H(0X42, ctx->r18);
+    ctx->r4 = MEM_HS(0X42, ctx->r18);
     // jal         0x80015798
     // ori         $a2, $zero, 0x200
     ctx->r6 = 0 | 0X200;
@@ -626,7 +626,7 @@ L_8003CAA0:
     // ori         $v0, $zero, 0x10
     ctx->r2 = 0 | 0X10;
     // lh          $v1, 0x70($s2)
-    ctx->r3 = MEM_H(0X70, ctx->r18);
+    ctx->r3 = MEM_HS(0X70, ctx->r18);
     // nop
 
     // beq         $v1, $v0, L_8003CB94
@@ -673,7 +673,7 @@ L_8003CAC0:
     // addu        $a0, $s2, $zero
     ctx->r4 = ADD32(ctx->r18, 0);
     // lh          $a0, 0x1E($s7)
-    ctx->r4 = MEM_H(0X1E, ctx->r23);
+    ctx->r4 = MEM_HS(0X1E, ctx->r23);
     // jal         0x80026C14
     // nop
 
@@ -823,7 +823,7 @@ L_8003CB94:
     // nop
 
     // lh          $v1, 0x22($s2)
-    ctx->r3 = MEM_H(0X22, ctx->r18);
+    ctx->r3 = MEM_HS(0X22, ctx->r18);
     // lui         $a0, 0x8017
     ctx->r4 = S32(0X8017 << 16);
     // addiu       $a0, $a0, -0x19F8

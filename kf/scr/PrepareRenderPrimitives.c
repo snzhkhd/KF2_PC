@@ -55,7 +55,7 @@ L_8002E75C:
     // swr         $a1, -0xA($a3)
     do_swr(rdram, -0XA, ctx->r7, ctx->r5);
     // lh          $v0, -0x6($a2)
-    ctx->r2 = MEM_H(-0X6, ctx->r6);
+    ctx->r2 = MEM_HS(-0X6, ctx->r6);
     // nop
 
     // sh          $v0, -0x6($a3)

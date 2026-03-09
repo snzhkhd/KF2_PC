@@ -256,7 +256,7 @@ L_8001687C:
     // lui         $v1, 0x8017
     ctx->r3 = S32(0X8017 << 16);
     // lh          $v1, 0x79D4($v1)
-    ctx->r3 = MEM_H(0X79D4, ctx->r3);
+    ctx->r3 = MEM_HS(0X79D4, ctx->r3);
     // nop
 
     // bne         $v1, $zero, L_800169C8
@@ -785,7 +785,7 @@ L_80016B4C:
     // lui         $v0, 0x8017
     ctx->r2 = S32(0X8017 << 16);
     // lh          $v0, 0x79D4($v0)
-    ctx->r2 = MEM_H(0X79D4, ctx->r2);
+    ctx->r2 = MEM_HS(0X79D4, ctx->r2);
     // nop
 
     // beq         $v0, $zero, L_80016BC0
@@ -816,7 +816,7 @@ L_80016B60:
     // lui         $v0, 0x8017
     ctx->r2 = S32(0X8017 << 16);
     // lh          $v0, 0x79D4($v0)
-    ctx->r2 = MEM_H(0X79D4, ctx->r2);
+    ctx->r2 = MEM_HS(0X79D4, ctx->r2);
     // nop
 
     // beq         $v0, $zero, L_80016BC0
@@ -845,7 +845,7 @@ L_80016B8C:
     // lui         $v0, 0x8017
     ctx->r2 = S32(0X8017 << 16);
     // lh          $v0, 0x79D6($v0)
-    ctx->r2 = MEM_H(0X79D6, ctx->r2);
+    ctx->r2 = MEM_HS(0X79D6, ctx->r2);
     // nop
 
     // bne         $v0, $s0, L_80016BC0

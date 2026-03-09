@@ -280,7 +280,7 @@ L_80057284:
     // addu        $at, $at, $s1
     ctx->r1 = ADD32(ctx->r1, ctx->r17);
     // lh          $v0, 0x0($at)
-    ctx->r2 = MEM_H(0X0, ctx->r1);
+    ctx->r2 = MEM_HS(0X0, ctx->r1);
     // nop
 
     // beq         $v0, $zero, L_800572A8
@@ -307,7 +307,7 @@ L_800572A8:
     // addu        $at, $at, $s1
     ctx->r1 = ADD32(ctx->r1, ctx->r17);
     // lh          $v0, 0x0($at)
-    ctx->r2 = MEM_H(0X0, ctx->r1);
+    ctx->r2 = MEM_HS(0X0, ctx->r1);
     // nop
 
     // beq         $v0, $zero, L_800572CC

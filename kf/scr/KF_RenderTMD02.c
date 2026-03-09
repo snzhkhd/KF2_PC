@@ -207,13 +207,13 @@ L_800323F8:
     // lhu         $v1, 0x18($s1)
     ctx->r3 = MEM_HU(0X18, ctx->r17);
     // lh          $t0, 0x2($s4)
-    ctx->r8 = MEM_H(0X2, ctx->r20);
+    ctx->r8 = MEM_HS(0X2, ctx->r20);
     // lh          $a2, 0x2($s3)
-    ctx->r6 = MEM_H(0X2, ctx->r19);
+    ctx->r6 = MEM_HS(0X2, ctx->r19);
     // lh          $a3, 0x0($s4)
-    ctx->r7 = MEM_H(0X0, ctx->r20);
+    ctx->r7 = MEM_HS(0X0, ctx->r20);
     // lh          $a1, 0x0($s3)
-    ctx->r5 = MEM_H(0X0, ctx->r19);
+    ctx->r5 = MEM_HS(0X0, ctx->r19);
     // addu        $s2, $v0, $fp
     ctx->r18 = ADD32(ctx->r2, ctx->r30);
     // addu        $s5, $v1, $fp
@@ -223,11 +223,11 @@ L_800323F8:
     // subu        $t4, $a3, $a1
     ctx->r12 = SUB32(ctx->r7, ctx->r5);
     // lh          $v0, 0x2($s5)
-    ctx->r2 = MEM_H(0X2, ctx->r21);
+    ctx->r2 = MEM_HS(0X2, ctx->r21);
     // lh          $v1, 0x2($s2)
-    ctx->r3 = MEM_H(0X2, ctx->r18);
+    ctx->r3 = MEM_HS(0X2, ctx->r18);
     // lh          $a0, 0x0($s2)
-    ctx->r4 = MEM_H(0X0, ctx->r18);
+    ctx->r4 = MEM_HS(0X0, ctx->r18);
     // subu        $t2, $a2, $v0
     ctx->r10 = SUB32(ctx->r6, ctx->r2);
     // subu        $t3, $v0, $v1
@@ -239,7 +239,7 @@ L_800323F8:
     // subu        $a3, $a0, $a3
     ctx->r7 = SUB32(ctx->r4, ctx->r7);
     // lh          $v0, 0x0($s5)
-    ctx->r2 = MEM_H(0X0, ctx->r21);
+    ctx->r2 = MEM_HS(0X0, ctx->r21);
     // lhu         $v1, 0x4($s3)
     ctx->r3 = MEM_HU(0X4, ctx->r19);
     // subu        $t5, $a1, $v0
@@ -509,7 +509,7 @@ L_800323F8:
     // addu        $a0, $s6, $zero
     ctx->r4 = ADD32(ctx->r22, 0);
     // lh          $a1, 0x6($s4)
-    ctx->r5 = MEM_H(0X6, ctx->r20);
+    ctx->r5 = MEM_HS(0X6, ctx->r20);
     // jal         0x8005F394
     // addiu       $a2, $s0, 0x4
     ctx->r6 = ADD32(ctx->r16, 0X4);
@@ -521,7 +521,7 @@ L_800323F8:
     // addu        $a0, $s6, $zero
     ctx->r4 = ADD32(ctx->r22, 0);
     // lh          $a1, 0x6($s3)
-    ctx->r5 = MEM_H(0X6, ctx->r19);
+    ctx->r5 = MEM_HS(0X6, ctx->r19);
     // jal         0x8005F394
     // addiu       $a2, $s0, 0x10
     ctx->r6 = ADD32(ctx->r16, 0X10);
@@ -533,7 +533,7 @@ L_800323F8:
     // addu        $a0, $s6, $zero
     ctx->r4 = ADD32(ctx->r22, 0);
     // lh          $a1, 0x6($s2)
-    ctx->r5 = MEM_H(0X6, ctx->r18);
+    ctx->r5 = MEM_HS(0X6, ctx->r18);
     // jal         0x8005F394
     // addiu       $a2, $s0, 0x1C
     ctx->r6 = ADD32(ctx->r16, 0X1C);
@@ -545,7 +545,7 @@ L_800323F8:
     // addu        $a0, $s6, $zero
     ctx->r4 = ADD32(ctx->r22, 0);
     // lh          $a1, 0x6($s5)
-    ctx->r5 = MEM_H(0X6, ctx->r21);
+    ctx->r5 = MEM_HS(0X6, ctx->r21);
     // jal         0x8005F394
     // addiu       $a2, $s0, 0x28
     ctx->r6 = ADD32(ctx->r16, 0X28);
@@ -569,15 +569,15 @@ L_800323F8:
     // sb          $v0, 0x7($s0)
     MEM_B(0X7, ctx->r16) = ctx->r2;
     // lh          $v0, 0x4($s4)
-    ctx->r2 = MEM_H(0X4, ctx->r20);
+    ctx->r2 = MEM_HS(0X4, ctx->r20);
     // lh          $v1, 0x4($s3)
-    ctx->r3 = MEM_H(0X4, ctx->r19);
+    ctx->r3 = MEM_HS(0X4, ctx->r19);
     // lh          $a0, 0x4($s5)
-    ctx->r4 = MEM_H(0X4, ctx->r21);
+    ctx->r4 = MEM_HS(0X4, ctx->r21);
     // addu        $v0, $v0, $v1
     ctx->r2 = ADD32(ctx->r2, ctx->r3);
     // lh          $v1, 0x4($s2)
-    ctx->r3 = MEM_H(0X4, ctx->r18);
+    ctx->r3 = MEM_HS(0X4, ctx->r18);
     // lw          $t7, 0x58($sp)
     ctx->r15 = MEM_W(0X58, ctx->r29);
     // addu        $v0, $v0, $v1
@@ -667,13 +667,13 @@ L_8003270C:
     // lhu         $v0, 0x10($s1)
     ctx->r2 = MEM_HU(0X10, ctx->r17);
     // lh          $a0, 0x2($s4)
-    ctx->r4 = MEM_H(0X2, ctx->r20);
+    ctx->r4 = MEM_HS(0X2, ctx->r20);
     // lh          $v1, 0x2($s2)
-    ctx->r3 = MEM_H(0X2, ctx->r18);
+    ctx->r3 = MEM_HS(0X2, ctx->r18);
     // addu        $s3, $v0, $fp
     ctx->r19 = ADD32(ctx->r2, ctx->r30);
     // lh          $v0, 0x2($s3)
-    ctx->r2 = MEM_H(0X2, ctx->r19);
+    ctx->r2 = MEM_HS(0X2, ctx->r19);
     // subu        $t3, $v1, $a0
     ctx->r11 = SUB32(ctx->r3, ctx->r4);
     // subu        $t1, $a0, $v0
@@ -681,11 +681,11 @@ L_8003270C:
     // subu        $t2, $v0, $v1
     ctx->r10 = SUB32(ctx->r2, ctx->r3);
     // lh          $a0, 0x0($s4)
-    ctx->r4 = MEM_H(0X0, ctx->r20);
+    ctx->r4 = MEM_HS(0X0, ctx->r20);
     // lh          $v0, 0x0($s3)
-    ctx->r2 = MEM_H(0X0, ctx->r19);
+    ctx->r2 = MEM_HS(0X0, ctx->r19);
     // lh          $v1, 0x0($s2)
-    ctx->r3 = MEM_H(0X0, ctx->r18);
+    ctx->r3 = MEM_HS(0X0, ctx->r18);
     // subu        $t4, $a0, $v0
     ctx->r12 = SUB32(ctx->r4, ctx->r2);
     // subu        $t5, $v0, $v1
@@ -899,7 +899,7 @@ L_8003270C:
     // addu        $a0, $s6, $zero
     ctx->r4 = ADD32(ctx->r22, 0);
     // lh          $a1, 0x6($s4)
-    ctx->r5 = MEM_H(0X6, ctx->r20);
+    ctx->r5 = MEM_HS(0X6, ctx->r20);
     // jal         0x8005F394
     // addiu       $a2, $s0, 0x4
     ctx->r6 = ADD32(ctx->r16, 0X4);
@@ -911,7 +911,7 @@ L_8003270C:
     // addu        $a0, $s6, $zero
     ctx->r4 = ADD32(ctx->r22, 0);
     // lh          $a1, 0x6($s3)
-    ctx->r5 = MEM_H(0X6, ctx->r19);
+    ctx->r5 = MEM_HS(0X6, ctx->r19);
     // jal         0x8005F394
     // addiu       $a2, $s0, 0x10
     ctx->r6 = ADD32(ctx->r16, 0X10);
@@ -923,7 +923,7 @@ L_8003270C:
     // addu        $a0, $s6, $zero
     ctx->r4 = ADD32(ctx->r22, 0);
     // lh          $a1, 0x6($s2)
-    ctx->r5 = MEM_H(0X6, ctx->r18);
+    ctx->r5 = MEM_HS(0X6, ctx->r18);
     // jal         0x8005F394
     // addiu       $a2, $s0, 0x1C
     ctx->r6 = ADD32(ctx->r16, 0X1C);
@@ -949,11 +949,11 @@ L_8003270C:
     // sb          $v0, 0x7($s0)
     MEM_B(0X7, ctx->r16) = ctx->r2;
     // lh          $v1, 0x4($s4)
-    ctx->r3 = MEM_H(0X4, ctx->r20);
+    ctx->r3 = MEM_HS(0X4, ctx->r20);
     // lh          $v0, 0x4($s3)
-    ctx->r2 = MEM_H(0X4, ctx->r19);
+    ctx->r2 = MEM_HS(0X4, ctx->r19);
     // lh          $a0, 0x4($s2)
-    ctx->r4 = MEM_H(0X4, ctx->r18);
+    ctx->r4 = MEM_HS(0X4, ctx->r18);
     // addu        $v1, $v1, $v0
     ctx->r3 = ADD32(ctx->r3, ctx->r2);
     // addu        $v1, $v1, $a0

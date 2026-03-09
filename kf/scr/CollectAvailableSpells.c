@@ -20,7 +20,7 @@ void CollectAvailableSpells(uint8_t* rdram, recomp_context* ctx) {
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4A66($v0)
-    ctx->r2 = MEM_H(-0X4A66, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4A66, ctx->r2);
     // lw          $t4, 0x14($sp)
     ctx->r12 = MEM_W(0X14, ctx->r29);
     // lw          $a3, 0x10($sp)

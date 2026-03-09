@@ -1,7 +1,8 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void MeleeAttack_800281CC(uint8_t* rdram, recomp_context* ctx) {
+void MeleeAttack_800281CC(uint8_t* rdram, recomp_context* ctx) 
+{
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -10,7 +11,7 @@ void MeleeAttack_800281CC(uint8_t* rdram, recomp_context* ctx) {
     // addiu       $a1, $a1, -0x4AAC
     ctx->r5 = ADD32(ctx->r5, -0X4AAC);
     // lh          $v1, 0x0($a1)
-    ctx->r3 = MEM_H(0X0, ctx->r5);
+    ctx->r3 = MEM_HS(0X0, ctx->r5);
     // addiu       $v0, $zero, -0x1
     ctx->r2 = ADD32(0, -0X1);
     // bne         $v1, $v0, L_800282E8
@@ -38,7 +39,7 @@ void MeleeAttack_800281CC(uint8_t* rdram, recomp_context* ctx) {
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4ADC($v0)
-    ctx->r2 = MEM_H(-0X4ADC, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4ADC, ctx->r2);
     // nop
 
     // bne         $v0, $zero, L_800282E8
@@ -179,6 +180,8 @@ L_800282D8:
     ctx->r1 = S32(0X801A << 16);
     // sb          $zero, -0x4AA0($at)
     MEM_B(-0X4AA0, ctx->r1) = 0;
+
+
 L_800282E8:
     // jr          $ra
     // nop

@@ -296,7 +296,7 @@ L_80053668:
     // lui         $v1, 0x8017
     ctx->r3 = S32(0X8017 << 16);
     // lh          $v1, -0x2568($v1)
-    ctx->r3 = MEM_H(-0X2568, ctx->r3);
+    ctx->r3 = MEM_HS(-0X2568, ctx->r3);
     // nop
 
     // slt         $v0, $v1, $v0

@@ -298,7 +298,7 @@ L_8001B060:
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4A66($v0)
-    ctx->r2 = MEM_H(-0X4A66, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4A66, ctx->r2);
     // addu        $a3, $s2, $a3
     ctx->r7 = ADD32(ctx->r18, ctx->r7);
     // sll         $v1, $v0, 3

@@ -46,7 +46,7 @@ void sub_8005C7F8(uint8_t* rdram, recomp_context* ctx) {
     // lui         $v0, 0x801E
     ctx->r2 = S32(0X801E << 16);
     // lh          $v0, -0x19C8($v0)
-    ctx->r2 = MEM_H(-0X19C8, ctx->r2);
+    ctx->r2 = MEM_HS(-0X19C8, ctx->r2);
     // nop
 
     // blez        $v0, L_8005CA08
@@ -83,7 +83,7 @@ L_8005C850:
     // lui         $v0, 0x801E
     ctx->r2 = S32(0X801E << 16);
     // lh          $v0, -0x19C0($v0)
-    ctx->r2 = MEM_H(-0X19C0, ctx->r2);
+    ctx->r2 = MEM_HS(-0X19C0, ctx->r2);
     // nop
 
     // blez        $v0, L_8005C9F0
@@ -341,7 +341,7 @@ L_8005C9D8:
     // lui         $v0, 0x801E
     ctx->r2 = S32(0X801E << 16);
     // lh          $v0, -0x19C0($v0)
-    ctx->r2 = MEM_H(-0X19C0, ctx->r2);
+    ctx->r2 = MEM_HS(-0X19C0, ctx->r2);
     // addiu       $s0, $s0, 0x1
     ctx->r16 = ADD32(ctx->r16, 0X1);
     // slt         $v0, $s0, $v0
@@ -358,7 +358,7 @@ L_8005C9F0:
     // lui         $v0, 0x801E
     ctx->r2 = S32(0X801E << 16);
     // lh          $v0, -0x19C8($v0)
-    ctx->r2 = MEM_H(-0X19C8, ctx->r2);
+    ctx->r2 = MEM_HS(-0X19C8, ctx->r2);
     // addiu       $s2, $s2, 0x1
     ctx->r18 = ADD32(ctx->r18, 0X1);
     // slt         $v0, $s2, $v0

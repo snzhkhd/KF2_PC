@@ -74,7 +74,7 @@ L_80060CBC:
     // addu        $t5, $t5, $t4
     ctx->r13 = ADD32(ctx->r13, ctx->r12);
     // lh          $t5, 0x4BA4($t5)
-    ctx->r13 = MEM_H(0X4BA4, ctx->r13);
+    ctx->r13 = MEM_HS(0X4BA4, ctx->r13);
     // nop
 
     // mtc2        $t5, $8

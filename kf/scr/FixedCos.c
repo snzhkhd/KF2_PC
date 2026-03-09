@@ -47,7 +47,7 @@ L_800602DC:
     // addu        $at, $at, $v0
     ctx->r1 = ADD32(ctx->r1, ctx->r2);
     // lh          $v0, 0x0($at)
-    ctx->r2 = MEM_H(0X0, ctx->r1);
+    ctx->r2 = MEM_HS(0X0, ctx->r1);
     // j           L_80060378
     // nop
 
@@ -64,7 +64,7 @@ L_80060314:
     // addu        $at, $at, $v0
     ctx->r1 = ADD32(ctx->r1, ctx->r2);
     // lh          $v0, 0x0($at)
-    ctx->r2 = MEM_H(0X0, ctx->r1);
+    ctx->r2 = MEM_HS(0X0, ctx->r1);
     // j           L_80060378
     // negu        $v0, $v0
     ctx->r2 = SUB32(0, ctx->r2);
@@ -91,7 +91,7 @@ L_80060330:
     // addu        $at, $at, $v0
     ctx->r1 = ADD32(ctx->r1, ctx->r2);
     // lh          $v0, 0x0($at)
-    ctx->r2 = MEM_H(0X0, ctx->r1);
+    ctx->r2 = MEM_HS(0X0, ctx->r1);
     // j           L_80060378
     // nop
 
@@ -110,7 +110,7 @@ L_80060358:
     // addu        $at, $at, $v0
     ctx->r1 = ADD32(ctx->r1, ctx->r2);
     // lh          $v0, 0x0($at)
-    ctx->r2 = MEM_H(0X0, ctx->r1);
+    ctx->r2 = MEM_HS(0X0, ctx->r1);
     // nop
 
     // negu        $v0, $v0

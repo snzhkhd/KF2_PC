@@ -91,7 +91,7 @@ void Map_ApplyBlueprint(uint8_t* rdram, recomp_context* ctx) {
     ctx->r7 = ADD32(ctx->r18, 0X9);
 L_80037AAC:
     // lb          $a2, -0x1($a3)
-    ctx->r6 = MEM_B(-0X1, ctx->r7);
+    ctx->r6 = MEM_BS(-0X1, ctx->r7);
     // nop
 
     // mult        $a2, $s1
@@ -99,7 +99,7 @@ L_80037AAC:
     // mflo        $a1
     ctx->r5 = lo;
     // lb          $v0, 0x0($a3)
-    ctx->r2 = MEM_B(0X0, ctx->r7);
+    ctx->r2 = MEM_BS(0X0, ctx->r7);
     // nop
 
     // mult        $v0, $t1

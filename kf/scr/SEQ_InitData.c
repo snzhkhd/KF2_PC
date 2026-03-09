@@ -320,7 +320,7 @@ L_80059CD0:
     MEM_W(0X4, ctx->r16) = ctx->r2;
     after_2:
     // lh          $a0, 0x4A($s0)
-    ctx->r4 = MEM_H(0X4A, ctx->r16);
+    ctx->r4 = MEM_HS(0X4A, ctx->r16);
     // lw          $v1, 0x84($s0)
     ctx->r3 = MEM_W(0X84, ctx->r16);
     // nop
@@ -404,7 +404,7 @@ L_80059D70:
     MEM_H(0X70, ctx->r16) = ctx->r3;
 L_80059D84:
     // lh          $v1, 0x4A($s0)
-    ctx->r3 = MEM_H(0X4A, ctx->r16);
+    ctx->r3 = MEM_HS(0X4A, ctx->r16);
     // lw          $v0, 0x84($s0)
     ctx->r2 = MEM_W(0X84, ctx->r16);
     // nop
@@ -439,7 +439,7 @@ L_80059DBC:
     // mflo        $a0
     ctx->r4 = lo;
     // lh          $v1, 0x4A($s0)
-    ctx->r3 = MEM_H(0X4A, ctx->r16);
+    ctx->r3 = MEM_HS(0X4A, ctx->r16);
     // lw          $v0, 0x84($s0)
     ctx->r2 = MEM_W(0X84, ctx->r16);
     // nop

@@ -7,6 +7,8 @@ void CD_readm(uint8_t* rdram, recomp_context* ctx)
     uint32_t dest_addr = ctx->r4;
     uint32_t count = ctx->r5;
     if (count == 0) count = 1;
+    //printf("[CD_readm] sector=%d count=%d dst=%08X\n",
+    //    g_cdCurrentSector, ctx->r5, ctx->r4);
 
     uint8_t* dest_ptr = (uint8_t*)GET_PTR(dest_addr);
     if (g_cdImage && dest_ptr) {
@@ -36,7 +38,7 @@ void CD_readm(uint8_t* rdram, recomp_context* ctx)
             }
         }
     }
-    printf("CD_readm\n");
+    //printf("CD_readm\n");
     ctx->r2 = 0;
 
 //    uint64_t hi = 0, lo = 0, result = 0;

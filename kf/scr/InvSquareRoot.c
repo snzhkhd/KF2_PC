@@ -76,7 +76,7 @@ L_80060BB4:
     // addu        $t5, $t5, $t4
     ctx->r13 = ADD32(ctx->r13, ctx->r12);
     // lh          $t5, 0x4BA4($t5)
-    ctx->r13 = MEM_H(0X4BA4, ctx->r13);
+    ctx->r13 = MEM_HS(0X4BA4, ctx->r13);
     // sw          $t1, 0x0($a2)
     MEM_W(0X0, ctx->r6) = ctx->r9;
     // sw          $t5, 0x0($a1)

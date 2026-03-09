@@ -15,7 +15,7 @@ void sub_80037264(uint8_t* rdram, recomp_context* ctx) {
     ctx->r5 = 0 | 0XFFFF;
 L_80037274:
     // lh          $v0, 0x0($v1)
-    ctx->r2 = MEM_H(0X0, ctx->r3);
+    ctx->r2 = MEM_HS(0X0, ctx->r3);
     // nop
 
     // beq         $v0, $zero, L_80037298

@@ -30,7 +30,7 @@ void Music_Stop(uint8_t* rdram, recomp_context* ctx) {
     // lui         $a0, 0x801A
     ctx->r4 = S32(0X801A << 16);
     // lh          $a0, -0x59D4($a0)
-    ctx->r4 = MEM_H(-0X59D4, ctx->r4);
+    ctx->r4 = MEM_HS(-0X59D4, ctx->r4);
     // jal         0x8005C7A4
     // nop
 
@@ -42,7 +42,7 @@ void Music_Stop(uint8_t* rdram, recomp_context* ctx) {
     // lui         $a0, 0x801A
     ctx->r4 = S32(0X801A << 16);
     // lh          $a0, -0x59D4($a0)
-    ctx->r4 = MEM_H(-0X59D4, ctx->r4);
+    ctx->r4 = MEM_HS(-0X59D4, ctx->r4);
     // jal         0x8005D4F0
     // nop
 

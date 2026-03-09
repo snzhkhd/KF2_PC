@@ -358,7 +358,7 @@ L_8002A100:
     // mult        $v0, $s0
     result = S64(S32(ctx->r2)) * S64(S32(ctx->r16)); lo = S32(result >> 0); hi = S32(result >> 32);
     // lh          $v0, 0x28($sp)
-    ctx->r2 = MEM_H(0X28, ctx->r29);
+    ctx->r2 = MEM_HS(0X28, ctx->r29);
     // lui         $v1, 0x801E
     ctx->r3 = S32(0X801E << 16);
     // lw          $v1, -0x2A5C($v1)

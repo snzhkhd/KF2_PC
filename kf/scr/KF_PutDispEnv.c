@@ -7,7 +7,7 @@ void KF_PutDispEnv(uint8_t* rdram, recomp_context* ctx)
 {
   //  printf("KF_PutDispEnv\n");
     DISPENV* env = (DISPENV*)GET_PTR(ctx->r4);
-    // Сообщаем Psy-X настройки отрисовки
+    //  Psy-X  
     PutDispEnv(env);
     ctx->r2 = 0;
     /*
@@ -185,7 +185,7 @@ L_800638A4:
 
     after_3:
     // lh          $v1, 0x8($s0)
-    ctx->r3 = MEM_H(0X8, ctx->r16);
+    ctx->r3 = MEM_HS(0X8, ctx->r16);
     // sb          $v0, 0x12($s0)
     MEM_B(0X12, ctx->r16) = ctx->r2;
     // sll         $v0, $v1, 2
@@ -199,7 +199,7 @@ L_800638A4:
     // lbu         $v0, 0x12($s0)
     ctx->r2 = MEM_BU(0X12, ctx->r16);
     // lh          $a0, 0xA($s0)
-    ctx->r4 = MEM_H(0XA, ctx->r16);
+    ctx->r4 = MEM_HS(0XA, ctx->r16);
     // bne         $v0, $zero, L_800638D8
     if (ctx->r2 != 0) {
         // addiu       $s1, $a0, 0x13
@@ -212,7 +212,7 @@ L_800638A4:
     ctx->r17 = ADD32(ctx->r4, 0X10);
 L_800638D8:
     // lh          $v1, 0xC($s0)
-    ctx->r3 = MEM_H(0XC, ctx->r16);
+    ctx->r3 = MEM_HS(0XC, ctx->r16);
     // nop
 
     // beq         $v1, $zero, L_800638F8
@@ -238,7 +238,7 @@ L_800638F8:
     ctx->r6 = ADD32(ctx->r5, 0XA00);
 L_800638FC:
     // lh          $v0, 0xE($s0)
-    ctx->r2 = MEM_H(0XE, ctx->r16);
+    ctx->r2 = MEM_HS(0XE, ctx->r16);
     // nop
 
     // bne         $v0, $zero, L_80063910
@@ -631,7 +631,7 @@ L_80063AF0:
     ctx->r18 = ctx->r18 | 0X80;
 L_80063B0C:
     // lh          $v1, 0x4($s0)
-    ctx->r3 = MEM_H(0X4, ctx->r16);
+    ctx->r3 = MEM_HS(0X4, ctx->r16);
     // nop
 
     // slti        $v0, $v1, 0x119
@@ -695,7 +695,7 @@ L_80063B54:
     // lbu         $v0, 0x12($s0)
     ctx->r2 = MEM_BU(0X12, ctx->r16);
     // lh          $v1, 0x6($s0)
-    ctx->r3 = MEM_H(0X6, ctx->r16);
+    ctx->r3 = MEM_HS(0X6, ctx->r16);
     // bne         $v0, $zero, L_80063B68
     if (ctx->r2 != 0) {
         // slti        $v0, $v1, 0x121

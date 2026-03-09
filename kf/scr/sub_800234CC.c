@@ -36,7 +36,7 @@ void sub_800234CC(uint8_t* rdram, recomp_context* ctx) {
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4A66($v0)
-    ctx->r2 = MEM_H(-0X4A66, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4A66, ctx->r2);
     // nop
 
     // sll         $v1, $v0, 3
@@ -179,7 +179,7 @@ L_80023614:
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4A66($v0)
-    ctx->r2 = MEM_H(-0X4A66, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4A66, ctx->r2);
     // nop
 
     // sll         $v1, $v0, 3
@@ -420,7 +420,7 @@ L_8002378C:
     // lui         $a2, 0x801A
     ctx->r6 = S32(0X801A << 16);
     // lh          $a2, -0x4A66($a2)
-    ctx->r6 = MEM_H(-0X4A66, ctx->r6);
+    ctx->r6 = MEM_HS(-0X4A66, ctx->r6);
     // ori         $v0, $zero, 0xB7
     ctx->r2 = 0 | 0XB7;
     // sh          $v0, 0x18($sp)

@@ -42,7 +42,7 @@ void sub_8005CB30(uint8_t* rdram, recomp_context* ctx) {
     // lw          $v0, 0xA0($a3)
     ctx->r2 = MEM_W(0XA0, ctx->r7);
     // lh          $t0, 0x44($a3)
-    ctx->r8 = MEM_H(0X44, ctx->r7);
+    ctx->r8 = MEM_HS(0X44, ctx->r7);
     // addiu       $v0, $v0, -0x1
     ctx->r2 = ADD32(ctx->r2, -0X1);
     // blez        $t0, L_8005CBD4
@@ -166,7 +166,7 @@ L_8005CC10:
     MEM_W(0X8C, ctx->r7) = ctx->r4;
 L_8005CC1C:
     // lh          $v1, 0x4A($a3)
-    ctx->r3 = MEM_H(0X4A, ctx->r7);
+    ctx->r3 = MEM_HS(0X4A, ctx->r7);
     // lw          $v0, 0x8C($a3)
     ctx->r2 = MEM_W(0X8C, ctx->r7);
     // nop

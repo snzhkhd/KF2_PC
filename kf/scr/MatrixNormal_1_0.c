@@ -18,37 +18,37 @@ void MatrixNormal_1_0(uint8_t* rdram, recomp_context* ctx) {
     // sw          $s0, 0x40($sp)
     MEM_W(0X40, ctx->r29) = ctx->r16;
     // lh          $v0, 0x6($v1)
-    ctx->r2 = MEM_H(0X6, ctx->r3);
+    ctx->r2 = MEM_HS(0X6, ctx->r3);
     // addu        $s0, $a1, $zero
     ctx->r16 = ADD32(ctx->r5, 0);
     // sw          $v0, 0x20($sp)
     MEM_W(0X20, ctx->r29) = ctx->r2;
     // lh          $v0, 0x8($v1)
-    ctx->r2 = MEM_H(0X8, ctx->r3);
+    ctx->r2 = MEM_HS(0X8, ctx->r3);
     // addiu       $s2, $sp, 0x20
     ctx->r18 = ADD32(ctx->r29, 0X20);
     // sw          $v0, 0x24($sp)
     MEM_W(0X24, ctx->r29) = ctx->r2;
     // lh          $v0, 0xA($v1)
-    ctx->r2 = MEM_H(0XA, ctx->r3);
+    ctx->r2 = MEM_HS(0XA, ctx->r3);
     // addu        $a0, $s2, $zero
     ctx->r4 = ADD32(ctx->r18, 0);
     // sw          $v0, 0x28($sp)
     MEM_W(0X28, ctx->r29) = ctx->r2;
     // lh          $v0, 0xC($v1)
-    ctx->r2 = MEM_H(0XC, ctx->r3);
+    ctx->r2 = MEM_HS(0XC, ctx->r3);
     // addiu       $s1, $sp, 0x30
     ctx->r17 = ADD32(ctx->r29, 0X30);
     // sw          $v0, 0x30($sp)
     MEM_W(0X30, ctx->r29) = ctx->r2;
     // lh          $v0, 0xE($v1)
-    ctx->r2 = MEM_H(0XE, ctx->r3);
+    ctx->r2 = MEM_HS(0XE, ctx->r3);
     // addu        $a1, $s1, $zero
     ctx->r5 = ADD32(ctx->r17, 0);
     // sw          $v0, 0x34($sp)
     MEM_W(0X34, ctx->r29) = ctx->r2;
     // lh          $v0, 0x10($v1)
-    ctx->r2 = MEM_H(0X10, ctx->r3);
+    ctx->r2 = MEM_HS(0X10, ctx->r3);
     // addiu       $a2, $sp, 0x10
     ctx->r6 = ADD32(ctx->r29, 0X10);
     // jal         0x80060F3C

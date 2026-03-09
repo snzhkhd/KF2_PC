@@ -269,7 +269,7 @@ L_8003D36C:
     MEM_H(0X22, ctx->r29) = ctx->r3;
 L_8003D3A8:
     // lh          $v0, 0x22($sp)
-    ctx->r2 = MEM_H(0X22, ctx->r29);
+    ctx->r2 = MEM_HS(0X22, ctx->r29);
     // lw          $t0, 0x40($sp)
     ctx->r8 = MEM_W(0X40, ctx->r29);
     // nop
@@ -285,7 +285,7 @@ L_8003D3A8:
     // nop
 
     // lh          $v0, 0x20($sp)
-    ctx->r2 = MEM_H(0X20, ctx->r29);
+    ctx->r2 = MEM_HS(0X20, ctx->r29);
     // lw          $t0, 0x48($sp)
     ctx->r8 = MEM_W(0X48, ctx->r29);
     // nop
@@ -302,9 +302,9 @@ L_8003D3A8:
 
 L_8003D3D8:
     // lh          $v0, 0x22($sp)
-    ctx->r2 = MEM_H(0X22, ctx->r29);
+    ctx->r2 = MEM_HS(0X22, ctx->r29);
     // lh          $v1, 0x20($sp)
-    ctx->r3 = MEM_H(0X20, ctx->r29);
+    ctx->r3 = MEM_HS(0X20, ctx->r29);
     // nop
 
     // addu        $v0, $v0, $v1

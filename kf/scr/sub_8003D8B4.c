@@ -20,7 +20,7 @@ void sub_8003D8B4(uint8_t* rdram, recomp_context* ctx) {
     // addu        $a2, $zero, $zero
     ctx->r6 = ADD32(0, 0);
     // lh          $v0, 0x66($a0)
-    ctx->r2 = MEM_H(0X66, ctx->r4);
+    ctx->r2 = MEM_HS(0X66, ctx->r4);
     // nop
 
     // subu        $v0, $v1, $v0

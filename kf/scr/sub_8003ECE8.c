@@ -24,7 +24,7 @@ void sub_8003ECE8(uint8_t* rdram, recomp_context* ctx) {
     // sw          $ra, 0x18($sp)
     MEM_W(0X18, ctx->r29) = ctx->r31;
     // lh          $v0, 0x58($s0)
-    ctx->r2 = MEM_H(0X58, ctx->r16);
+    ctx->r2 = MEM_HS(0X58, ctx->r16);
     // lw          $a1, 0x34($sp)
     ctx->r5 = MEM_W(0X34, ctx->r29);
     // blez        $v0, L_8003ED28
@@ -58,7 +58,7 @@ L_8003ED28:
     ctx->r8 = SUB32(0, ctx->r2);
 L_8003ED38:
     // lh          $v1, 0x52($s0)
-    ctx->r3 = MEM_H(0X52, ctx->r16);
+    ctx->r3 = MEM_HS(0X52, ctx->r16);
     // nop
 
     // slti        $v0, $v1, 0xB

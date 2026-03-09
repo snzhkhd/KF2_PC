@@ -28,7 +28,7 @@ void sub_80033FBC(uint8_t* rdram, recomp_context* ctx) {
     // lui         $a1, 0x8019
     ctx->r5 = S32(0X8019 << 16);
     // lh          $a1, 0x4DFE($a1)
-    ctx->r5 = MEM_H(0X4DFE, ctx->r5);
+    ctx->r5 = MEM_HS(0X4DFE, ctx->r5);
     // nop
 
     // div         $zero, $a1, $v0
@@ -74,7 +74,7 @@ L_80034010:
     // lui         $a0, 0x8019
     ctx->r4 = S32(0X8019 << 16);
     // lh          $a0, 0x4E00($a0)
-    ctx->r4 = MEM_H(0X4E00, ctx->r4);
+    ctx->r4 = MEM_HS(0X4E00, ctx->r4);
     // lbu         $v0, 0x0($a2)
     ctx->r2 = MEM_BU(0X0, ctx->r6);
     // nop
@@ -122,7 +122,7 @@ L_8003404C:
     // lui         $v1, 0x8019
     ctx->r3 = S32(0X8019 << 16);
     // lh          $v1, 0x4E02($v1)
-    ctx->r3 = MEM_H(0X4E02, ctx->r3);
+    ctx->r3 = MEM_HS(0X4E02, ctx->r3);
     // lbu         $v0, 0x0($a2)
     ctx->r2 = MEM_BU(0X0, ctx->r6);
     // nop

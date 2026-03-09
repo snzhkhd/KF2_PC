@@ -36,7 +36,7 @@ void RenderItemList(uint8_t* rdram, recomp_context* ctx) {
     // lw          $s1, 0x30($s2)
     ctx->r17 = MEM_W(0X30, ctx->r18);
     // lh          $v0, 0x0($s2)
-    ctx->r2 = MEM_H(0X0, ctx->r18);
+    ctx->r2 = MEM_HS(0X0, ctx->r18);
     // lw          $s3, 0x2C($s2)
     ctx->r19 = MEM_W(0X2C, ctx->r18);
     // beq         $v0, $zero, L_80022920

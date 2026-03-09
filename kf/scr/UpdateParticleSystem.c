@@ -75,7 +75,7 @@ L_800486AC:
     // sw          $v0, -0x4($s2)
     MEM_W(-0X4, ctx->r18) = ctx->r2;
     // lh          $v0, 0x0($s1)
-    ctx->r2 = MEM_H(0X0, ctx->r17);
+    ctx->r2 = MEM_HS(0X0, ctx->r17);
     // nop
 
     // beq         $v0, $s4, L_80048718

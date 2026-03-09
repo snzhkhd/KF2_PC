@@ -238,7 +238,7 @@ L_800142B8:
     // lui         $v1, 0x801A
     ctx->r3 = S32(0X801A << 16);
     // lh          $v1, -0x59B4($v1)
-    ctx->r3 = MEM_H(-0X59B4, ctx->r3);
+    ctx->r3 = MEM_HS(-0X59B4, ctx->r3);
     // nop
 
     // addiu       $v1, $v1, -0x400

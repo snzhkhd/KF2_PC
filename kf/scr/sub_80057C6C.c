@@ -221,7 +221,7 @@ L_80057DDC:
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x191A($v0)
-    ctx->r2 = MEM_H(-0X191A, ctx->r2);
+    ctx->r2 = MEM_HS(-0X191A, ctx->r2);
     // jr          $ra
     // addiu       $sp, $sp, 0x8
     ctx->r29 = ADD32(ctx->r29, 0X8);

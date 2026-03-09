@@ -42,7 +42,7 @@ void Music_PlaySEQ(uint8_t* rdram, recomp_context* ctx)
     // lui         $a1, 0x801A
     ctx->r5 = S32(0X801A << 16);
     // lh          $a1, -0x59A4($a1)
-    ctx->r5 = MEM_H(-0X59A4, ctx->r5);
+    ctx->r5 = MEM_HS(-0X59A4, ctx->r5);
     // jal         0x80059E38
     // nop
 
@@ -74,7 +74,7 @@ void Music_PlaySEQ(uint8_t* rdram, recomp_context* ctx)
     // lui         $a0, 0x801A
     ctx->r4 = S32(0X801A << 16);
     // lh          $a0, -0x59D4($a0)
-    ctx->r4 = MEM_H(-0X59D4, ctx->r4);
+    ctx->r4 = MEM_HS(-0X59D4, ctx->r4);
     // jal         0x8005C42C
     // addu        $a2, $zero, $zero
     ctx->r6 = ADD32(0, 0);

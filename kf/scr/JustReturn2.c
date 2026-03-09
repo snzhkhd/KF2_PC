@@ -47,11 +47,11 @@ void JustReturn2(uint8_t* rdram, recomp_context* ctx)
 
 L_80063174:
     // lh          $a1, 0x4($s0)
-    ctx->r5 = MEM_H(0X4, ctx->r16);
+    ctx->r5 = MEM_HS(0X4, ctx->r16);
     // lui         $v1, 0x8007
     ctx->r3 = S32(0X8007 << 16);
     // lh          $v1, 0x61A4($v1)
-    ctx->r3 = MEM_H(0X61A4, ctx->r3);
+    ctx->r3 = MEM_HS(0X61A4, ctx->r3);
     // nop
 
     // slt         $v0, $v1, $a1
@@ -65,7 +65,7 @@ L_80063174:
     // nop
 
     // lh          $a3, 0x0($s0)
-    ctx->r7 = MEM_H(0X0, ctx->r16);
+    ctx->r7 = MEM_HS(0X0, ctx->r16);
     // nop
 
     // addu        $v0, $a1, $a3
@@ -81,11 +81,11 @@ L_80063174:
     // nop
 
     // lh          $v1, 0x2($s0)
-    ctx->r3 = MEM_H(0X2, ctx->r16);
+    ctx->r3 = MEM_HS(0X2, ctx->r16);
     // lui         $a0, 0x8007
     ctx->r4 = S32(0X8007 << 16);
     // lh          $a0, 0x61A6($a0)
-    ctx->r4 = MEM_H(0X61A6, ctx->r4);
+    ctx->r4 = MEM_HS(0X61A6, ctx->r4);
     // nop
 
     // slt         $v0, $a0, $v1
@@ -99,7 +99,7 @@ L_80063174:
     // nop
 
     // lh          $a2, 0x6($s0)
-    ctx->r6 = MEM_H(0X6, ctx->r16);
+    ctx->r6 = MEM_HS(0X6, ctx->r16);
     // nop
 
     // addu        $v0, $v1, $a2
@@ -178,13 +178,13 @@ L_80063214:
     ctx->r5 = ADD32(ctx->r8, 0);
     after_0:
     // lh          $a1, 0x0($s0)
-    ctx->r5 = MEM_H(0X0, ctx->r16);
+    ctx->r5 = MEM_HS(0X0, ctx->r16);
     // lh          $a2, 0x2($s0)
-    ctx->r6 = MEM_H(0X2, ctx->r16);
+    ctx->r6 = MEM_HS(0X2, ctx->r16);
     // lh          $a3, 0x4($s0)
-    ctx->r7 = MEM_H(0X4, ctx->r16);
+    ctx->r7 = MEM_HS(0X4, ctx->r16);
     // lh          $v0, 0x6($s0)
-    ctx->r2 = MEM_H(0X6, ctx->r16);
+    ctx->r2 = MEM_HS(0X6, ctx->r16);
     // lui         $v1, 0x8007
     ctx->r3 = S32(0X8007 << 16);
     // lw          $v1, 0x619C($v1)

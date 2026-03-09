@@ -610,12 +610,14 @@ L_80013D74:
     //if (buttons) {
     //    printf("[PAD] raw=%04X buttons=%04X\n", *(u_short*)&g_pad1_buf[2], buttons);
     //}
-    static uint8_t last_phys = 255;
-    uint8_t cur_phys = MEM_B(0, 0x8019B4CE);
-    if (cur_phys != last_phys) {
-        printf("[WATCH] g_PhysicsReady changed %d -> %d\n", last_phys, cur_phys);
-        last_phys = cur_phys;
-    }
+    //if (MEM_B(0, 0x8019B4CE) == 0) {
+    //    // Если карта загружена но physics=0, форсируем
+    //    uint16_t load_state = MEM_H(0, 0x801779D6);
+    //    if (load_state >= 6) { // Ready
+    //        MEM_B(0, 0x8019B4CE) = 1;
+    //        printf("[HACK] Forced g_PhysicsReady=1 (load_state=%d)\n", load_state);
+    //    }
+    //}
     goto after_47;
     // addu        $a1, $s0, $zero
     ctx->r5 = ADD32(ctx->r16, 0);

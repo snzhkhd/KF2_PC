@@ -40,9 +40,9 @@ void RenderOptionsList(uint8_t* rdram, recomp_context* ctx) {
     // sw          $s6, 0x28($sp)
     MEM_W(0X28, ctx->r29) = ctx->r22;
     // lh          $s6, 0x2($s0)
-    ctx->r22 = MEM_H(0X2, ctx->r16);
+    ctx->r22 = MEM_HS(0X2, ctx->r16);
     // lh          $s7, 0x2($s1)
-    ctx->r23 = MEM_H(0X2, ctx->r17);
+    ctx->r23 = MEM_HS(0X2, ctx->r17);
 L_800223A0:
     // lbu         $v1, 0x0($s3)
     ctx->r3 = MEM_BU(0X0, ctx->r19);

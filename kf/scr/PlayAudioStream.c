@@ -66,7 +66,7 @@ void PlayAudioStream(uint8_t* rdram, recomp_context* ctx) {
     // addu        $s1, $v0, $a0
     ctx->r17 = ADD32(ctx->r2, ctx->r4);
     // lh          $v1, 0x0($s1)
-    ctx->r3 = MEM_H(0X0, ctx->r17);
+    ctx->r3 = MEM_HS(0X0, ctx->r17);
     // addiu       $a1, $zero, -0x1
     ctx->r5 = ADD32(0, -0X1);
     // beq         $v1, $a1, L_80014818
@@ -82,7 +82,7 @@ void PlayAudioStream(uint8_t* rdram, recomp_context* ctx) {
     // addu        $s3, $v1, $v0
     ctx->r19 = ADD32(ctx->r3, ctx->r2);
     // lh          $v1, 0x0($s3)
-    ctx->r3 = MEM_H(0X0, ctx->r19);
+    ctx->r3 = MEM_HS(0X0, ctx->r19);
     // nop
 
     // beq         $v1, $a1, L_80014818
@@ -110,7 +110,7 @@ void PlayAudioStream(uint8_t* rdram, recomp_context* ctx) {
     ctx->r4 = ADD32(ctx->r18, 0);
     after_0:
     // lh          $v1, 0x6($s1)
-    ctx->r3 = MEM_H(0X6, ctx->r17);
+    ctx->r3 = MEM_HS(0X6, ctx->r17);
     // nop
 
     // addu        $s0, $s0, $v1
@@ -147,11 +147,11 @@ L_800147DC:
     ctx->r2 = S32(ctx->r21) << 16;
 L_800147E0:
     // lh          $a0, 0x0($s3)
-    ctx->r4 = MEM_H(0X0, ctx->r19);
+    ctx->r4 = MEM_HS(0X0, ctx->r19);
     // lh          $a1, 0x2($s1)
-    ctx->r5 = MEM_H(0X2, ctx->r17);
+    ctx->r5 = MEM_HS(0X2, ctx->r17);
     // lh          $a2, 0x4($s1)
-    ctx->r6 = MEM_H(0X4, ctx->r17);
+    ctx->r6 = MEM_HS(0X4, ctx->r17);
     // sra         $v0, $v0, 16
     ctx->r2 = S32(ctx->r2) >> 16;
     // sw          $v0, 0x14($sp)

@@ -109,7 +109,7 @@ L_80038C7C:
     // sh          $zero, 0x24($sp)
     MEM_H(0X24, ctx->r29) = 0;
     // lh          $a0, 0xA($s2)
-    ctx->r4 = MEM_H(0XA, ctx->r18);
+    ctx->r4 = MEM_HS(0XA, ctx->r18);
     // jal         0x80015378
     // addu        $a1, $s0, $zero
     ctx->r5 = ADD32(ctx->r16, 0);

@@ -49,7 +49,7 @@ L_8001487C:
     // lw          $a1, 0x10($s0)
     ctx->r5 = MEM_W(0X10, ctx->r16);
     // lh          $v1, 0x1A($s0)
-    ctx->r3 = MEM_H(0X1A, ctx->r16);
+    ctx->r3 = MEM_HS(0X1A, ctx->r16);
     // lw          $v0, 0x1C($s0)
     ctx->r2 = MEM_W(0X1C, ctx->r16);
     // sll         $v1, $v1, 3
@@ -107,7 +107,7 @@ L_800148B0:
 
 L_800148CC:
     // lh          $a0, 0x0($s1)
-    ctx->r4 = MEM_H(0X0, ctx->r17);
+    ctx->r4 = MEM_HS(0X0, ctx->r17);
     // nop
 
     // beq         $a0, $s2, L_800148E4

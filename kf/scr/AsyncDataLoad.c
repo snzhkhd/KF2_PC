@@ -22,6 +22,12 @@ void AsyncDataLoad(uint8_t* rdram, recomp_context* ctx)
     if (p_active && *p_active) 
     {
         uint8_t* stream = (uint8_t*)GET_PTR(*p_active);
+        //if (stream)
+        //{
+        //    printf("[AsyncDataLoad] stream=%08X type=%02X state=%d data_ready=%d\n",
+        //        *p_active, stream[0], stream[1], stream[36]);
+        //}
+
         if (stream && stream[36] == 1) 
         {
             uint8_t type = stream[0];

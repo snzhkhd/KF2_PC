@@ -3,7 +3,6 @@
 
 void sub_80017CC8(uint8_t* rdram, recomp_context* ctx) 
 {
-   // printf("sub_80017CC8\n");
     // ∆дЄм 3 CD IRQ Ч на PC просто выходим
     MEM_W(0, 0x801BA5AC) = 0; // сбрасываем счЄтчик
     ctx->r2 = 0;

@@ -6,11 +6,11 @@ void VectorNormalSS(uint8_t* rdram, recomp_context* ctx) {
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
     // lh          $t0, 0x0($a0)
-    ctx->r8 = MEM_H(0X0, ctx->r4);
+    ctx->r8 = MEM_HS(0X0, ctx->r4);
     // lh          $t1, 0x2($a0)
-    ctx->r9 = MEM_H(0X2, ctx->r4);
+    ctx->r9 = MEM_HS(0X2, ctx->r4);
     // lh          $t2, 0x4($a0)
-    ctx->r10 = MEM_H(0X4, ctx->r4);
+    ctx->r10 = MEM_HS(0X4, ctx->r4);
     // nop
 
     // addu        $a3, $ra, $zero

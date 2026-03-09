@@ -52,7 +52,7 @@ void sub_8005A2A4(uint8_t* rdram, recomp_context* ctx) {
     // lbu         $v1, 0x12($s0)
     ctx->r3 = MEM_BU(0X12, ctx->r16);
     // lh          $v0, 0xAA($s0)
-    ctx->r2 = MEM_H(0XAA, ctx->r16);
+    ctx->r2 = MEM_HS(0XAA, ctx->r16);
     // addu        $a0, $s0, $v1
     ctx->r4 = ADD32(ctx->r16, ctx->r3);
     // lbu         $t2, 0x17($a0)
@@ -90,7 +90,7 @@ void sub_8005A2A4(uint8_t* rdram, recomp_context* ctx) {
     // nop
 
     // lh          $a1, 0x4C($s0)
-    ctx->r5 = MEM_H(0X4C, ctx->r16);
+    ctx->r5 = MEM_HS(0X4C, ctx->r16);
     // lbu         $a2, 0x2C($a0)
     ctx->r6 = MEM_BU(0X2C, ctx->r4);
     // sw          $s1, 0x10($sp)
@@ -121,7 +121,7 @@ L_8005A35C:
     // sll         $a0, $t0, 8
     ctx->r4 = S32(ctx->r8) << 8;
     // lh          $a1, 0x4C($s0)
-    ctx->r5 = MEM_H(0X4C, ctx->r16);
+    ctx->r5 = MEM_HS(0X4C, ctx->r16);
     // or          $a0, $a0, $t1
     ctx->r4 = ctx->r4 | ctx->r9;
     // jal         0x800579E4

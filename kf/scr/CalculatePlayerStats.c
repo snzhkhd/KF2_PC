@@ -16,7 +16,7 @@ void CalculatePlayerStats(uint8_t* rdram, recomp_context* ctx) {
     // lui         $a0, 0x801A
     ctx->r4 = S32(0X801A << 16);
     // lh          $a0, -0x4AE6($a0)
-    ctx->r4 = MEM_H(-0X4AE6, ctx->r4);
+    ctx->r4 = MEM_HS(-0X4AE6, ctx->r4);
     // addiu       $sp, $sp, -0x18
     ctx->r29 = ADD32(ctx->r29, -0X18);
     // sw          $ra, 0x14($sp)
@@ -353,7 +353,7 @@ L_80026624:
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4ADA($v0)
-    ctx->r2 = MEM_H(-0X4ADA, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4ADA, ctx->r2);
     // nop
 
     // beq         $v0, $zero, L_800266B8
@@ -380,7 +380,7 @@ L_800266B8:
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4AD8($v0)
-    ctx->r2 = MEM_H(-0X4AD8, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4AD8, ctx->r2);
     // nop
 
     // beq         $v0, $zero, L_80026708
@@ -425,7 +425,7 @@ L_80026708:
     // lui         $v0, 0x801A
     ctx->r2 = S32(0X801A << 16);
     // lh          $v0, -0x4ACE($v0)
-    ctx->r2 = MEM_H(-0X4ACE, ctx->r2);
+    ctx->r2 = MEM_HS(-0X4ACE, ctx->r2);
     // nop
 
     // beq         $v0, $zero, L_80026734

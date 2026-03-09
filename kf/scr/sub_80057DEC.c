@@ -56,7 +56,7 @@ void sub_80057DEC(uint8_t* rdram, recomp_context* ctx) {
     // sh          $v0, 0x0($a2)
     MEM_H(0X0, ctx->r6) = ctx->r2;
     // lh          $v0, 0x0($a3)
-    ctx->r2 = MEM_H(0X0, ctx->r7);
+    ctx->r2 = MEM_HS(0X0, ctx->r7);
     // jr          $ra
     // nop
 

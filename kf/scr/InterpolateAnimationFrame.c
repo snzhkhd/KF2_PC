@@ -139,9 +139,9 @@ L_8002E9AC:
     // nop
 
     // lh          $a0, 0x66($s0)
-    ctx->r4 = MEM_H(0X66, ctx->r16);
+    ctx->r4 = MEM_HS(0X66, ctx->r16);
     // lh          $a1, 0x2A($s1)
-    ctx->r5 = MEM_H(0X2A, ctx->r17);
+    ctx->r5 = MEM_HS(0X2A, ctx->r17);
     // jal         0x80015D18
     // addu        $a2, $s2, $zero
     ctx->r6 = ADD32(ctx->r18, 0);

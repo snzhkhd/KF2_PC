@@ -69,7 +69,7 @@ L_80057A34:
     // addu        $at, $at, $a1
     ctx->r1 = ADD32(ctx->r1, ctx->r5);
     // lh          $v1, 0x0($at)
-    ctx->r3 = MEM_H(0X0, ctx->r1);
+    ctx->r3 = MEM_HS(0X0, ctx->r1);
     // andi        $v0, $s5, 0xFFFF
     ctx->r2 = ctx->r21 & 0XFFFF;
     // bne         $v1, $v0, L_80057AFC
@@ -87,7 +87,7 @@ L_80057A34:
     // addu        $at, $at, $a1
     ctx->r1 = ADD32(ctx->r1, ctx->r5);
     // lh          $v0, 0x0($at)
-    ctx->r2 = MEM_H(0X0, ctx->r1);
+    ctx->r2 = MEM_HS(0X0, ctx->r1);
     // nop
 
     // bne         $v0, $s4, L_80057AFC
@@ -105,7 +105,7 @@ L_80057A34:
     // addu        $at, $at, $a1
     ctx->r1 = ADD32(ctx->r1, ctx->r5);
     // lh          $v0, 0x0($at)
-    ctx->r2 = MEM_H(0X0, ctx->r1);
+    ctx->r2 = MEM_HS(0X0, ctx->r1);
     // nop
 
     // bne         $v0, $s3, L_80057AFC
@@ -123,7 +123,7 @@ L_80057A34:
     // addu        $at, $at, $a1
     ctx->r1 = ADD32(ctx->r1, ctx->r5);
     // lh          $v0, 0x0($at)
-    ctx->r2 = MEM_H(0X0, ctx->r1);
+    ctx->r2 = MEM_HS(0X0, ctx->r1);
     // nop
 
     // bne         $v0, $s2, L_80057AFC
@@ -141,7 +141,7 @@ L_80057A34:
     // addu        $at, $at, $a1
     ctx->r1 = ADD32(ctx->r1, ctx->r5);
     // lh          $v1, 0x0($at)
-    ctx->r3 = MEM_H(0X0, ctx->r1);
+    ctx->r3 = MEM_HS(0X0, ctx->r1);
     // nop
 
     // bne         $v1, $v0, L_80057AE8

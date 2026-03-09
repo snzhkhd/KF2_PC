@@ -99,9 +99,9 @@ L_8003EF34:
     ctx->r5 = SUB32(ctx->r2, ctx->r5);
     after_0:
     // lh          $a0, 0x22($sp)
-    ctx->r4 = MEM_H(0X22, ctx->r29);
+    ctx->r4 = MEM_HS(0X22, ctx->r29);
     // lh          $a1, 0x42($s3)
-    ctx->r5 = MEM_H(0X42, ctx->r19);
+    ctx->r5 = MEM_HS(0X42, ctx->r19);
     // nop
 
     // subu        $v0, $a0, $a1
@@ -205,9 +205,9 @@ L_8003EFD4:
     // nop
 
     // lh          $a0, 0x20($sp)
-    ctx->r4 = MEM_H(0X20, ctx->r29);
+    ctx->r4 = MEM_HS(0X20, ctx->r29);
     // lh          $a1, 0x40($s3)
-    ctx->r5 = MEM_H(0X40, ctx->r19);
+    ctx->r5 = MEM_HS(0X40, ctx->r19);
     // nop
 
     // subu        $v0, $a0, $a1
@@ -363,7 +363,7 @@ L_8003F09C:
     ctx->r7 = ADD32(ctx->r29, 0X20);
 L_8003F0BC:
     // lh          $v0, 0x22($sp)
-    ctx->r2 = MEM_H(0X22, ctx->r29);
+    ctx->r2 = MEM_HS(0X22, ctx->r29);
     // lw          $ra, 0x54($sp)
     ctx->r31 = MEM_W(0X54, ctx->r29);
     // lw          $fp, 0x50($sp)

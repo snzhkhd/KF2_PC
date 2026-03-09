@@ -16,7 +16,7 @@ void CollectEquippableItems(uint8_t* rdram, recomp_context* ctx) {
     // addiu       $t0, $t0, -0x4A66
     ctx->r8 = ADD32(ctx->r8, -0X4A66);
     // lh          $v1, 0x0($t0)
-    ctx->r3 = MEM_H(0X0, ctx->r8);
+    ctx->r3 = MEM_HS(0X0, ctx->r8);
     // lw          $t5, 0x14($sp)
     ctx->r13 = MEM_W(0X14, ctx->r29);
     // lw          $a2, 0x10($sp)

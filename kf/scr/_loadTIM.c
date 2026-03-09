@@ -76,9 +76,9 @@ void _loadTIM(uint8_t* rdram, recomp_context* ctx) {
     // lwr         $v0, 0x18($a1)
     ctx->r2 = do_lwr(rdram, ctx->r2, 0X18, ctx->r5);
     // lb          $v1, 0x1C($a1)
-    ctx->r3 = MEM_B(0X1C, ctx->r5);
+    ctx->r3 = MEM_BS(0X1C, ctx->r5);
     // lb          $a0, 0x1D($a1)
-    ctx->r4 = MEM_B(0X1D, ctx->r5);
+    ctx->r4 = MEM_BS(0X1D, ctx->r5);
     // swl         $v0, 0x86B($sp)
     do_swl(rdram, 0X86B, ctx->r29, ctx->r2);
     // swr         $v0, 0x868($sp)
@@ -92,7 +92,7 @@ void _loadTIM(uint8_t* rdram, recomp_context* ctx) {
     // addiu       $s4, $s4, -0x4A66
     ctx->r20 = ADD32(ctx->r20, -0X4A66);
     // lh          $v0, 0x0($s4)
-    ctx->r2 = MEM_H(0X0, ctx->r20);
+    ctx->r2 = MEM_HS(0X0, ctx->r20);
     // addiu       $v1, $sp, 0x850
     ctx->r3 = ADD32(ctx->r29, 0X850);
     // sll         $a0, $v0, 2
@@ -145,7 +145,7 @@ L_80018E58:
     // addiu       $a1, $s0, 0x4
     ctx->r5 = ADD32(ctx->r16, 0X4);
     // lh          $v0, 0x0($s4)
-    ctx->r2 = MEM_H(0X0, ctx->r20);
+    ctx->r2 = MEM_HS(0X0, ctx->r20);
     // lui         $s1, 0x801A
     ctx->r17 = S32(0X801A << 16);
     // addiu       $s1, $s1, -0x19D0
@@ -257,7 +257,7 @@ L_80018E58:
     // addiu       $a0, $sp, 0x10
     ctx->r4 = ADD32(ctx->r29, 0X10);
     // lh          $v0, 0x0($s4)
-    ctx->r2 = MEM_H(0X0, ctx->r20);
+    ctx->r2 = MEM_HS(0X0, ctx->r20);
     // addiu       $a1, $s0, 0x4
     ctx->r5 = ADD32(ctx->r16, 0X4);
     // sll         $v0, $v0, 1

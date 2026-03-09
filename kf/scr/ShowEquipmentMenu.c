@@ -30,7 +30,7 @@ void ShowEquipmentMenu(uint8_t* rdram, recomp_context* ctx) {
     // sw          $s0, 0x48($sp)
     MEM_W(0X48, ctx->r29) = ctx->r16;
     // lh          $a0, 0x0($a1)
-    ctx->r4 = MEM_H(0X0, ctx->r5);
+    ctx->r4 = MEM_HS(0X0, ctx->r5);
     // addu        $s6, $a2, $zero
     ctx->r22 = ADD32(ctx->r6, 0);
     // sll         $v0, $a0, 2
@@ -110,7 +110,7 @@ void ShowEquipmentMenu(uint8_t* rdram, recomp_context* ctx) {
     // addu        $v0, $v0, $a0
     ctx->r2 = ADD32(ctx->r2, ctx->r4);
     // lh          $a1, 0x0($a1)
-    ctx->r5 = MEM_H(0X0, ctx->r5);
+    ctx->r5 = MEM_HS(0X0, ctx->r5);
     // lwl         $v1, 0x3($v0)
     ctx->r3 = do_lwl(rdram, ctx->r3, 0X3, ctx->r2);
     // lwr         $v1, 0x0($v0)
