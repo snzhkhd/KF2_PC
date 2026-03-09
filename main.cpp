@@ -99,7 +99,7 @@ int main(int argc, char* argv[] )
     PsyX_Pad_InitPad(0, g_pad2_buf);
 
     ResetGraph(0);
-    //SpuInit();
+    SpuInit();
 
     KFCD_Init("King's Field2.bin");
 

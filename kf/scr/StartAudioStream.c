@@ -3,7 +3,7 @@
 
 void StartAudioStream(uint8_t* rdram, recomp_context* ctx) 
 {
-    printf("[HLE Audio] StartAudioStream call\n");
+   // printf("[HLE Audio] StartAudioStream call\n");
     //// Ќе создаЄм CDTask Ч AsyncStructForcedLoadSync не будет ждать аудио
     //ctx->r2 = 254;  // "нет свободного канала" Ч безопасный возврат
     uint64_t hi = 0, lo = 0, result = 0;

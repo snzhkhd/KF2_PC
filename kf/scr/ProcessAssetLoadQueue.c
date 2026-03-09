@@ -4,72 +4,9 @@
 
 void ProcessAssetLoadQueue(uint8_t* rdram, recomp_context* ctx) 
 {
-
-    ////  ,  
-    //uint32_t* p_active = (uint32_t*)GET_PTR(ADDR_G_ACTIVECDSTREAM);
-    //if (p_active)
-    //{
-    //    uint8_t* stream = (uint8_t*)GET_PTR(*p_active);
-    //    if (stream)
-    //    {
-    //        printf("[ProcessAssetLoadQueue] stream=%d | (24) = <%d>, (12) = <%d>\n", stream[0], stream[24], stream[12]);
-    //    }
-    //}
-    
-
-    //// if (p_active && *p_active) {
-    //    // uint8_t* stream = (uint8_t*)GET_PTR(*p_active);
-    //    // if (stream) {
-    //        // uint16_t total = *(uint16_t*)(stream + 32);
-    //        // printf("[PAQ_ENTRY] stream=0x%08X state=%d ready=%d total=%d\n",
-    //            // *p_active, stream[0], stream[36], total);
-    //    // }
-    //// }
-
-
-    //if (p_active && *p_active) 
-    //{
-    //    uint8_t* stream = (uint8_t*)GET_PTR(*p_active);
-    //    if (stream && stream[0] == 64 && stream[36] == 1) {
-    //        uint32_t dst = *(uint32_t*)(stream + 12);
-    //        uint16_t* v2 = (uint16_t*)GET_PTR(dst);
-    //        if (v2) 
-    //        {
-    //            //   break  ProcessAssetLoadQueue
-    //            bool will_break = (v2[0] != v2[4] || v2[1] != v2[5] ||
-    //                v2[2] != v2[6] || v2[3] != v2[7] ||
-    //                !v2[2] || !v2[3]);
-    //            bool is_end = (v2[0] == 0xFFFF);
-    //            uint16_t total = *(uint16_t*)(stream + 32);
-
-    //            printf("[PAQ SKIP] v2[0-7]: %04X %04X %04X %04X | %04X %04X %04X %04X\n",
-    //                v2[0], v2[1], v2[2], v2[3], v2[4], v2[5], v2[6], v2[7]);
-    //            printf("[PAQ SKIP] stream+24(rect): x=%d y=%d w=%d h=%d remaining=%d\n",
-    //                *(int16_t*)(stream + 24), *(int16_t*)(stream + 26),
-    //                *(int16_t*)(stream + 28), *(int16_t*)(stream + 30),
-    //                total);
-    //            printf("[PAQ SKIP] will force NextCdTask!\n");
-
-    //            //   break  total      
-    //            //if (will_break && total <= 16 && !is_end) 
-    //            //{
-    //            //    //printf("[PAQ] Non-texture small stream, forcing NextCdTask\n");
-    //            //    stream[36] = 0;  //  
-    //            //    recomp_func_t next_task = lookup_recomp_func(0x80017D2C); //0x80017D2C - NextCdTask
-    //            //    if (next_task) {
-    //            //        uint32_t saved_ra = ctx->r31;
-    //            //        ctx->r4 = *p_active;
-    //            //        next_task(rdram, ctx);
-    //            //        ctx->r31 = saved_ra;
-    //            //    }
-    //            //    ctx->r2 = 0;
-    //            //    return;
-    //            //}
-    //        }
-    //    }
-    //}
-    //uint32_t stream_ptr = MEM_W(0, ADDR_G_ACTIVECDSTREAM);
-
+    //uint32_t queue = MEM_W(0, ADDR_G_CDTASKQUEUE);
+    //uint32_t active = MEM_W(0, ADDR_G_ACTIVECDSTREAM);
+    //printf("[AssetQueue] queue=%08X active=%08X\n", queue, active);
 
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;

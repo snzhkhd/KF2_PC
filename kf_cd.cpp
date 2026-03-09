@@ -160,6 +160,8 @@ void KFCD_CdlReadN(uint8_t* rdram, recomp_context* ctx)
 
     g_cd_pass_count += to_read;
     stream[36] = 1;
+
+
     ctx->r2 = 1;
 
     //if (stream[0] == 0x30)

@@ -3,19 +3,9 @@
 
 void KF_TMDIndicesToOffsets(uint8_t* rdram, recomp_context* ctx) 
 {
-  //  printf("[KF_TMDIndicesToOffsets] a1=%08X *(a1+8)=%d\n", ctx->r4, *(int*)(GET_PTR(ctx->r4) + 8));
-    //printf("KF_TMDIndicesToOffsets \n");
-    //uint64_t hi = 0, lo = 0, result = 0;
-    //unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
-    //int c1cs = 0; 
+
     // lw          $t0, 0x8($a0)
     ctx->r8 = MEM_W(0X8, ctx->r4);
-
-    //uint32_t tmd_addr = ctx->r4;
-    //uint8_t* p = (uint8_t*)GET_PTR(tmd_addr);
-    //printf("[TMDIndicesToOffsets] addr=%08X id=%08X flags=%08X nobj=%d\n",
-    //    tmd_addr,
-    //    *(uint32_t*)p, *(uint32_t*)(p + 4), *(uint32_t*)(p + 8));
 
     // addiu       $v0, $zero, -0x1
     ctx->r2 = ADD32(0, -0X1);

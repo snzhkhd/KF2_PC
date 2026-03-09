@@ -381,10 +381,10 @@ L_80016E8C:
     // nop
 
 L_80016EDC:
-    printf("[Map_Load] - LoadingTileset\n");
-    printf("[Map_Load] LoadingTileset: g_MapToLoad=%d byte_801779E5=%d\n",
-        MEM_B(0, 0x801779E4),   //801779E4 g_MapToLoad
-        MEM_B(0, 0x801779E5));  //801779E5 byte_801779E5
+    //printf("[Map_Load] - LoadingTileset\n");
+    //printf("[Map_Load] LoadingTileset: g_MapToLoad=%d byte_801779E5=%d\n",
+    //    MEM_B(0, 0x801779E4),   //801779E4 g_MapToLoad
+    //    MEM_B(0, 0x801779E5));  //801779E5 byte_801779E5
 
     // lui         $v1, 0x8017
     ctx->r3 = S32(0X8017 << 16);
@@ -469,7 +469,6 @@ L_80016F48:
     ctx->r17 = ADD32(ctx->r17, -0X1);
     // jal         0x80037138
     // nop
-    printf("[Map_Load] BLOCK1: entering g_MapToLoad block\n");
     Resource_UnlinkAndFree(rdram, ctx);
     goto after_7;
     // nop
@@ -536,7 +535,6 @@ L_80016F9C:
     ctx->r4 = MEM_W(0X3A, ctx->r16);
     // jal         0x80017C40
     // nop
-    printf("[Map_Load] : entering KF_PadChkVsync block\n");
     KF_PadChkVsync(rdram, ctx);
     goto after_9;
     // nop
@@ -611,7 +609,6 @@ L_80016FE8:
     // jal         0x8002E25C
     // ori         $a3, $zero, 0x1
     ctx->r7 = 0 | 0X1;
-    printf("[Map_Load] Map_MarkOccupiedTiles block\n");
     Map_MarkOccupiedTiles(rdram, ctx);
     goto after_10;
     // ori         $a3, $zero, 0x1
@@ -627,7 +624,6 @@ L_80017028:
     // jal         0x80017684
     // ori         $a2, $zero, 0xCB0
     ctx->r6 = 0 | 0XCB0;
-    printf("[Map_Load] MemcpyDword block\n");
     MemcpyDword(rdram, ctx);
     goto after_11;
     // ori         $a2, $zero, 0xCB0
@@ -668,7 +664,6 @@ L_80017028:
     // jal         0x8003830C
     // addiu       $a0, $s2, 0x4
     ctx->r4 = ADD32(ctx->r18, 0X4);
-    printf("[Map_Load] Map_InitializeObjects block\n");
     Map_InitializeObjects(rdram, ctx);
     goto after_14;
     // addiu       $a0, $s2, 0x4
@@ -685,7 +680,6 @@ L_80017028:
     // jal         0x800372AC
     // addiu       $a0, $s2, 0x4
     ctx->r4 = ADD32(ctx->r18, 0X4);
-    printf("[Map_Load] sub_800372AC block\n");
     sub_800372AC(rdram, ctx);
     goto after_15;
     // addiu       $a0, $s2, 0x4
@@ -697,7 +691,6 @@ L_80017028:
     ctx->r4 = MEM_BU(0X79E4, ctx->r4);
     // jal         0x8004B31C
     // nop
-    printf("[Map_Load] sub_8004B31C \n");
     sub_8004B31C(rdram, ctx);
     goto after_16;
     // nop
@@ -717,7 +710,7 @@ L_80017028:
     // nop
 
     LOOKUP_FUNC(ctx->r2)(rdram, ctx);
-    printf("[Map_Load] LOOKUP_FUNC(ctx->r2)(rdram, ctx); \n");
+
     goto after_17;
     // nop
 
@@ -727,14 +720,14 @@ L_80017028:
     // lui         $at, 0x801A
     ctx->r1 = S32(0X801A << 16);
     // sb          $v0, -0x4B32($at)
-    MEM_B(-0X4B32, ctx->r1) = ctx->r2;
+   /* MEM_B(-0X4B32, ctx->r1) = ctx->r2;
     printf("[Map_Load] before L_800170C4  g_PhysicsReady = 1 ? <%d>\n", (uint8_t)ctx->r2);
 
     MEM_B(-0X4B32, ctx->r1) = ctx->r2;
     printf("[Map_Load] WROTE: addr=%08X val=%d readback=%d\n",
         (uint32_t)((int32_t)ctx->r1 + (-0x4B32)),
         (uint8_t)ctx->r2,
-        (uint8_t)MEM_B(0, 0x8019B4CE));
+        (uint8_t)MEM_B(0, 0x8019B4CE));*/
 
 L_800170C4:
     // lui         $v1, 0x8017

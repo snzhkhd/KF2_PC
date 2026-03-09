@@ -163,6 +163,7 @@ L_80037984:
     // jal         0x80061ADC
     // ori         $a0, $zero, 0x1
     ctx->r4 = 0 | 0X1;
+
     KF_PadRead(rdram, ctx);
     goto after_9;
     // ori         $a0, $zero, 0x1

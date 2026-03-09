@@ -3,16 +3,7 @@
 
 void AsyncStructForcedLoadSync(uint8_t* rdram, recomp_context* ctx) 
 {
-    static int call_count = 0;
- //   printf("[AsyncStructSync] call #%d\n", ++call_count);
 
-    uint32_t* p_active = (uint32_t*)GET_PTR(ADDR_G_ACTIVECDSTREAM);
-    uint32_t* p_queue = (uint32_t*)GET_PTR(ADDR_G_CDTASKQUEUE);
-
-   /* printf("[AsyncStructSync] active=0x%08X queue=0x%08X active_state=%d\n",
-        p_active ? *p_active : 0,
-        p_queue ? *p_queue : 0,
-        (p_active && *p_active) ? *(uint8_t*)GET_PTR(*p_active) : -1);*/
 
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
@@ -154,7 +145,7 @@ L_80018228:
     ctx->r29 = ADD32(ctx->r29, 0X18);
     // jr          $ra
     // nop
-    printf("[AsyncStructSync] #%d done\n", call_count);
+
     return;
     // nop
 

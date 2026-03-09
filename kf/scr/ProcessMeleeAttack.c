@@ -3,14 +3,14 @@
 
 void ProcessMeleeAttack(uint8_t* rdram, recomp_context* ctx) 
 {
-    static int pma_log = 0;
-    if (pma_log++ < 20) {
-        uint32_t wpn_table = MEM_W(0, (0x8019B540 + 0x04) );
-        printf("[PMA] wpn_table=%08X v15=%d field_14=%d\n",
-            wpn_table,
-            wpn_table ? (int16_t)MEM_H(28, wpn_table) : -9999,
-            (int16_t)MEM_H(0, (0x8019B540 + 0x14)));
-    }
+    // static int pma_log = 0;
+    // if (pma_log++ < 20) {
+        // uint32_t wpn_table = MEM_W(0, (0x8019B540 + 0x04) );
+        // printf("[PMA] wpn_table=%08X v15=%d field_14=%d\n",
+            // wpn_table,
+            // wpn_table ? (int16_t)MEM_H(28, wpn_table) : -9999,
+            // (int16_t)MEM_H(0, (0x8019B540 + 0x14)));
+    // }
 
 
     uint64_t hi = 0, lo = 0, result = 0;
