@@ -18,7 +18,7 @@ void sub_800568CC(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x8005208C
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);
-    sub_8005208C(rdram, ctx);
+    KF_SpuSetTransferMode(rdram, ctx);
     goto after_0;
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);
@@ -479,7 +479,7 @@ L_80056BB8:
     // jal         0x800570D0
     // nop
 
-    sub_800570D0(rdram, ctx);
+    KF_SpuUpdateTick(rdram, ctx);
     goto after_3;
     // nop
 

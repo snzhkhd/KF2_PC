@@ -697,7 +697,7 @@ L_80057860:
     // jal         0x800552C0
     // nop
 
-    sub_800552C0(rdram, ctx);
+    KF_SpuKeyOnVoice(rdram, ctx);
     goto after_5;
     // nop
 

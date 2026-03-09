@@ -38,7 +38,7 @@ void sub_8005C7F8(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x800570D0
     // addu        $s2, $zero, $zero
     ctx->r18 = ADD32(0, 0);
-    sub_800570D0(rdram, ctx);
+    KF_SpuUpdateTick(rdram, ctx);
     goto after_0;
     // addu        $s2, $zero, $zero
     ctx->r18 = ADD32(0, 0);

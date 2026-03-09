@@ -3,7 +3,6 @@
 
 void SsVabTransCompleted(uint8_t* rdram, recomp_context* ctx) 
 {
-    printf("SsVabTransCompleted, skip sub_8005C58C\n");
     // SPU DMA transfer complete Ч на PC мгновенно
     ctx->r2 = 1;
     //uint64_t hi = 0, lo = 0, result = 0;

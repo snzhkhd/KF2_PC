@@ -2,27 +2,48 @@
 #include "disable_warnings.h"
 #include "psx/libspu.h"
 
-void sub_80051EB0(uint8_t* rdram, recomp_context* ctx)
+void KF_SpuTransferVoice(uint8_t* rdram, recomp_context* ctx) 
 {
-    printf("sub_80051EB0  SpuSetTransferMode\n");
-    uint32_t ram_addr = ctx->r4;  // Откуда копировать (RAM)
-    uint32_t size = ctx->r5;  // Размер данных
-    uint32_t a3 = ctx->r6;  // Аргумент для возврата
+    uint32_t src_addr = ctx->r4;
+    uint32_t size = ctx->r5;
+    int16_t voice = (int16_t)(ctx->r6 & 0xFFFF);
 
-    uint8_t* real_ram = &rdram[ram_addr & 0x1FFFFF];
+    if (voice < 0 || voice >= 17) {
+        ctx->r2 = (uint32_t)-1;
+        return;
+    }
 
-    // TODO: Нужно будет выяснить, в какой адрес SPU RAM игра хочет положить эти данные.
-    // В оригинале это вычисляется в sub_80052050.
-    uint32_t spu_dest_addr = 0x1000; // Условный адрес для примера
+    uint8_t active = MEM_BU(0, 0x8019E6F0 + voice);
+    if (active != 2) {
+        ctx->r2 = (uint32_t)-1;
+        return;
+    }
 
-    // Отправляем данные в SPU через высокоуровневый API Psy-X
+    uint32_t spu_addr = MEM_W(0, 0x801DEFA4 + voice * 4);
+    if (spu_addr == 0) spu_addr = 0x1010;
+
+    if (size > 0x7F000) size = 0x7F000;
+    uint8_t* src = (uint8_t*)GET_PTR(src_addr);
+
+    printf("[SPU Transfer] voice=%d src=%08X size=%d spu=%08X\n",
+        voice, src_addr, size, spu_addr);
+
+    printf("[SPU Transfer] voice=%d spu_addr_from_table=%08X\n",
+        voice, MEM_W(0, 0x801DEFA4 + voice * 4));
+
     SpuSetTransferMode(SpuTransByDMA);
-    SpuSetTransferStartAddr(spu_dest_addr);
-    SpuWrite(real_ram, size); // Psy-X сам перекинет данные в OpenAL
+    SpuSetTransferStartAddr(spu_addr);
+    SpuWrite(src, size);
 
-    ctx->r2 = a3; // Возвращаем успех
-}
-//void sub_80051EB0(uint8_t* rdram, recomp_context* ctx) {
+    MEM_B(0, 0x8019E6F0 + voice) = 1;
+
+    // Возвращаем voice number — НЕ -1!
+    // Это скажет ProcessCDAudioLoad что трансфер завершён
+    ctx->r2 = (uint32_t)voice;
+
+//    printf("[sub_80051EB0] a1=%08X a2=%d a3=%d g_SPUVoiceActive[a3]=%d\n",
+//        ctx->r4, ctx->r5, (int16_t)ctx->r6,
+//        (int16_t)ctx->r6 < 17 ? MEM_B(0, 0x8019E6F0 + (int16_t)ctx->r6) : -1);   //8019E6F0 g_SPUVoiceActive
 //    uint64_t hi = 0, lo = 0, result = 0;
 //    unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
 //    int c1cs = 0; 
@@ -111,7 +132,7 @@ void sub_80051EB0(uint8_t* rdram, recomp_context* ctx)
 //    // jal         0x8005201C
 //    // addu        $a0, $zero, $zero
 //    ctx->r4 = ADD32(0, 0);
-//    sub_8005201C(rdram, ctx);
+//    KF_SpuTransferInit(rdram, ctx);
 //    goto after_0;
 //    // addu        $a0, $zero, $zero
 //    ctx->r4 = ADD32(0, 0);
@@ -127,7 +148,7 @@ void sub_80051EB0(uint8_t* rdram, recomp_context* ctx)
 //    // jal         0x80052050
 //    // nop
 //
-//    sub_80052050(rdram, ctx);
+//    KF_SpuSetTransferStartAddr(rdram, ctx);
 //    goto after_1;
 //    // nop
 //
@@ -151,7 +172,7 @@ void sub_80051EB0(uint8_t* rdram, recomp_context* ctx)
 //    // jal         0x8005208C
 //    // addu        $a0, $zero, $zero
 //    ctx->r4 = ADD32(0, 0);
-//    sub_8005208C(rdram, ctx);
+//    KF_SpuSetTransferMode(rdram, ctx);
 //    goto after_2;
 //    // addu        $a0, $zero, $zero
 //    ctx->r4 = ADD32(0, 0);
@@ -185,7 +206,7 @@ void sub_80051EB0(uint8_t* rdram, recomp_context* ctx)
 //    // jal         0x8005208C
 //    // ori         $a0, $zero, 0x1
 //    ctx->r4 = 0 | 0X1;
-//    sub_8005208C(rdram, ctx);
+//    KF_SpuSetTransferMode(rdram, ctx);
 //    goto after_3;
 //    // ori         $a0, $zero, 0x1
 //    ctx->r4 = 0 | 0X1;
@@ -195,7 +216,7 @@ void sub_80051EB0(uint8_t* rdram, recomp_context* ctx)
 //    // jal         0x800520C8
 //    // addu        $a1, $s0, $zero
 //    ctx->r5 = ADD32(ctx->r16, 0);
-//    sub_800520C8(rdram, ctx);
+//    KF_SpuSetTransferMode(rdram, ctx);
 //    goto after_4;
 //    // addu        $a1, $s0, $zero
 //    ctx->r5 = ADD32(ctx->r16, 0);
@@ -261,4 +282,4 @@ void sub_80051EB0(uint8_t* rdram, recomp_context* ctx)
 //    return;
 //    // addiu       $sp, $sp, 0x28
 //    ctx->r29 = ADD32(ctx->r29, 0X28);
-//;}
+;}

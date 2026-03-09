@@ -8,7 +8,7 @@
 #include "psx/libcd.h" 
 #include "scr/funcs.h"
 
-
+inline uint32_t g_spu_transfer_addr = 0;
 inline int frame = 0;
 inline int calls_per_frame = 0;
 

@@ -19,6 +19,8 @@ extern "C"
 
 #include "psx/libetc.h"
 #include "PsyX/PsyX_render.h"
+
+#include "audio/PsyX_SPUAL.h"
     // ¬озможно понадоб€тс€ и другие заголовки из include/psx
 }
 
@@ -99,7 +101,10 @@ int main(int argc, char* argv[] )
     PsyX_Pad_InitPad(0, g_pad2_buf);
 
     ResetGraph(0);
+   
+
     SpuInit();
+    PsyX_SPUAL_InitSound();
 
     KFCD_Init("King's Field2.bin");
 

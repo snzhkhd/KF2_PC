@@ -1,7 +1,10 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void PlayAudioStream(uint8_t* rdram, recomp_context* ctx) {
+void PlayAudioStream(uint8_t* rdram, recomp_context* ctx) 
+{
+    printf("[PlayAudio] a1=%d g_Option_Sound=%d\n",
+        (int)ctx->r4, MEM_BU(0, 0x8019B58B));
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 

@@ -62,7 +62,7 @@ void sub_8005D174(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x8005201C
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);
-    sub_8005201C(rdram, ctx);
+    KF_SpuTransferInit(rdram, ctx);
     goto after_0;
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);
@@ -70,7 +70,7 @@ void sub_8005D174(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x80052050
     // addu        $a0, $s0, $zero
     ctx->r4 = ADD32(ctx->r16, 0);
-    sub_80052050(rdram, ctx);
+    KF_SpuSetTransferStartAddr(rdram, ctx);
     goto after_1;
     // addu        $a0, $s0, $zero
     ctx->r4 = ADD32(ctx->r16, 0);
@@ -111,7 +111,7 @@ L_8005D214:
     // jal         0x8005208C
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);
-    sub_8005208C(rdram, ctx);
+    KF_SpuSetTransferMode(rdram, ctx);
     goto after_3;
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);

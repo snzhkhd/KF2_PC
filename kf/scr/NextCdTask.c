@@ -30,7 +30,7 @@ void NextCdTask(uint8_t* rdram, recomp_context* ctx)
     if ((uintptr_t)next == (uintptr_t)GET_PTR(queue_addr))
         next = stream - 600;
 
-    WRITE_W(0x801BA848, (uint32_t)(next - rdram) | 0x80000000);
+    WRITE_W(0x801BA848, (uint32_t)(next - rdram) | 0x80000000); //01BA848 g_ActiveCdStream
 
     if (!next[0]) {
         // Нет задач — пауза

@@ -1,7 +1,14 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void SPU_PlayVoice(uint8_t* rdram, recomp_context* ctx) {
+void SPU_PlayVoice(uint8_t* rdram, recomp_context* ctx) 
+{
+    printf("[SPU_PlayVoice] a1=%d pitch=%d dword_8016E5F8=%08X byte_8019E6DC=%d\n",
+        (int16_t)ctx->r4,
+        (int16_t)MEM_HU(0, 0x8019E6E8),
+        MEM_W(0, 0x8016E5F8),
+        MEM_BU(0, 0x8019E6DC));
+
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -539,6 +546,9 @@ L_80058940:
     // nop
 
     sub_80055088(rdram, ctx);
+    printf("[SPU after setup] voice=%d pitch=%d\n",
+        MEM_HU(0, 0x8019E6EA), MEM_HU(0, 0x8019E6E8));
+
     goto after_2;
     // nop
 
@@ -560,7 +570,9 @@ L_80058940:
     // jal         0x800552C0
     // addu        $a0, $s0, $zero
     ctx->r4 = ADD32(ctx->r16, 0);
-    sub_800552C0(rdram, ctx);
+    printf("[SPU_PlayVoice] before KF_SpuKeyOnVoice");
+    KF_SpuKeyOnVoice(rdram, ctx);
+    printf("[SPU_PlayVoice] after KF_SpuKeyOnVoice");
     goto after_3;
     // addu        $a0, $s0, $zero
     ctx->r4 = ADD32(ctx->r16, 0);
@@ -590,6 +602,7 @@ L_80058A38:
     // andi        $a1, $v0, 0xFFFF
     ctx->r5 = ctx->r2 & 0XFFFF;
     sub_80054A10(rdram, ctx);
+    printf("[SPU after 54A10] done\n");
     goto after_5;
     // andi        $a1, $v0, 0xFFFF
     ctx->r5 = ctx->r2 & 0XFFFF;

@@ -3,63 +3,7 @@
 
 void ProcessCDAudioLoad(uint8_t* rdram, recomp_context* ctx) 
 {
-    //uint32_t* p_active = (uint32_t*)GET_PTR(ADDR_G_ACTIVECDSTREAM);
-    //uint8_t* stream = (uint8_t*)GET_PTR(*p_active);
-    //if (stream) 
-    //{
-    //    printf("[ProcessCDAudioLoad] stream[0]=%d stream[24]=%d stream[26]=%d stream[28]=%d\n",
-    //        *(int16_t*)(stream + 0),
-    //        *(int16_t*)(stream + 24),
-    //        *(int16_t*)(stream + 26),
-    //        *(int16_t*)(stream + 28));
-    //}
-   
-    //uint32_t* p_active = (uint32_t*)GET_PTR(ADDR_G_ACTIVECDSTREAM);
-    //if (!p_active || !*p_active) 
-    //{
-    //    printf("[ProcessCDAudioLoad] active stream not found!\n");
-    //    ctx->r2 = 0; 
-    //    return;
-    //}
-
-    //uint8_t* stream = (uint8_t*)GET_PTR(*p_active);
-    //if (!stream) 
-    //{
-    //    printf("[ProcessCDAudioLoad] stream not valid!\n");
-
-    //    ctx->r2 = 0; return;
-    //}
-
-    //if (stream[0] == 48 )//&& *(uint16_t*)(stream + 24) == 2) 
-    //{
-    //    printf("[ProcessCDAudioLoad] VAB stream detected, forcing complete\n");
-
-    //    //  **(v0+28) = 1
-    //    uint32_t channel_ptr = *(uint32_t*)(stream + 28);
-    //    if (channel_ptr) {
-    //        uint32_t* channel = (uint32_t*)GET_PTR(channel_ptr);
-    //        if (channel) *channel = 1;
-    //    }
-
-    //    // NextCdTask
-    //    recomp_func_t next_task = lookup_recomp_func(0x80017D2C);
-    //    if (next_task) {
-    //        uint32_t saved_ra = ctx->r31;
-    //        ctx->r4 = *p_active;
-    //        next_task(rdram, ctx);
-    //        ctx->r31 = saved_ra;
-    //    }
-
-    //    // stream+16 = 0 (  )
-    //    *(uint16_t*)(stream + 16) = 0;
-
-    //    printf("[ProcessCDAudioLoad] VAB stream complete, NextCdTask called\n");
-    //}
-    //else
-    //{
-    //    printf("another stream 0 <%d>, +24 <%d>\n\n", stream[0], *(uint16_t*)(stream + 24));
-    //}
-    //ctx->r2 = 0;
+   // printf("[ProcessCDAudioLoad] \n");
 
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
@@ -140,7 +84,7 @@ L_800149F0:
     // jal         0x80051EB0
     // ori         $a1, $zero, 0x9000
     ctx->r5 = 0 | 0X9000;
-    sub_80051EB0(rdram, ctx);
+    KF_SpuTransferVoice(rdram, ctx);
     goto after_2;
     // ori         $a1, $zero, 0x9000
     ctx->r5 = 0 | 0X9000;

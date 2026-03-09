@@ -915,12 +915,12 @@
     <ClCompile Include="kf\scr\sub_80051D64.c" />
     <ClCompile Include="kf\scr\sub_80051E08.c" />
     <ClCompile Include="kf\scr\sub_80051E8C.c" />
-    <ClCompile Include="kf\scr\sub_80051EB0.c" />
+    <ClCompile Include="kf\scr\KF_SpuTransferVoice.c" />
     <ClCompile Include="kf\scr\sub_8005201C.c" />
-    <ClCompile Include="kf\scr\sub_80052050.c" />
-    <ClCompile Include="kf\scr\sub_8005208C.c" />
+    <ClCompile Include="kf\scr\KF_SpuSetTransferStartAddr.c" />
+    <ClCompile Include="kf\scr\KF_SpuSetTransferMode.c" />
     <ClCompile Include="kf\scr\sub_800520B8.c" />
-    <ClCompile Include="kf\scr\sub_800520C8.c" />
+    <ClCompile Include="kf\scr\KF_SpuWrite.c" />
     <ClCompile Include="kf\scr\sub_80052154.c" />
     <ClCompile Include="kf\scr\sub_80052244.c" />
     <ClCompile Include="kf\scr\sub_80052358.c" />
@@ -945,7 +945,7 @@
     <ClCompile Include="kf\scr\sub_80054EFC.c" />
     <ClCompile Include="kf\scr\sub_80054FD8.c" />
     <ClCompile Include="kf\scr\sub_80055088.c" />
-    <ClCompile Include="kf\scr\sub_800552C0.c" />
+    <ClCompile Include="kf\scr\KF_SpuKeyOnVoice.c" />
     <ClCompile Include="kf\scr\sub_80055790.c" />
     <ClCompile Include="kf\scr\sub_80055950.c" />
     <ClCompile Include="kf\scr\sub_8005599C.c" />

@@ -1,7 +1,9 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void SsVabOpenHeadWithMode(uint8_t* rdram, recomp_context* ctx) {
+void SsVabOpenHeadWithMode(uint8_t* rdram, recomp_context* ctx) 
+{
+    printf("SsVabOpenHeadWithMode\n");
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -59,7 +61,7 @@ L_80053514:
     // jal         0x8005208C
     // ori         $a0, $zero, 0x1
     ctx->r4 = 0 | 0X1;
-    sub_8005208C(rdram, ctx);
+    KF_SpuSetTransferMode(rdram, ctx);
     goto after_1;
     // ori         $a0, $zero, 0x1
     ctx->r4 = 0 | 0X1;
@@ -203,7 +205,7 @@ L_800535E8:
     // jal         0x8005208C
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);
-    sub_8005208C(rdram, ctx);
+    KF_SpuSetTransferMode(rdram, ctx);
     goto after_2;
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);
@@ -536,7 +538,7 @@ L_800537E4:
     // jal         0x8005208C
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);
-    sub_8005208C(rdram, ctx);
+    KF_SpuSetTransferMode(rdram, ctx);
     goto after_4;
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);

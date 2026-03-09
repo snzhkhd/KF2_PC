@@ -4,6 +4,7 @@
 
 void KF_SpuMalloc(uint8_t* rdram, recomp_context* ctx)
 {
+    printf("KF_SpuMalloc\n");
     // 1. Аргумент 'size' (сколько байт звуковой памяти нужно)
     // Передается по значению в r4 (a0)
     int size = (int)ctx->r4;

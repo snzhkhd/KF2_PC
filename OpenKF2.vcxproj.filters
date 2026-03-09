@@ -2232,7 +2232,7 @@
     <ClCompile Include="kf\scr\sub_80051E8C.c">
       <Filter>Исходные файлы\kf_scr</Filter>
     </ClCompile>
-    <ClCompile Include="kf\scr\sub_80051EB0.c">
+    <ClCompile Include="kf\scr\KF_SpuTransferVoice.c">
       <Filter>Исходные файлы\kf_scr</Filter>
     </ClCompile>
     <ClCompile Include="kf\scr\sub_80053EC0.c">
@@ -2454,7 +2454,7 @@
     <ClCompile Include="kf\scr\sub_800520B8.c">
       <Filter>Исходные файлы\kf_scr</Filter>
     </ClCompile>
-    <ClCompile Include="kf\scr\sub_800520C8.c">
+    <ClCompile Include="kf\scr\KF_SpuWrite.c">
       <Filter>Исходные файлы\kf_scr</Filter>
     </ClCompile>
     <ClCompile Include="kf\scr\sub_800523B8.c">
@@ -2478,7 +2478,7 @@
     <ClCompile Include="kf\scr\sub_800541F4.c">
       <Filter>Исходные файлы\kf_scr</Filter>
     </ClCompile>
-    <ClCompile Include="kf\scr\sub_800552C0.c">
+    <ClCompile Include="kf\scr\KF_SpuKeyOnVoice.c">
       <Filter>Исходные файлы\kf_scr</Filter>
     </ClCompile>
     <ClCompile Include="kf\scr\sub_800568CC.c">
@@ -2577,7 +2577,7 @@
     <ClCompile Include="kf\scr\sub_8005201C.c">
       <Filter>Исходные файлы\kf_scr</Filter>
     </ClCompile>
-    <ClCompile Include="kf\scr\sub_8005208C.c">
+    <ClCompile Include="kf\scr\KF_SpuSetTransferMode.c">
       <Filter>Исходные файлы\kf_scr</Filter>
     </ClCompile>
     <ClCompile Include="kf\scr\sub_8005267C.c">
@@ -2754,7 +2754,7 @@
     <ClCompile Include="kf\scr\sub_80051508.c">
       <Filter>Исходные файлы\kf_scr</Filter>
     </ClCompile>
-    <ClCompile Include="kf\scr\sub_80052050.c">
+    <ClCompile Include="kf\scr\KF_SpuSetTransferStartAddr.c">
       <Filter>Исходные файлы\kf_scr</Filter>
     </ClCompile>
     <ClCompile Include="kf\scr\sub_80052154.c">
