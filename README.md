@@ -14,9 +14,9 @@ cd vcpkg
 .\bootstrap-vcpkg.bat  # Windows
 
 # Install dependencies
-./vcpkg install sdl2 opengl  # Linux/macOS
+./vcpkg install sdl2 openal-soft  # Linux/macOS
 # or
-.\vcpkg.exe install sdl2 opengl  # Windows
+.\vcpkg.exe install sdl2 openal-soft  # Windows
 
 # Integrate with your system (Windows)
 .\vcpkg.exe integrate install
