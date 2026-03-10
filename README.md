@@ -4,6 +4,23 @@
 - OpenAL-soft (1.21.x or newer)
 - SDL2 (2.0.16 or newer)
 
+This project uses [vcpkg](https://github.com/microsoft/vcpkg) for dependency management.
+```bash
+# Clone vcpkg (if not already installed)
+git clone https://github.com/microsoft/vcpkg.git
+cd vcpkg
+./bootstrap-vcpkg.sh  # Linux/macOS
+# or
+.\bootstrap-vcpkg.bat  # Windows
+
+# Install dependencies
+./vcpkg install sdl2 opengl  # Linux/macOS
+# or
+.\vcpkg.exe install sdl2 opengl  # Windows
+
+# Integrate with your system (Windows)
+.\vcpkg.exe integrate install
+```
 ## Unresolved issues
 - The sounds are slightly shifted (not all)
 - Sometimes objects (textures) are not loaded
