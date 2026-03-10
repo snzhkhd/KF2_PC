@@ -1,7 +1,7 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 #include <string>
-
+#include <unordered_map>
 /*
 00000000 FileDescriptor  struc  # (sizeof=0xC, mappedto_13)
 00000000 ram_buffer:     .word ?
@@ -32,6 +32,7 @@ std::string GetNameType(int type)
     }
     return "unk";
 }
+extern std::unordered_map<uint32_t, uint32_t> g_stream_file_sizes;
 
 void ReadFromFile(uint8_t* rdram, recomp_context* ctx) 
 {

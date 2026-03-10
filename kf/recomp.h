@@ -7,12 +7,12 @@
 
 #include "psx/libcd.h" 
 #include "scr/funcs.h"
-#include <unordered_map>
+
 inline uint32_t g_spu_transfer_addr = 0;
 inline uint32_t g_spu_total_size = 0;
 inline uint32_t g_spu_transferred = 0;
 
-static std::unordered_map<uint32_t, uint32_t> g_stream_file_sizes;
+
 
 inline int frame = 0;
 inline int calls_per_frame = 0;

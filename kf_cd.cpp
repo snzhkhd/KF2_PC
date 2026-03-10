@@ -1,11 +1,12 @@
 #include "kf/recomp.h"
 #include "kf_cd.h"
 #include <string.h>
-
+#include <unordered_map>
 static uint32_t g_cdReadyCb = 0;
 static uint32_t g_cdSyncCb = 0;
 
 extern bool g_pendingType10;
+extern std::unordered_map<uint32_t, uint32_t> g_stream_file_sizes;
 
 FILE* g_cdImage = NULL;
 uint32_t g_cdCurrentSector = 0;

@@ -3,7 +3,7 @@
 #include <AL/al.h>
 #include <string>
 #include <thread>
-
+#include <unordered_map>
 
 #include "scr/funcs.h" // <---рекомпилированые функции. recomp.h включён в нём
 #include "kf_cd.h"
@@ -21,6 +21,9 @@ extern "C"
 #include "PsyX/PsyX_render.h"
 
 #include "audio/PsyX_SPUAL.h"
+
+
+
     // Возможно понадобятся и другие заголовки из include/psx
 }
 
@@ -53,6 +56,8 @@ struct PSXHeader {
 bool LoadGameEXE(const char* filename, recomp_context* ctx);
 /////////
 
+
+std::unordered_map<uint32_t, uint32_t> g_stream_file_sizes;;
 bool g_pendingType10 = false;
 uint8_t rdram[2 * 1024 * 1024] = { 0 };   // 2 MB Основной RAM
 //gamepad

@@ -34,10 +34,10 @@ void AsyncDataLoad(uint8_t* rdram, recomp_context* ctx)
         uint8_t* s = (uint8_t*)GET_PTR(*p_active);
         uint16_t load_state = MEM_HU(0, 0x801779D6);
         static int ld_log = 0;
-        if (ld_log++ < 100) {
-            printf("[Stream] type=%02X ready=%d chunks=%d remain=%d loadState=%d\n",
-                s[0], s[36], *(uint16_t*)(s + 16), *(uint16_t*)(s + 34), load_state);
-        }
+        //if (ld_log++ < 100) {
+        //    printf("[Stream] type=%02X ready=%d chunks=%d remain=%d loadState=%d\n",
+        //        s[0], s[36], *(uint16_t*)(s + 16), *(uint16_t*)(s + 34), load_state);
+        //}
 
         uint8_t* stream = (uint8_t*)GET_PTR(*p_active);
         if (stream)

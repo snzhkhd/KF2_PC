@@ -11,6 +11,7 @@
 #include "psx/libapi.h"
 #include "psx/gtereg.h"
 #include <string>
+#include <unordered_map>
 
 
 namespace fs = std::filesystem;
@@ -29,6 +30,10 @@ volatile  uint32_t global_vsync_count = 0;
 std::map<uint32_t, recomp_func_t> function_table;
 
 static uint32_t g_interp_target = 0;
+
+//stream data
+extern std::unordered_map<uint32_t, uint32_t> g_stream_file_sizes;
+
 
 void mips_interpret(uint8_t* rdram, recomp_context* ctx, uint32_t start_pc);
 void interp_wrapper(uint8_t* rdram, recomp_context* ctx) {
