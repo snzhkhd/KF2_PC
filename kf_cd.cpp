@@ -153,8 +153,8 @@ void KFCD_CdlReadN(uint8_t* rdram, recomp_context* ctx)
             g_stream_file_sizes.erase(it);
         }
 
-        printf("[CdlReadN 0x10] sectors=%d remain=%d total=%d base_lba=%d dst=%08X\n",
-            sectors, remain, total, base_lba, dst);
+        /*printf("[CdlReadN 0x10] sectors=%d remain=%d total=%d base_lba=%d dst=%08X\n",
+            sectors, remain, total, base_lba, dst);*/
 
         for (int i = 0; i < total; i++) {
             fseek(g_cdImage, (uint32_t)(base_lba + i) * 2352 + 24, SEEK_SET);

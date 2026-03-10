@@ -12,32 +12,14 @@ void KFCD_IntToCdPos(int lba, CdlLOC* loc) {
 
 void AsyncDataLoad(uint8_t* rdram, recomp_context* ctx) 
 {
-    printf("[DEBUG] AsyncDataLoad.\n");
+    /*printf("[DEBUG] AsyncDataLoad.\n");*/
 
     uint32_t saved_r4 = ctx->r4;
     uint32_t saved_ra = ctx->r31;
     uint32_t* p_active = (uint32_t*)GET_PTR(ADDR_G_ACTIVECDSTREAM);
-   /* if (p_active && *p_active) {
-        uint8_t* s = (uint8_t*)GET_PTR(*p_active);
-        static int stream_log = 0;
-        if (stream_log++ < 30) {
-            printf("[StreamState] addr=%08X type=%02X state=%d data_ready=%d "
-                "chunks=%d remain=%d dst=%08X cb=%08X\n",
-                *p_active, s[0], s[1], s[36],
-                *(uint16_t*)(s + 16), *(uint16_t*)(s + 34),
-                *(uint32_t*)(s + 12), *(uint32_t*)(s + 20));
-        }
-    }*/
 
     if (p_active && *p_active)
     {
-        uint8_t* s = (uint8_t*)GET_PTR(*p_active);
-        uint16_t load_state = MEM_HU(0, 0x801779D6);
-        static int ld_log = 0;
-        //if (ld_log++ < 100) {
-        //    printf("[Stream] type=%02X ready=%d chunks=%d remain=%d loadState=%d\n",
-        //        s[0], s[36], *(uint16_t*)(s + 16), *(uint16_t*)(s + 34), load_state);
-        //}
 
         uint8_t* stream = (uint8_t*)GET_PTR(*p_active);
         if (stream)

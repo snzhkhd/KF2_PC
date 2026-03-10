@@ -43,12 +43,12 @@ void KF_VSync(uint8_t* rdram, recomp_context* ctx)
     auto now = std::chrono::steady_clock::now();
     double elapsed = std::chrono::duration<double>(now - g_lastFrameTime).count();
 
-    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now - vsync_start).count();
+   /* auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now - vsync_start).count();
     if (ms >= 1000) {
         printf("[VSync] calls/sec: %d\n", vsync_count);
         vsync_count = 0;
         vsync_start = now;
-    }
+    }*/
 
 
 

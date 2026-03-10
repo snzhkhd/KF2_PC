@@ -6,7 +6,7 @@ void WaitForButtonRelease(uint8_t* rdram, recomp_context* ctx)
 {
 	//printf("WaitForButtonRelease bypassed\n");
 	//ctx->r2 = 0;
-    printf("WaitForButtonRelease\n");
+    //printf("WaitForButtonRelease\n");
 
     // *(gp + 104) = 0
     MEM_W(0x68, ctx->r28) = 0;
