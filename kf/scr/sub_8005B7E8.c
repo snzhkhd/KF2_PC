@@ -488,7 +488,7 @@ L_8005BA5C:
     // jal         0x8005C10C
     // sb          $zero, 0x2B($s0)
     MEM_B(0X2B, ctx->r16) = 0;
-    sub_8005C10C(rdram, ctx);
+    _SsSndNextSep(rdram, ctx);
     goto after_1;
     // sb          $zero, 0x2B($s0)
     MEM_B(0X2B, ctx->r16) = 0;

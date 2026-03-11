@@ -1,13 +1,9 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void SPU_PlayVoice(uint8_t* rdram, recomp_context* ctx) 
+void KF_SsUtKeyOn(uint8_t* rdram, recomp_context* ctx) 
 {
-    // printf("[SPU_PlayVoice] a1=%d pitch=%d dword_8016E5F8=%08X byte_8019E6DC=%d\n",
-        // (int16_t)ctx->r4,
-        // (int16_t)MEM_HU(0, 0x8019E6E8),
-        // MEM_W(0, 0x8016E5F8),
-        // MEM_BU(0, 0x8019E6DC));
+     printf("[KF_SsUtKeyOn]\n" );
 
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
@@ -84,7 +80,7 @@ L_80058700:
     // jal         0x8005984C
     // sra         $a1, $a1, 16
     ctx->r5 = S32(ctx->r5) >> 16;
-    sub_8005984C(rdram, ctx);
+    KF_SpuVmVSetUp(rdram, ctx);
     goto after_0;
     // sra         $a1, $a1, 16
     ctx->r5 = S32(ctx->r5) >> 16;
@@ -570,9 +566,9 @@ L_80058940:
     // jal         0x800552C0
     // addu        $a0, $s0, $zero
     ctx->r4 = ADD32(ctx->r16, 0);
-    // printf("[SPU_PlayVoice] before KF_SpuKeyOnVoice");
+    // printf("[KF_SsUtKeyOn] before KF_SpuKeyOnVoice");
     KF_SpuKeyOnVoice(rdram, ctx);
-    // printf("[SPU_PlayVoice] after KF_SpuKeyOnVoice");
+    // printf("[KF_SsUtKeyOn] after KF_SpuKeyOnVoice");
     goto after_3;
     // addu        $a0, $s0, $zero
     ctx->r4 = ADD32(ctx->r16, 0);

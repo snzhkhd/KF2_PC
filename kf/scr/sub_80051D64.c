@@ -1,7 +1,9 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void sub_80051D64(uint8_t* rdram, recomp_context* ctx) {
+void _SpuInit(uint8_t* rdram, recomp_context* ctx) 
+{
+    printf("_SpuInit\n");
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -22,7 +24,7 @@ void sub_80051D64(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x80050C7C
     // addu        $a0, $s0, $zero
     ctx->r4 = ADD32(ctx->r16, 0);
-    sub_80050C7C(rdram, ctx);
+    _spu_init(rdram, ctx);
     goto after_1;
     // addu        $a0, $s0, $zero
     ctx->r4 = ADD32(ctx->r16, 0);
@@ -30,7 +32,7 @@ void sub_80051D64(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x80051E08
     // nop
 
-    sub_80051E08(rdram, ctx);
+    KF_SpuStart(rdram, ctx);
     goto after_2;
     // nop
 
@@ -76,7 +78,7 @@ void sub_80051D64(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x80051C3C
     // addu        $a2, $zero, $zero
     ctx->r6 = ADD32(0, 0);
-    sub_80051C3C(rdram, ctx);
+    _spu_FsetRXX(rdram, ctx);
     goto after_3;
     // addu        $a2, $zero, $zero
     ctx->r6 = ADD32(0, 0);

@@ -1,7 +1,9 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void sub_8005D174(uint8_t* rdram, recomp_context* ctx) {
+void KF_SsVabTransBody(uint8_t* rdram, recomp_context* ctx) 
+{
+    printf("KF_SsVabTransBody\n");
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -62,7 +64,7 @@ void sub_8005D174(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x8005201C
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);
-    KF_SpuTransferInit(rdram, ctx);
+    KF_SpuSetTransferMode(rdram, ctx);
     goto after_0;
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);
@@ -86,7 +88,7 @@ void sub_8005D174(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x8005D23C
     // addu        $a0, $s3, $zero
     ctx->r4 = ADD32(ctx->r19, 0);
-    sub_8005D23C(rdram, ctx);
+    KF_SpuRead(rdram, ctx);
     goto after_2;
     // addu        $a0, $s3, $zero
     ctx->r4 = ADD32(ctx->r19, 0);
@@ -111,7 +113,7 @@ L_8005D214:
     // jal         0x8005208C
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);
-    KF_SpuSetTransferMode(rdram, ctx);
+    _spu_setInTransfer(rdram, ctx);
     goto after_3;
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);

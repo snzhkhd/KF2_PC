@@ -407,7 +407,7 @@ L_80054990:
     // jal         0x80059720
     // ori         $a1, $a1, 0xFFFF
     ctx->r5 = ctx->r5 | 0XFFFF;
-    sub_80059720(rdram, ctx);
+    KF_SpuSetNoiseVoice(rdram, ctx);
     goto after_0;
     // ori         $a1, $a1, 0xFFFF
     ctx->r5 = ctx->r5 | 0XFFFF;

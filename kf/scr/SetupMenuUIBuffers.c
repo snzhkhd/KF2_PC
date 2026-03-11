@@ -194,7 +194,7 @@ L_8002479C:
     // jal         0x8005D924
     // nop
 
-    PlayTrack(rdram, ctx);
+    KF_SsSeqPause(rdram, ctx);
     goto after_3;
     // nop
 

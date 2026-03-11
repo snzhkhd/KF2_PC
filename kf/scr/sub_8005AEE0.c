@@ -82,7 +82,7 @@ void sub_8005AEE0(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x8005C214
     // addu        $fp, $t0, $zero
     ctx->r30 = ADD32(ctx->r8, 0);
-    sub_8005C214(rdram, ctx);
+    KF_SsUtGetProgAtr(rdram, ctx);
     goto after_0;
     // addu        $fp, $t0, $zero
     ctx->r30 = ADD32(ctx->r8, 0);
@@ -194,7 +194,7 @@ L_8005B000:
     // jal         0x8005BCF4
     // addu        $a3, $s2, $zero
     ctx->r7 = ADD32(ctx->r18, 0);
-    sub_8005BCF4(rdram, ctx);
+    KF_SsUtGetVagAtr(rdram, ctx);
     goto after_2;
     // addu        $a3, $s2, $zero
     ctx->r7 = ADD32(ctx->r18, 0);
@@ -214,7 +214,7 @@ L_8005B000:
     // jal         0x8005BF30
     // addu        $a3, $s2, $zero
     ctx->r7 = ADD32(ctx->r18, 0);
-    sub_8005BF30(rdram, ctx);
+    KF_SsUtSetVagAtr(rdram, ctx);
     goto after_3;
     // addu        $a3, $s2, $zero
     ctx->r7 = ADD32(ctx->r18, 0);
@@ -330,7 +330,7 @@ L_8005B0C4:
     // jal         0x8005BCF4
     // addu        $a3, $s2, $zero
     ctx->r7 = ADD32(ctx->r18, 0);
-    sub_8005BCF4(rdram, ctx);
+    KF_SsUtGetVagAtr(rdram, ctx);
     goto after_4;
     // addu        $a3, $s2, $zero
     ctx->r7 = ADD32(ctx->r18, 0);
@@ -350,7 +350,7 @@ L_8005B0C4:
     // jal         0x8005BF30
     // addu        $a3, $s2, $zero
     ctx->r7 = ADD32(ctx->r18, 0);
-    sub_8005BF30(rdram, ctx);
+    KF_SsUtSetVagAtr(rdram, ctx);
     goto after_5;
     // addu        $a3, $s2, $zero
     ctx->r7 = ADD32(ctx->r18, 0);
@@ -453,7 +453,7 @@ L_8005B174:
     // jal         0x8005BCF4
     // addu        $a3, $s2, $zero
     ctx->r7 = ADD32(ctx->r18, 0);
-    sub_8005BCF4(rdram, ctx);
+    KF_SsUtGetVagAtr(rdram, ctx);
     goto after_6;
     // addu        $a3, $s2, $zero
     ctx->r7 = ADD32(ctx->r18, 0);
@@ -473,7 +473,7 @@ L_8005B174:
     // jal         0x8005BF30
     // addu        $a3, $s2, $zero
     ctx->r7 = ADD32(ctx->r18, 0);
-    sub_8005BF30(rdram, ctx);
+    KF_SsUtSetVagAtr(rdram, ctx);
     goto after_7;
     // addu        $a3, $s2, $zero
     ctx->r7 = ADD32(ctx->r18, 0);

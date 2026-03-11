@@ -2,8 +2,9 @@
 #include "disable_warnings.h"
 #include "psx/libspu.h"
 
-void KF_SpuSetTransferMode(uint8_t* rdram, recomp_context* ctx) 
+void _spu_setInTransfer(uint8_t* rdram, recomp_context* ctx) 
 {
+    printf("_spu_setInTransfer\n");
     // a0: 0=stop, 1=DMA
     SpuSetTransferMode(ctx->r4 ? SpuTransByDMA : SpuTransByDMA);
     ctx->r2 = 0;

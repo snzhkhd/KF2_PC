@@ -88,7 +88,7 @@ void sub_80057484(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x8005984C
     // addu        $s0, $v1, $v0
     ctx->r16 = ADD32(ctx->r3, ctx->r2);
-    sub_8005984C(rdram, ctx);
+    KF_SpuVmVSetUp(rdram, ctx);
     goto after_0;
     // addu        $s0, $v1, $v0
     ctx->r16 = ADD32(ctx->r3, ctx->r2);

@@ -1,7 +1,9 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void sub_8005BF30(uint8_t* rdram, recomp_context* ctx) {
+void KF_SsUtSetVagAtr(uint8_t* rdram, recomp_context* ctx) 
+{
+    printf("KF_SsUtSetVagAtr\n");
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -49,7 +51,7 @@ L_8005BF70:
     // jal         0x8005984C
     // sra         $a1, $a1, 16
     ctx->r5 = S32(ctx->r5) >> 16;
-    sub_8005984C(rdram, ctx);
+    KF_SpuVmVSetUp(rdram, ctx);
     goto after_0;
     // sra         $a1, $a1, 16
     ctx->r5 = S32(ctx->r5) >> 16;

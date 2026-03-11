@@ -1,9 +1,9 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void PlayTrack(uint8_t* rdram, recomp_context* ctx) 
+void KF_SsSeqPause(uint8_t* rdram, recomp_context* ctx) 
 {
-    printf("PlayTrack\n\n");
+    printf("KF_SsSeqPause\n\n");
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -18,7 +18,7 @@ void PlayTrack(uint8_t* rdram, recomp_context* ctx)
     // jal         0x8005D854
     // addu        $a1, $zero, $zero
     ctx->r5 = ADD32(0, 0);
-    sub_8005D854(rdram, ctx);
+    _SsSndSetPauseMode(rdram, ctx);
     goto after_0;
     // addu        $a1, $zero, $zero
     ctx->r5 = ADD32(0, 0);

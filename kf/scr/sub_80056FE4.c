@@ -40,7 +40,7 @@ void sub_80056FE4(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x8005984C
     // addu        $s3, $a3, $zero
     ctx->r19 = ADD32(ctx->r7, 0);
-    sub_8005984C(rdram, ctx);
+    KF_SpuVmVSetUp(rdram, ctx);
     goto after_0;
     // addu        $s3, $a3, $zero
     ctx->r19 = ADD32(ctx->r7, 0);

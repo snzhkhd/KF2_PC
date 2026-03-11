@@ -1,13 +1,16 @@
 #include "recomp.h"
 #include "disable_warnings.h"
+#include "psx/libspu.h"
 
-void sub_80053364(uint8_t* rdram, recomp_context* ctx) 
+void KF_SpuSetReverb(uint8_t* rdram, recomp_context* ctx) 
 {
 	//KF_SpuIrqControl
+	printf("KF_SpuSetReverb\n");
 	
-	ctx->r2 = 0;
 
-//    printf("[sub_80053364]  SPU unk!");
+	ctx->r2 = SpuSetReverb((int)ctx->r4);
+
+//    printf("[KF_SpuSetReverb]  SPU unk!");
 //    uint64_t hi = 0, lo = 0, result = 0;
 //    unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
 //    int c1cs = 0; 
@@ -82,7 +85,7 @@ void sub_80053364(uint8_t* rdram, recomp_context* ctx)
 //    // jal         0x8005314C
 //    // nop
 //
-//    sub_8005314C(rdram, ctx);
+//    _SpuIsInAllocateArea_(rdram, ctx);
 //    goto after_0;
 //    // nop
 //

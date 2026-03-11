@@ -1,4 +1,4 @@
-#include "../PsyX_main.h"
+﻿#include "../PsyX_main.h"
 
 #include "psx/libspu.h"
 #include "psx/libetc.h"
@@ -10,6 +10,8 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 #include <AL/alext.h>
+
+#include <cmath> //std::pow
 
 #ifndef __EMSCRIPTEN__
 #include <AL/efx.h>
@@ -81,6 +83,12 @@ typedef struct
 	ALuint alSource;
 	ushort sampledirty;
 	ushort reverb;
+
+	//ADSR
+	AdsrSettings adsr_settings; // Переведенные в секунды тайминги
+	AdsrState env_state;        // Текущая фаза (Attack, Decay и т.д.)
+	float env_time;             // Время в секундах, прошедшее в текущей фазе
+	float current_env_level;    // Текущий уровень громкости конверта (от 0.0 до 1.0)
 } SPUALVoice;
 
 const int s_spuVoiceCount = 24;
@@ -95,6 +103,357 @@ ALuint		g_nAlReverbEffect = 0;
 int			g_enableSPUReverb = 0;
 int			g_ALEffectsSupported = 0;
 
+//--------------------------------------ADSR--------------------------------------
+unsigned long RateTable[160];
+
+
+void initADSR()
+{
+	// build the rate table according to Neill's rules
+	memset(RateTable, 0, sizeof(unsigned long) * 160);
+
+	uint32_t r = 3;
+	uint32_t rs = 1;
+	uint32_t rd = 0;
+
+	// we start at pos 32 with the real values... everything before is 0
+	for (int i = 32; i < 160; i++) {
+		if (r < 0x3FFFFFFF) {
+			r += rs;
+			rd++;
+			if (rd == 5) {
+				rd = 1;
+				rs *= 2;
+			}
+		}
+		if (r > 0x3FFFFFFF)
+			r = 0x3FFFFFFF;
+
+		RateTable[i] = r;
+	}
+}
+inline int roundToZero(int val) {
+	if (val < 0)
+		val = 0;
+	return val;
+}
+
+
+double linearAmpDecayTimeToLinDBDecayTime(double secondsToFullAtten, double targetDb_LeastSquares = 70, double targetDb_InitialSlope = 140)
+{
+	if (secondsToFullAtten <= 0.0) return 0.0;
+
+	const double ln10 = 2.302585092994046;
+	const double k_short = targetDb_InitialSlope / (20.0 / ln10);
+	const double k_long = targetDb_LeastSquares * ln10 / 45.0;
+
+	// Knee near temporal integration (100–150 ms). p controls sharpness.
+	const double T_knee = 0.12; // seconds
+	const double p = 2.0;
+
+	const double x = secondsToFullAtten / T_knee;
+	const double w = 1.0 / (1.0 + std::pow(x, p)); // w≈1 for very short; →0 for long
+
+	return secondsToFullAtten * (w * k_short + (1.0 - w) * k_long);
+}
+
+AdsrSettings MakeADSR(uint16_t ADSR1, uint16_t ADSR2)
+{
+	const int SPU_SAMPLE_RATE = 44100;
+
+	uint8_t Am = (ADSR1 & 0x8000) >> 15;    // if 1, then Exponential, else linear
+	uint8_t Ar = (ADSR1 & 0x7F00) >> 8;
+	uint8_t Dr = (ADSR1 & 0x00F0) >> 4;
+	uint8_t Sl = ADSR1 & 0x000F;
+	uint8_t Rm = (ADSR2 & 0x0020) >> 5;
+	uint8_t Rr = ADSR2 & 0x001F;
+
+	// The following are unimplemented in conversion (because DLS and SF2 do not support Sustain Rate)
+	uint8_t Sm = (ADSR2 & 0x8000) >> 15;
+	uint8_t Sd = (ADSR2 & 0x4000) >> 14;
+	uint8_t Sr = (ADSR2 >> 6) & 0x7F;
+
+
+	if (((Am & ~0x01) != 0) ||
+		((Ar & ~0x7F) != 0) ||
+		((Dr & ~0x0F) != 0) ||
+		((Sl & ~0x0F) != 0) ||
+		((Rm & ~0x01) != 0) ||
+		((Rr & ~0x1F) != 0) ||
+		((Sm & ~0x01) != 0) ||
+		((Sd & ~0x01) != 0) ||
+		((Sr & ~0x7F) != 0)) {
+		eprintf("PSX ADSR parameter(s) out of range"
+			"({:#x}, {:#x}, {:#x}, {:#x}, {:#x}, {:#x}, {:#x}, {:#x}, {:#x})",
+			Am, Ar, Dr, Sl, Rm, Rr, Sm, Sd, Sr);
+		return AdsrSettings();
+	}
+
+	// int rateIncTable[8] = {0, 4, 6, 8, 9, 10, 11, 12};
+	double samples{ 0 };
+	int l;
+
+
+	// to get the dls 32 bit time cents, take log base 2 of number of seconds * 1200 * 65536
+	// (dls1v11a.pdf p25).
+
+  //	if (RateTable[(Ar^0x7F)-0x10 + 32] == 0)
+  //		realADSR->attack_time = 0;
+  //	else
+  //	{
+	if ((Ar ^ 0x7F) < 0x10)
+		Ar = 0;
+	// if linear Ar Mode
+	if (Am == 0) {
+		uint32_t rate = RateTable[roundToZero((Ar ^ 0x7F) - 0x10) + 32];
+		samples = ceil(0x7FFFFFFF / static_cast<double>(rate));
+	}
+	else if (Am == 1) {
+		uint32_t rate = RateTable[roundToZero((Ar ^ 0x7F) - 0x10) + 32];
+		samples = 0x60000000 / rate;
+		uint32_t remainder = 0x60000000 % rate;
+		rate = RateTable[roundToZero((Ar ^ 0x7F) - 0x18) + 32];
+		samples += ceil(fmax(0, 0x1FFFFFFF - remainder) / static_cast<double>(rate));
+	}
+
+
+	AdsrSettings adsr;
+
+	adsr.attack = samples / SPU_SAMPLE_RATE;
+	//	}
+
+	  // Decay Time
+
+	long envelope_level = 0x7FFFFFFF;
+
+	bool bSustainLevFound = false;
+	uint32_t realSustainLevel{ 0 };
+	// DLS decay rate value is to -96db (silence) not the sustain level
+	for (l = 0; envelope_level > 0; l++) {
+		if (4 * (Dr ^ 0x1F) < 0x18)
+			Dr = 0;
+		switch ((envelope_level >> 28) & 0x7) {
+		case 0: envelope_level -= RateTable[roundToZero((4 * (Dr ^ 0x1F)) - 0x18 + 0) + 32]; break;
+		case 1: envelope_level -= RateTable[roundToZero((4 * (Dr ^ 0x1F)) - 0x18 + 4) + 32]; break;
+		case 2: envelope_level -= RateTable[roundToZero((4 * (Dr ^ 0x1F)) - 0x18 + 6) + 32]; break;
+		case 3: envelope_level -= RateTable[roundToZero((4 * (Dr ^ 0x1F)) - 0x18 + 8) + 32]; break;
+		case 4: envelope_level -= RateTable[roundToZero((4 * (Dr ^ 0x1F)) - 0x18 + 9) + 32]; break;
+		case 5: envelope_level -= RateTable[roundToZero((4 * (Dr ^ 0x1F)) - 0x18 + 10) + 32]; break;
+		case 6: envelope_level -= RateTable[roundToZero((4 * (Dr ^ 0x1F)) - 0x18 + 11) + 32]; break;
+		case 7: envelope_level -= RateTable[roundToZero((4 * (Dr ^ 0x1F)) - 0x18 + 12) + 32]; break;
+		default: break;
+		}
+		if (!bSustainLevFound && ((envelope_level >> 27) & 0xF) <= Sl) {
+			realSustainLevel = envelope_level;
+			bSustainLevFound = true;
+		}
+	}
+	samples = l;
+	adsr.decay = samples / SPU_SAMPLE_RATE;
+
+	// Sustain Rate
+
+	envelope_level = 0x7FFFFFFF;
+	// increasing... we won't even bother
+	if (Sd == 0) {
+		adsr.sustain = -1;
+	}
+	else {
+		if (Sr == 0x7F)
+			adsr.sustain = -1;        // this is actually infinite
+		else {
+			// linear
+			if (Sm == 0) {
+				uint32_t rate = RateTable[roundToZero((Sr ^ 0x7F) - 0x0F) + 32];
+				samples = ceil(0x7FFFFFFF / static_cast<double>(rate));
+			}
+			else {
+				l = 0;
+				// DLS decay rate value is to -96db (silence) not the sustain level
+				while (envelope_level > 0) {
+					long envelope_level_diff{ 0 };
+					long envelope_level_target{ 0 };
+
+					switch ((envelope_level >> 28) & 0x7) {
+					case 0: envelope_level_target = 0x00000000; envelope_level_diff = RateTable[roundToZero((Sr ^ 0x7F) - 0x1B + 0) + 32]; break;
+					case 1: envelope_level_target = 0x0fffffff; envelope_level_diff = RateTable[roundToZero((Sr ^ 0x7F) - 0x1B + 4) + 32]; break;
+					case 2: envelope_level_target = 0x1fffffff; envelope_level_diff = RateTable[roundToZero((Sr ^ 0x7F) - 0x1B + 6) + 32]; break;
+					case 3: envelope_level_target = 0x2fffffff; envelope_level_diff = RateTable[roundToZero((Sr ^ 0x7F) - 0x1B + 8) + 32]; break;
+					case 4: envelope_level_target = 0x3fffffff; envelope_level_diff = RateTable[roundToZero((Sr ^ 0x7F) - 0x1B + 9) + 32]; break;
+					case 5: envelope_level_target = 0x4fffffff; envelope_level_diff = RateTable[roundToZero((Sr ^ 0x7F) - 0x1B + 10) + 32]; break;
+					case 6: envelope_level_target = 0x5fffffff; envelope_level_diff = RateTable[roundToZero((Sr ^ 0x7F) - 0x1B + 11) + 32]; break;
+					case 7: envelope_level_target = 0x6fffffff; envelope_level_diff = RateTable[roundToZero((Sr ^ 0x7F) - 0x1B + 12) + 32]; break;
+					default: break;
+					}
+
+					long steps = (envelope_level - envelope_level_target + (envelope_level_diff - 1)) / envelope_level_diff;
+					envelope_level -= (envelope_level_diff * steps);
+					l += steps;
+				}
+				samples = l;
+			}
+			double timeInSecs = samples / SPU_SAMPLE_RATE;
+			adsr.sustain = /*Sm ? timeInSecs : */linearAmpDecayTimeToLinDBDecayTime(timeInSecs);
+		}
+	}
+
+	// Sustain Level
+	//realADSR->sustain_level = (double)envelope_level/(double)0x7FFFFFFF;//(long)ceil((double)envelope_level * 0.030517578139210854);	//in DLS, sustain level is measured as a percentage
+	if (Sl == 0)
+		realSustainLevel = 0x07FFFFFF;
+	adsr.sustain = realSustainLevel / static_cast<double>(0x7FFFFFFF);
+
+	// If decay is going unused, and there's a sustain rate with sustain level close to max...
+	//  we'll put the sustain_rate in place of the decay rate.
+	if ((adsr.decay < 2 || (Dr >= 0x0E && Sl >= 0x0C)) && Sr < 0x7E && Sd == 1) {
+		adsr.sustain = 0;
+		adsr.decay = adsr.sustain;
+		//realADSR->decay_time = 0.5;
+	}
+
+	// Release Time
+
+	//sustain_envelope_level = envelope_level;
+
+	// We do this because we measure release time from max volume to 0, not from sustain level to 0
+	envelope_level = 0x7FFFFFFF;
+
+	// if linear Rr Mode
+	if (Rm == 0) {
+		uint32_t rate = RateTable[roundToZero((4 * (Rr ^ 0x1F)) - 0x0C) + 32];
+
+		if (rate != 0)
+			samples = ceil(static_cast<double>(envelope_level) / rate);
+		else
+			samples = 0;
+	}
+	else if (Rm == 1) {
+		if ((Rr ^ 0x1F) * 4 < 0x18)
+			Rr = 0;
+		for (l = 0; envelope_level > 0; l++) {
+			switch ((envelope_level >> 28) & 0x7) {
+			case 0: envelope_level -= RateTable[roundToZero((4 * (Rr ^ 0x1F)) - 0x18 + 0) + 32]; break;
+			case 1: envelope_level -= RateTable[roundToZero((4 * (Rr ^ 0x1F)) - 0x18 + 4) + 32]; break;
+			case 2: envelope_level -= RateTable[roundToZero((4 * (Rr ^ 0x1F)) - 0x18 + 6) + 32]; break;
+			case 3: envelope_level -= RateTable[roundToZero((4 * (Rr ^ 0x1F)) - 0x18 + 8) + 32]; break;
+			case 4: envelope_level -= RateTable[roundToZero((4 * (Rr ^ 0x1F)) - 0x18 + 9) + 32]; break;
+			case 5: envelope_level -= RateTable[roundToZero((4 * (Rr ^ 0x1F)) - 0x18 + 10) + 32]; break;
+			case 6: envelope_level -= RateTable[roundToZero((4 * (Rr ^ 0x1F)) - 0x18 + 11) + 32]; break;
+			case 7: envelope_level -= RateTable[roundToZero((4 * (Rr ^ 0x1F)) - 0x18 + 12) + 32]; break;
+			default: break;
+			}
+		}
+		samples = l;
+	}
+	double timeInSecs = samples / SPU_SAMPLE_RATE;
+
+	//theRate = timeInSecs / sustain_envelope_level;
+	//timeInSecs = 0x7FFFFFFF * theRate;	//the release time value is more like a rate.  It is the time from max value to 0, not from sustain level.
+	//if (Rm == 0) // if it's linear
+	//	timeInSecs *=  LINEAR_RELEASE_COMPENSATION;
+
+	adsr.release = /*Rm ? timeInSecs : */linearAmpDecayTimeToLinDBDecayTime(timeInSecs);
+
+
+	return adsr;
+}
+
+void PsyX_Update_ADSR(float deltaTime)
+{
+	if (!g_spuInit) return;
+
+	SDL_LockMutex(g_SpuMutex);
+
+	for (int i = 0; i < s_spuVoiceCount; i++)
+	{
+		SPUALVoice* voice = &g_SpuVoices[i];
+
+		// Если источник OpenAL не создан или звук выключен, пропускаем
+		if (voice->alSource == AL_NONE || voice->env_state == ENV_STATE_OFF)
+			continue;
+
+		// Увеличиваем таймер текущей фазы
+		voice->env_time += deltaTime;
+		AdsrSettings* adsr = &voice->adsr_settings;
+
+		// Машина состояний ADSR
+		switch (voice->env_state)
+		{
+		case ENV_STATE_ATTACK:
+			if (adsr->attack <= 0.0f) {
+				voice->current_env_level = 1.0f;
+				voice->env_state = ENV_STATE_DECAY;
+				voice->env_time = 0.0f;
+			}
+			else {
+				voice->current_env_level = voice->env_time / adsr->attack;
+				if (voice->env_time >= adsr->attack) {
+					voice->current_env_level = 1.0f;
+					voice->env_state = ENV_STATE_DECAY;
+					voice->env_time = 0.0f;
+				}
+			}
+			break;
+
+		case ENV_STATE_DECAY:
+			if (adsr->decay <= 0.0f) {
+				voice->current_env_level = adsr->sustain;
+				voice->env_state = ENV_STATE_SUSTAIN;
+				voice->env_time = 0.0f;
+			}
+			else {
+				float progress = voice->env_time / adsr->decay;
+				voice->current_env_level = 1.0f - (progress * (1.0f - adsr->sustain));
+
+				if (voice->env_time >= adsr->decay) {
+					voice->current_env_level = adsr->sustain;
+					voice->env_state = ENV_STATE_SUSTAIN;
+					voice->env_time = 0.0f;
+				}
+			}
+			break;
+
+		case ENV_STATE_SUSTAIN:
+			// Уровень остается постоянным (ждём команды KeyOff)
+			voice->current_env_level = adsr->sustain;
+			break;
+
+		case ENV_STATE_RELEASE:
+			if (adsr->release <= 0.0f) {
+				voice->current_env_level = 0.0f;
+				voice->env_state = ENV_STATE_OFF;
+				alSourceStop(voice->alSource); // Полностью выключаем OpenAL звук
+			}
+			else {
+				// Плавно затухаем от уровня сустейна до 0
+				float progress = voice->env_time / adsr->release;
+				voice->current_env_level = adsr->sustain * (1.0f - progress);
+
+				if (voice->env_time >= adsr->release) {
+					voice->current_env_level = 0.0f;
+					voice->env_state = ENV_STATE_OFF;
+					alSourceStop(voice->alSource);
+				}
+			}
+			break;
+		}
+
+		float left_gain = (float)(voice->attr.volume.left) / 16384.0f;
+		float right_gain = (float)(voice->attr.volume.right) / 16384.0f;
+
+		if (left_gain > 1.0f) left_gain = 1.0f;
+		if (right_gain > 1.0f) right_gain = 1.0f;
+
+		float base_vol = (left_gain + right_gain) * 0.5f;
+
+		float final_volume = base_vol * voice->current_env_level;
+
+		alSourcef(voice->alSource, AL_GAIN, final_volume);
+	}
+
+	SDL_UnlockMutex(g_SpuMutex);
+}
+//----------------------------------------------------------------------------
 #ifndef __EMSCRIPTEN__
 
 LPALGENEFFECTS alGenEffects = NULL;
@@ -257,6 +616,8 @@ int PsyX_SPUAL_InitSound()
 
 	InitOpenAlEffects();
 
+	initADSR();
+
 	return 1;
 }
 
@@ -331,9 +692,6 @@ u_int PsyX_SPUAL_Write(u_char* addr, u_int size)
 {
 	volatile int wptr_ofs = s_SpuMemory.writeptr - s_SpuMemory.samplemem;
 
-	/*printf("[PsyX Write] writeptr_ofs=%08X size=%d src_first4: %02X %02X %02X %02X\n",
-		wptr_ofs, size, addr[0], addr[1], addr[2], addr[3]);*/
-
 	if (wptr_ofs + size > SPU_REALMEMSIZE)
 	{
 		eprintf("SPU WARNING: SpuWrite exceeded SPU_REALMEMSIZE by %d bytes!\n",
@@ -341,13 +699,6 @@ u_int PsyX_SPUAL_Write(u_char* addr, u_int size)
 	}
 	assert(size > 0 && wptr_ofs + size < SPU_MEMSIZE);
 	memcpy(s_SpuMemory.writeptr, addr, size);
-
-	//// �������� �� ����������� ������
-	//printf("[PsyX Write] verify at [0x23030]: %02X %02X %02X %02X\n",
-	//	s_SpuMemory.samplemem[0x23030],
-	//	s_SpuMemory.samplemem[0x23031],
-	//	s_SpuMemory.samplemem[0x23032],
-	//	s_SpuMemory.samplemem[0x23033]);
 
 	return size;
 }
@@ -480,20 +831,6 @@ static int decodeSound(u_char* iData, int soundSize, short* oData, int* loopStar
 
 static void UpdateVoiceSample(SPUALVoice* voice)
 {
-	//printf("[SPU RAM check] at 0x23030: ");
-	//for (int i = 0; i < 32; i++)
-	//	printf("%02X ", s_SpuMemory.samplemem[0x23030 + i]);
-	//printf("\n");
-
-	//printf("[SPU RAM check] at 0x25090: ");
-	//for (int i = 0; i < 32; i++)
-	//	printf("%02X ", s_SpuMemory.samplemem[0x25090 + i]);
-	//printf("\n");
-
-	//printf("[SPU RAM check] at 0x3A400: ");
-	//for (int i = 0; i < 32; i++)
-	//	printf("%02X ", s_SpuMemory.samplemem[0x3A400 + i]);
-	//printf("\n");
 
 	static short waveBuffer[SPU_REALMEMSIZE];
 	int loopStart, loopLen, count;
@@ -678,7 +1015,16 @@ void PsyX_SPUAL_SetVoiceAttr(SpuVoiceAttr* psxAttrib)
 			alSourcef(alSource, AL_PITCH, pitch);
 		}
 		
-		// TODO: ADSR and other stuff
+		// ADSR 
+		if (psxAttrib->mask & (SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_AR | SPU_VOICE_ADSR_DR | SPU_VOICE_ADSR_SR | SPU_VOICE_ADSR_RR | SPU_VOICE_ADSR_SL))
+		{
+			// Обновляем сырые значения
+			voice->attr.adsr1 = psxAttrib->adsr1;
+			voice->attr.adsr2 = psxAttrib->adsr2;
+
+
+			voice->adsr_settings = MakeADSR(voice->attr.adsr1, voice->attr.adsr2);
+		}
 	}
 	SDL_UnlockMutex(g_SpuMutex);
 }
@@ -700,16 +1046,31 @@ void PsyX_SPUAL_SetKey(int on_off, u_int voice_bit)
 		if (alSource == AL_NONE)
 			continue;
 
-		if (on_off && !g_SPUMuted)
+		if (on_off && !g_SPUMuted) // Key On
 		{
+
 			alSourceStop(alSource);
 			UpdateVoiceSample(voice);
 
+			// ADSR ATTACK
+			voice->env_state = ENV_STATE_ATTACK;
+			voice->env_time = 0.0f;
+			voice->current_env_level = 0.0f;
+
+			alSourcef(alSource, AL_GAIN, 0.0f);
 			alSourcePlay(alSource);
 		}
-		else
+		else // Key Off
 		{
-			alSourceStop(alSource);
+
+			// Release
+			if (voice->env_state != ENV_STATE_OFF)
+			{
+				voice->env_state = ENV_STATE_RELEASE;
+				voice->env_time = 0.0f;
+				// Теперь функция Update_ADSR сама плавно дотушит звук 
+				// и вызовет alSourceStop, когда громкость станет 0.
+			}
 		}
 	}
 	SDL_UnlockMutex(g_SpuMutex);

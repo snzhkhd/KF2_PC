@@ -121,7 +121,7 @@ L_800148CC:
     // jal         0x8005D010
     // nop
 
-    FreeSPUVoice(rdram, ctx);
+    KF_SsVabClos(rdram, ctx);
     goto after_2;
     // nop
 

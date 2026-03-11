@@ -1,9 +1,9 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void sub_80054214(uint8_t* rdram, recomp_context* ctx) 
+void KF_SsSetTickMode(uint8_t* rdram, recomp_context* ctx) 
 {
-    printf("sub_80054214 - SsSetTickMode  a1 <%d>\n",(int)ctx->r4);
+    printf("KF_SsSetTickMode <%d>\n",(int)ctx->r4);
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 

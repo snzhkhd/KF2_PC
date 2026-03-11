@@ -14,7 +14,7 @@ void InitSoundSystem(uint8_t* rdram, recomp_context* ctx)
     // jal         0x80052358
     // nop
 
-    sub_80052358(rdram, ctx);
+    KF_SsInit(rdram, ctx);
     goto after_0;
     // nop
 
@@ -24,7 +24,7 @@ void InitSoundSystem(uint8_t* rdram, recomp_context* ctx)
     // jal         0x80054388
     // addu        $a1, $zero, $zero
     ctx->r5 = ADD32(0, 0);
-    SetMasterVolume(rdram, ctx);
+    KF_SsSetMVol(rdram, ctx);
     goto after_1;
     // addu        $a1, $zero, $zero
     ctx->r5 = ADD32(0, 0);
@@ -38,7 +38,7 @@ void InitSoundSystem(uint8_t* rdram, recomp_context* ctx)
     // jal         0x80059920
     // ori         $a2, $zero, 0x1
     ctx->r6 = 0 | 0X1;
-    sub_80059920(rdram, ctx);
+    KF_SsSetTableSize(rdram, ctx);
     goto after_2;
     // ori         $a2, $zero, 0x1
     ctx->r6 = 0 | 0X1;
@@ -46,7 +46,7 @@ void InitSoundSystem(uint8_t* rdram, recomp_context* ctx)
     // jal         0x80054214
     // ori         $a0, $zero, 0x4
     ctx->r4 = 0 | 0X4;
-    sub_80054214(rdram, ctx);
+    KF_SsSetTickMode(rdram, ctx);
     goto after_3;
     // ori         $a0, $zero, 0x4
     ctx->r4 = 0 | 0X4;
@@ -54,7 +54,7 @@ void InitSoundSystem(uint8_t* rdram, recomp_context* ctx)
     // jal         0x800541F4
     // nop
 
-    sub_800541F4(rdram, ctx);
+    KF_SsStart2(rdram, ctx);
     goto after_4;
     // nop
 
@@ -62,7 +62,7 @@ void InitSoundSystem(uint8_t* rdram, recomp_context* ctx)
     // jal         0x80052510
     // ori         $a0, $zero, 0x4
     ctx->r4 = 0 | 0X4;
-    sub_80052510(rdram, ctx);
+    KF_SsUtSetReverbType(rdram, ctx);
     goto after_5;
     // ori         $a0, $zero, 0x4
     ctx->r4 = 0 | 0X4;
@@ -70,7 +70,7 @@ void InitSoundSystem(uint8_t* rdram, recomp_context* ctx)
     // jal         0x800524D0
     // nop
 
-    sub_800524D0(rdram, ctx);
+    KF_SsUtReverbOn(rdram, ctx);
     goto after_6;
     // nop
 
@@ -80,7 +80,7 @@ void InitSoundSystem(uint8_t* rdram, recomp_context* ctx)
     // jal         0x800525C0
     // ori         $a1, $zero, 0x28
     ctx->r5 = 0 | 0X28;
-    sub_800525C0(rdram, ctx);
+    KF_SsUtSetReverbDepth(rdram, ctx);
     goto after_7;
     // ori         $a1, $zero, 0x28
     ctx->r5 = 0 | 0X28;

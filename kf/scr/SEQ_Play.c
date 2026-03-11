@@ -2,9 +2,9 @@
 #include "disable_warnings.h"
 #include "audio/PsyX_SPUAL.h"
 
-void SEQ_Play(uint8_t* rdram, recomp_context* ctx) 
+void KF_SsSeqPlay(uint8_t* rdram, recomp_context* ctx) 
 {
-
+    printf("KF_SsSeqPlay\n");
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -27,7 +27,7 @@ void SEQ_Play(uint8_t* rdram, recomp_context* ctx)
     // jal         0x8005C32C
     // sra         $a3, $a3, 16
     ctx->r7 = S32(ctx->r7) >> 16;
-    sub_8005C32C(rdram, ctx);
+    Snd_SetPlayMode(rdram, ctx);
     goto after_0;
     // sra         $a3, $a3, 16
     ctx->r7 = S32(ctx->r7) >> 16;

@@ -2,7 +2,7 @@
 #include "disable_warnings.h"
 #include "psx/libspu.h"
 
-void KF_SpuWrite(uint8_t* rdram, recomp_context* ctx) 
+void KF_SpuWritePartly(uint8_t* rdram, recomp_context* ctx) 
 {
     uint32_t src_addr = ctx->r4;  // адрес данных в PS1 RAM
     uint32_t size = ctx->r5;
@@ -17,7 +17,7 @@ void KF_SpuWrite(uint8_t* rdram, recomp_context* ctx)
 
     // Обновляем адрес после записи
     g_spu_transfer_addr += size;
-    printf("[SPU] Write src=%08X size=%d to SPU addr=%08X\n", src_addr, size, g_spu_transfer_addr);
+    printf("[KF_SpuWritePartly] Write src=%08X size=%d to SPU addr=%08X\n", src_addr, size, g_spu_transfer_addr);
     ctx->r2 = size;
 //    uint64_t hi = 0, lo = 0, result = 0;
 //    unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
@@ -62,7 +62,7 @@ void KF_SpuWrite(uint8_t* rdram, recomp_context* ctx)
 //    // jal         0x80051B4C
 //    // sllv        $s0, $s0, $v0
 //    ctx->r16 = S32(ctx->r16) << (ctx->r2 & 31);
-//    sub_80051B4C(rdram, ctx);
+//    _spu_write(rdram, ctx);
 //    goto after_0;
 //    // sllv        $s0, $s0, $v0
 //    ctx->r16 = S32(ctx->r16) << (ctx->r2 & 31);
@@ -72,7 +72,7 @@ void KF_SpuWrite(uint8_t* rdram, recomp_context* ctx)
 //    // jal         0x80051C84
 //    // addu        $a1, $s0, $s1
 //    ctx->r5 = ADD32(ctx->r16, ctx->r17);
-//    sub_80051C84(rdram, ctx);
+//    _spu_FsetRXXa(rdram, ctx);
 //    goto after_1;
 //    // addu        $a1, $s0, $s1
 //    ctx->r5 = ADD32(ctx->r16, ctx->r17);

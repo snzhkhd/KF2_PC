@@ -83,6 +83,73 @@ void KF_SpuUpdateTick(uint8_t* rdram, recomp_context* ctx)
     uint32_t kon = kon_lo | (kon_hi << 16);
     if (kon) 
     {
+       /* for (int i = 0; i < 24; i++) {
+            if (kon & (1 << i)) {
+                uint8_t f = MEM_BU(0, 0x80078A38 + i);
+                uint32_t vbase = 0x800788B8 + i * 16;
+                printf("[KeyOn] v=%d flags=%02X addr=%04X pitch=%04X adsr=%04X/%04X\n",
+                    i, f, MEM_HU(6, vbase), MEM_HU(4, vbase),
+                    MEM_HU(8, vbase), MEM_HU(10, vbase));
+            }
+        }*/
+
+        for (int i = 0; i < 24; i++) {
+            if (kon & (1 << i)) {
+                uint32_t vbase = 0x800788B8 + i * 16;
+
+                // Читаем все параметры из теневых регистров игры
+                uint16_t vol_l = MEM_HU(0, vbase);
+                uint16_t vol_r = MEM_HU(2, vbase);
+                uint16_t pitch = MEM_HU(4, vbase);
+                uint16_t addr = MEM_HU(6, vbase);
+                uint16_t adsr1 = MEM_HU(8, vbase);
+                uint16_t adsr2 = MEM_HU(10, vbase);
+
+                // Оставляем твой лог для отладки
+                uint8_t f = MEM_BU(0, 0x80078A38 + i);
+                /* printf("[KeyOn] v=%d flags=%02X addr=%04X pitch=%04X adsr=%04X/%04X\n",
+                    i, f, addr, pitch, adsr1, adsr2); */
+
+                    // 1. Создаем и обнуляем структуру
+                SpuVoiceAttr attr;
+                memset(&attr, 0, sizeof(attr));
+
+                // 2. Указываем, какой голос настраиваем (битовая маска голоса)
+                attr.voice = (1 << i);
+
+                // 3. Указываем PsyX, какие именно поля мы хотим обновить
+                attr.mask = SPU_VOICE_VOLL | SPU_VOICE_VOLR | SPU_VOICE_PITCH |
+                    SPU_VOICE_WDSA | SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_SMODE |
+                    SPU_VOICE_ADSR_RMODE | SPU_VOICE_ADSR_AR | SPU_VOICE_ADSR_DR |
+                    SPU_VOICE_ADSR_SR | SPU_VOICE_ADSR_RR | SPU_VOICE_ADSR_SL;
+
+                // 4. Громкость, Питч и Адрес
+                attr.volume.left = vol_l;
+                attr.volume.right = vol_r;
+                attr.pitch = pitch;
+                attr.addr = addr * 8; // ВАЖНО: PsyQ ожидает реальный байтовый адрес, поэтому умножаем на 8!
+
+                // 5. РАСПАКОВКА ADSR1 (Attack, Decay, Sustain Level)
+                attr.a_mode = (adsr1 >> 15) & 1;     // Бит 15: Attack Mode
+                attr.ar = (adsr1 >> 8) & 0x7F;  // Биты 14-8: Attack Rate (7 бит)
+                attr.dr = (adsr1 >> 4) & 0x0F;  // Биты 7-4: Decay Rate (4 бита)
+                attr.sl = adsr1 & 0x0F;  // Биты 3-0: Sustain Level (4 бита)
+
+                // 6. РАСПАКОВКА ADSR2 (Sustain Rate, Release Rate)
+                attr.s_mode = (adsr2 >> 13) & 7;     // Биты 15-13: Sustain Mode (3 бита)
+                attr.sr = (adsr2 >> 6) & 0x7F;  // Биты 12-6: Sustain Rate (7 бит)
+                attr.r_mode = (adsr2 >> 5) & 1;     // Бит 5: Release Mode
+                attr.rr = adsr2 & 0x1F;  // Биты 4-0: Release Rate (5 бит)
+
+                // 7. Дублируем сырые значения (на случай, если PsyX имеет хак и читает их напрямую)
+                attr.adsr1 = adsr1;
+                attr.adsr2 = adsr2;
+
+                // 8. Передаем в эмулятор!
+                SpuSetVoiceAttr(&attr);
+            }
+        }
+
 
         SpuSetKey(SPU_ON, kon);
         MEM_H(0, 0x80079160) = 0;
@@ -302,7 +369,7 @@ void KF_SpuUpdateTick(uint8_t* rdram, recomp_context* ctx)
 //    // jal         0x80059720
 //    // ori         $a1, $a1, 0xFFFF
 //    ctx->r5 = ctx->r5 | 0XFFFF;
-//    sub_80059720(rdram, ctx);
+//    KF_SpuSetNoiseVoice(rdram, ctx);
 //    goto after_0;
 //    // ori         $a1, $a1, 0xFFFF
 //    ctx->r5 = ctx->r5 | 0XFFFF;

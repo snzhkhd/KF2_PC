@@ -54,7 +54,7 @@ void sub_8005B468(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x8005BCF4
     // addu        $s5, $t0, $zero
     ctx->r21 = ADD32(ctx->r8, 0);
-    sub_8005BCF4(rdram, ctx);
+    KF_SsUtGetVagAtr(rdram, ctx);
     goto after_0;
     // addu        $s5, $t0, $zero
     ctx->r21 = ADD32(ctx->r8, 0);
@@ -144,7 +144,7 @@ L_8005B50C:
     // jal         0x8005BF30
     // addiu       $a3, $sp, 0x3C
     ctx->r7 = ADD32(ctx->r29, 0X3C);
-    sub_8005BF30(rdram, ctx);
+    KF_SsUtSetVagAtr(rdram, ctx);
     goto after_1;
     // addiu       $a3, $sp, 0x3C
     ctx->r7 = ADD32(ctx->r29, 0X3C);
@@ -162,7 +162,7 @@ L_8005B50C:
     // jal         0x800524F0
     // nop
 
-    sub_800524F0(rdram, ctx);
+    KF_SsUtReverbOff(rdram, ctx);
     goto after_2;
     // nop
 
@@ -209,7 +209,7 @@ L_8005B54C:
     // jal         0x800524D0
     // nop
 
-    sub_800524D0(rdram, ctx);
+    KF_SsUtReverbOn(rdram, ctx);
     goto after_3;
     // nop
 
@@ -246,7 +246,7 @@ L_8005B588:
     // jal         0x8005BF30
     // addiu       $a3, $sp, 0x3C
     ctx->r7 = ADD32(ctx->r29, 0X3C);
-    sub_8005BF30(rdram, ctx);
+    KF_SsUtSetVagAtr(rdram, ctx);
     goto after_4;
     // addiu       $a3, $sp, 0x3C
     ctx->r7 = ADD32(ctx->r29, 0X3C);
@@ -265,7 +265,7 @@ L_8005B5B0:
     // jal         0x8005BC0C
     // addiu       $a2, $sp, 0x5C
     ctx->r6 = ADD32(ctx->r29, 0X5C);
-    sub_8005BC0C(rdram, ctx);
+    _SsUtResolveADSR(rdram, ctx);
     goto after_5;
     // addiu       $a2, $sp, 0x5C
     ctx->r6 = ADD32(ctx->r29, 0X5C);
@@ -460,7 +460,7 @@ L_8005B6A4:
     // jal         0x8005BC68
     // addiu       $s0, $sp, 0x3C
     ctx->r16 = ADD32(ctx->r29, 0X3C);
-    sub_8005BC68(rdram, ctx);
+    _SsUtBuildADSR(rdram, ctx);
     goto after_6;
     // addiu       $s0, $sp, 0x3C
     ctx->r16 = ADD32(ctx->r29, 0X3C);
@@ -480,7 +480,7 @@ L_8005B6A4:
     // jal         0x8005BF30
     // addu        $a3, $s0, $zero
     ctx->r7 = ADD32(ctx->r16, 0);
-    sub_8005BF30(rdram, ctx);
+    KF_SsUtSetVagAtr(rdram, ctx);
     goto after_7;
     // addu        $a3, $s0, $zero
     ctx->r7 = ADD32(ctx->r16, 0);
@@ -495,7 +495,7 @@ L_8005B6DC:
     // jal         0x80052510
     // addu        $a0, $s1, $zero
     ctx->r4 = ADD32(ctx->r17, 0);
-    sub_80052510(rdram, ctx);
+    KF_SsUtSetReverbType(rdram, ctx);
     goto after_8;
     // addu        $a0, $s1, $zero
     ctx->r4 = ADD32(ctx->r17, 0);
@@ -512,7 +512,7 @@ L_8005B6EC:
     // jal         0x800525C0
     // addu        $a1, $a0, $zero
     ctx->r5 = ADD32(ctx->r4, 0);
-    sub_800525C0(rdram, ctx);
+    KF_SsUtSetReverbDepth(rdram, ctx);
     goto after_9;
     // addu        $a1, $a0, $zero
     ctx->r5 = ADD32(ctx->r4, 0);
@@ -527,7 +527,7 @@ L_8005B700:
     // jal         0x8005267C
     // addu        $a0, $s1, $zero
     ctx->r4 = ADD32(ctx->r17, 0);
-    sub_8005267C(rdram, ctx);
+    KF_SsUtSetReverbFeedback(rdram, ctx);
     goto after_10;
     // addu        $a0, $s1, $zero
     ctx->r4 = ADD32(ctx->r17, 0);
@@ -542,7 +542,7 @@ L_8005B710:
     // jal         0x800526BC
     // addu        $a0, $s1, $zero
     ctx->r4 = ADD32(ctx->r17, 0);
-    sub_800526BC(rdram, ctx);
+    KF_SsUtSetReverbDelay(rdram, ctx);
     goto after_11;
     // addu        $a0, $s1, $zero
     ctx->r4 = ADD32(ctx->r17, 0);

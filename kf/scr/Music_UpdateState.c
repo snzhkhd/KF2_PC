@@ -165,7 +165,7 @@ L_800248F0:
     // jal         0x8005247C
     // nop
 
-    Music_PlayTrack(rdram, ctx);
+    KF_SsSeqReplay(rdram, ctx);
     goto after_2;
     // nop
 

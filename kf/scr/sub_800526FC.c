@@ -1,7 +1,9 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void sub_800526FC(uint8_t* rdram, recomp_context* ctx) {
+void KF_SpuSetReverbModeParam(uint8_t* rdram, recomp_context* ctx) 
+{
+    printf("SpuSetReverbModeParam\n");
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -104,7 +106,7 @@ L_80052774:
     // jal         0x8005314C
     // nop
 
-    sub_8005314C(rdram, ctx);
+    _SpuIsInAllocateArea_(rdram, ctx);
     goto after_0;
     // nop
 
@@ -790,7 +792,7 @@ L_80052B90:
     // jal         0x80051C3C
     // addu        $a2, $zero, $zero
     ctx->r6 = ADD32(0, 0);
-    sub_80051C3C(rdram, ctx);
+    _spu_FsetRXX(rdram, ctx);
     goto after_3;
     // addu        $a2, $zero, $zero
     ctx->r6 = ADD32(0, 0);

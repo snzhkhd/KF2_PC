@@ -36,7 +36,7 @@ void SsVabOpenHeadWithMode(uint8_t* rdram, recomp_context* ctx)
     // jal         0x800520B8
     // addu        $s5, $a2, $zero
     ctx->r21 = ADD32(ctx->r6, 0);
-    sub_800520B8(rdram, ctx);
+    _spu_getInTransfer(rdram, ctx);
     goto after_0;
     // addu        $s5, $a2, $zero
     ctx->r21 = ADD32(ctx->r6, 0);
@@ -61,7 +61,7 @@ L_80053514:
     // jal         0x8005208C
     // ori         $a0, $zero, 0x1
     ctx->r4 = 0 | 0X1;
-    KF_SpuSetTransferMode(rdram, ctx);
+    _spu_setInTransfer(rdram, ctx);
     goto after_1;
     // ori         $a0, $zero, 0x1
     ctx->r4 = 0 | 0X1;
@@ -205,7 +205,7 @@ L_800535E8:
     // jal         0x8005208C
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);
-    KF_SpuSetTransferMode(rdram, ctx);
+    _spu_setInTransfer(rdram, ctx);
     goto after_2;
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);
@@ -538,7 +538,7 @@ L_800537E4:
     // jal         0x8005208C
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);
-    KF_SpuSetTransferMode(rdram, ctx);
+    _spu_setInTransfer(rdram, ctx);
     goto after_4;
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);

@@ -4,9 +4,12 @@
 
 void sub_80055950(uint8_t* rdram, recomp_context* ctx) 
 {
+    printf("sub_80055950 call\n");
     uint8_t voice = (uint8_t)ctx->r4;
     if (voice < 24) {
         SpuSetKey(SPU_OFF, (1 << voice));
+        
+        printf("sub_80055950 SPU_OFF\n");
     }
     // Обнуляем внутренние таблицы как в оригинале
     uint32_t base = 0x80078A50 + voice * 52;

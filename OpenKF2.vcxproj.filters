@@ -210,7 +210,7 @@
     <ClCompile Include="kf\scr\CDAudio_SetVolume.c">
       <Filter>Исходные файлы\kf_scr</Filter>
     </ClCompile>
-    <ClCompile Include="kf\scr\CDAudio_Stop.c">
+    <ClCompile Include="kf\scr\KF_SsSeqStop.c">
       <Filter>Исходные файлы\kf_scr</Filter>
     </ClCompile>
     <ClCompile Include="kf\scr\CdCheckISO9660.c">

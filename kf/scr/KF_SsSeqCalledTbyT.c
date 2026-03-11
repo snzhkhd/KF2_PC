@@ -230,7 +230,7 @@ L_8005C900:
     // jal         0x8005CB30
     // addu        $a1, $s0, $zero
     ctx->r5 = ADD32(ctx->r16, 0);
-    sub_8005CB30(rdram, ctx);
+    _SsSndTempo(rdram, ctx);
     goto after_4;
     // addu        $a1, $s0, $zero
     ctx->r5 = ADD32(ctx->r16, 0);
@@ -259,7 +259,7 @@ L_8005C928:
     // jal         0x8005CB30
     // addu        $a1, $s0, $zero
     ctx->r5 = ADD32(ctx->r16, 0);
-    sub_8005CB30(rdram, ctx);
+    _SsSndTempo(rdram, ctx);
     goto after_5;
     // addu        $a1, $s0, $zero
     ctx->r5 = ADD32(ctx->r16, 0);
@@ -288,7 +288,7 @@ L_8005C950:
     // jal         0x8005CA30
     // addu        $a1, $s0, $zero
     ctx->r5 = ADD32(ctx->r16, 0);
-    sub_8005CA30(rdram, ctx);
+    _SsSndPause(rdram, ctx);
     goto after_6;
     // addu        $a1, $s0, $zero
     ctx->r5 = ADD32(ctx->r16, 0);
@@ -317,7 +317,7 @@ L_8005C978:
     // jal         0x8005CFA8
     // addu        $a1, $s0, $zero
     ctx->r5 = ADD32(ctx->r16, 0);
-    sub_8005CFA8(rdram, ctx);
+    _SsSndReplay(rdram, ctx);
     goto after_7;
     // addu        $a1, $s0, $zero
     ctx->r5 = ADD32(ctx->r16, 0);
@@ -346,7 +346,7 @@ L_8005C9A0:
     // jal         0x8005C634
     // addu        $a1, $s0, $zero
     ctx->r5 = ADD32(ctx->r16, 0);
-    sub_8005C634(rdram, ctx);
+    _SsSndStop(rdram, ctx);
     goto after_8;
     // addu        $a1, $s0, $zero
     ctx->r5 = ADD32(ctx->r16, 0);

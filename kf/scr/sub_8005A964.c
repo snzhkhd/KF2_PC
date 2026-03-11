@@ -76,7 +76,7 @@ void sub_8005A964(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x8005C214
     // addu        $s6, $t0, $zero
     ctx->r22 = ADD32(ctx->r8, 0);
-    sub_8005C214(rdram, ctx);
+    KF_SsUtGetProgAtr(rdram, ctx);
     goto after_0;
     // addu        $s6, $t0, $zero
     ctx->r22 = ADD32(ctx->r8, 0);
@@ -107,7 +107,7 @@ L_8005AA0C:
     // jal         0x8005BCF4
     // addiu       $a3, $sp, 0x20
     ctx->r7 = ADD32(ctx->r29, 0X20);
-    sub_8005BCF4(rdram, ctx);
+    KF_SsUtGetVagAtr(rdram, ctx);
     goto after_1;
     // addiu       $a3, $sp, 0x20
     ctx->r7 = ADD32(ctx->r29, 0X20);
@@ -153,7 +153,7 @@ L_8005AA48:
     // jal         0x8005BF30
     // addiu       $a3, $sp, 0x20
     ctx->r7 = ADD32(ctx->r29, 0X20);
-    sub_8005BF30(rdram, ctx);
+    KF_SsUtSetVagAtr(rdram, ctx);
     goto after_2;
     // addiu       $a3, $sp, 0x20
     ctx->r7 = ADD32(ctx->r29, 0X20);

@@ -1,8 +1,9 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void KF_SpuTransferInit(uint8_t* rdram, recomp_context* ctx) 
+void KF_SpuSetTransferMode(uint8_t* rdram, recomp_context* ctx) 
 {
+	printf("KF_SpuSetTransferMode\n");
 	ctx->r2 = 0;
 //    uint64_t hi = 0, lo = 0, result = 0;
 //    unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;

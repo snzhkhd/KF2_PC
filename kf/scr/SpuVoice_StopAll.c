@@ -1,7 +1,9 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void SpuVoice_StopAll(uint8_t* rdram, recomp_context* ctx) {
+void KF_SsSeqClose(uint8_t* rdram, recomp_context* ctx) 
+{
+    printf("KF_SsSeqClose\n");
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -14,7 +16,7 @@ void SpuVoice_StopAll(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x8005D378
     // sra         $a0, $a0, 16
     ctx->r4 = S32(ctx->r4) >> 16;
-    SpuVoice_Clear(rdram, ctx);
+    KF__SsClose(rdram, ctx);
     goto after_0;
     // sra         $a0, $a0, 16
     ctx->r4 = S32(ctx->r4) >> 16;

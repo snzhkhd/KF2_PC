@@ -1,7 +1,9 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void sub_800524D0(uint8_t* rdram, recomp_context* ctx) {
+void KF_SsUtReverbOn(uint8_t* rdram, recomp_context* ctx) 
+{
+    printf("KF_SsUtReverbOn\n");
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -12,7 +14,7 @@ void sub_800524D0(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x80053364
     // ori         $a0, $zero, 0x1
     ctx->r4 = 0 | 0X1;
-    sub_80053364(rdram, ctx);
+    KF_SpuSetReverb(rdram, ctx);
     goto after_0;
     // ori         $a0, $zero, 0x1
     ctx->r4 = 0 | 0X1;

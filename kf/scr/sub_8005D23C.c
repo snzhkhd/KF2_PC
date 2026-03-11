@@ -1,7 +1,9 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void sub_8005D23C(uint8_t* rdram, recomp_context* ctx) {
+void KF_SpuRead(uint8_t* rdram, recomp_context* ctx) 
+{
+    printf("KF_SpuRead\n");
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -33,7 +35,7 @@ L_8005D264:
     // jal         0x80051B4C
     // addu        $a1, $s0, $zero
     ctx->r5 = ADD32(ctx->r16, 0);
-    sub_80051B4C(rdram, ctx);
+    _spu_write(rdram, ctx);
     goto after_0;
     // addu        $a1, $s0, $zero
     ctx->r5 = ADD32(ctx->r16, 0);

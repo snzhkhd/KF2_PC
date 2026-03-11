@@ -490,7 +490,7 @@ L_8005A628:
     // jal         0x800525C0
     // addu        $a1, $a0, $zero
     ctx->r5 = ADD32(ctx->r4, 0);
-    sub_800525C0(rdram, ctx);
+    KF_SsUtSetReverbDepth(rdram, ctx);
     goto after_11;
     // addu        $a1, $a0, $zero
     ctx->r5 = ADD32(ctx->r4, 0);

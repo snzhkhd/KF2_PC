@@ -17,7 +17,7 @@ void SsVabTransCompleted(uint8_t* rdram, recomp_context* ctx)
     //// jal         0x8005C58C
     //// sra         $a0, $a0, 16
     //ctx->r4 = S32(ctx->r4) >> 16;
-    //sub_8005C58C(rdram, ctx);
+    //KF_SpuIsTransferCompleted(rdram, ctx);
     //goto after_0;
     //// sra         $a0, $a0, 16
     //ctx->r4 = S32(ctx->r4) >> 16;

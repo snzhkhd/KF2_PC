@@ -50,7 +50,7 @@ void sub_8005AAB0(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x800524F0
     // addu        $s0, $s0, $v0
     ctx->r16 = ADD32(ctx->r16, ctx->r2);
-    sub_800524F0(rdram, ctx);
+    KF_SsUtReverbOff(rdram, ctx);
     goto after_0;
     // addu        $s0, $s0, $v0
     ctx->r16 = ADD32(ctx->r16, ctx->r2);

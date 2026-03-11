@@ -12,7 +12,7 @@ void sub_80052398(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x80051D64
     // ori         $a0, $zero, 0x1
     ctx->r4 = 0 | 0X1;
-    sub_80051D64(rdram, ctx);
+    _SpuInit(rdram, ctx);
     goto after_0;
     // ori         $a0, $zero, 0x1
     ctx->r4 = 0 | 0X1;

@@ -49,7 +49,7 @@ void Music_PlaySEQ(uint8_t* rdram, recomp_context* ctx)
     // jal         0x80059E38
     // nop
 
-    SEQ_Open(rdram, ctx);
+    KF_SsSeqOpen(rdram, ctx);
     goto after_0;
     // nop
 
@@ -67,7 +67,7 @@ void Music_PlaySEQ(uint8_t* rdram, recomp_context* ctx)
     // jal         0x80052198
     // ori         $a2, $zero, 0x3C
     ctx->r6 = 0 | 0X3C;
-    CDAudio_SetVolume(rdram, ctx);
+    KF_SsSeqSetVol(rdram, ctx);
     goto after_1;
     // ori         $a2, $zero, 0x3C
     ctx->r6 = 0 | 0X3C;
@@ -81,7 +81,7 @@ void Music_PlaySEQ(uint8_t* rdram, recomp_context* ctx)
     // jal         0x8005C42C
     // addu        $a2, $zero, $zero
     ctx->r6 = ADD32(0, 0);
-    SEQ_Play(rdram, ctx);
+    KF_SsSeqPlay(rdram, ctx);
     goto after_2;
     // addu        $a2, $zero, $zero
     ctx->r6 = ADD32(0, 0);
@@ -97,7 +97,7 @@ void Music_PlaySEQ(uint8_t* rdram, recomp_context* ctx)
     // jal         0x80054388
     // ori         $a1, $zero, 0x7F
     ctx->r5 = 0 | 0X7F;
-    SetMasterVolume(rdram, ctx);
+    KF_SsSetMVol(rdram, ctx);
     goto after_3;
     // ori         $a1, $zero, 0x7F
     ctx->r5 = 0 | 0X7F;

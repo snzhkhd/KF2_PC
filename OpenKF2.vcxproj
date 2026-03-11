@@ -181,7 +181,7 @@
     <ClCompile Include="kf\scr\CalculateTrajectory.c" />
     <ClCompile Include="kf\scr\CatPrim.c" />
     <ClCompile Include="kf\scr\CDAudio_SetVolume.c" />
-    <ClCompile Include="kf\scr\CDAudio_Stop.c" />
+    <ClCompile Include="kf\scr\KF_SsSeqStop.c" />
     <ClCompile Include="kf\scr\CdCheckISO9660.c" />
     <ClCompile Include="kf\scr\CdCheckStatus.c" />
     <ClCompile Include="kf\scr\CdControl.c" />

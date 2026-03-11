@@ -36,7 +36,7 @@ void Music_Stop(uint8_t* rdram, recomp_context* ctx)
     // jal         0x8005C7A4
     // nop
 
-    CDAudio_Stop(rdram, ctx);
+    KF_SsSeqStop(rdram, ctx);
     goto after_0;
     // nop
 
@@ -48,7 +48,7 @@ void Music_Stop(uint8_t* rdram, recomp_context* ctx)
     // jal         0x8005D4F0
     // nop
 
-    SpuVoice_StopAll(rdram, ctx);
+    KF_SsSeqClose(rdram, ctx);
     goto after_1;
     // nop
 

@@ -14,6 +14,8 @@ extern int PsyX_SPUAL_InitSound();
 extern void PsyX_SPUAL_ShutdownSound();
 
 // Private
+extern void PsyX_Update_ADSR(float deltaTime);
+
 extern int PsyX_SPUAL_Alloc(int size);
 extern int PsyX_SPUAL_InitAlloc(int num, char* top);
 extern void PsyX_SPUAL_Free(u_int addr);

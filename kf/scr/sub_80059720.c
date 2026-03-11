@@ -1,7 +1,9 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void sub_80059720(uint8_t* rdram, recomp_context* ctx) {
+void KF_SpuSetNoiseVoice(uint8_t* rdram, recomp_context* ctx) 
+{
+    printf("KF_SpuSetNoiseVoice\n");
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -14,7 +16,7 @@ void sub_80059720(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x80059798
     // ori         $a3, $zero, 0xCB
     ctx->r7 = 0 | 0XCB;
-    sub_80059798(rdram, ctx);
+    _SpuSetAnyVoice(rdram, ctx);
     goto after_0;
     // ori         $a3, $zero, 0xCB
     ctx->r7 = 0 | 0XCB;

@@ -12,7 +12,7 @@ void sub_80014594(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x80050B64
     // addiu       $a0, $sp, 0x10
     ctx->r4 = ADD32(ctx->r29, 0X10);
-    sub_80050B64(rdram, ctx);
+    KF_SpuGetAllKeysStatus(rdram, ctx);
     goto after_0;
     // addiu       $a0, $sp, 0x10
     ctx->r4 = ADD32(ctx->r29, 0X10);

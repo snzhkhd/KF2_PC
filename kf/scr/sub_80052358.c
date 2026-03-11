@@ -1,7 +1,7 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void sub_80052358(uint8_t* rdram, recomp_context* ctx) {
+void KF_SsInit(uint8_t* rdram, recomp_context* ctx) {
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -12,7 +12,7 @@ void sub_80052358(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x80052244
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);
-    sub_80052244(rdram, ctx);
+    KF__SsInit(rdram, ctx);
     goto after_0;
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);

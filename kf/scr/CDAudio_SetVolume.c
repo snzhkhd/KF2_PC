@@ -1,7 +1,9 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void CDAudio_SetVolume(uint8_t* rdram, recomp_context* ctx) {
+void KF_SsSeqSetVol(uint8_t* rdram, recomp_context* ctx) 
+{
+    printf("KF_SsSeqSetVol\n");
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -24,7 +26,7 @@ void CDAudio_SetVolume(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x80052154
     // sra         $a3, $a3, 16
     ctx->r7 = S32(ctx->r7) >> 16;
-    sub_80052154(rdram, ctx);
+    _SsSndSetVol(rdram, ctx);
     goto after_0;
     // sra         $a3, $a3, 16
     ctx->r7 = S32(ctx->r7) >> 16;

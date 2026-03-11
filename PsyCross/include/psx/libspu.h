@@ -1,9 +1,11 @@
 #ifndef LIBSPU_H
 #define LIBSPU_H
 
+
 /* ----------------------------------------------------------------
  *	CONSTANT 
  * ---------------------------------------------------------------- */
+
 
 #define SPU_SUCCESS	0
 #define SPU_INVALID_ARGS (-3)
@@ -305,6 +307,8 @@ typedef struct {
  *	prototype declaration
  * ---------------------------------------------------------------- */
 
+
+
 #if defined(_LANGUAGE_C_PLUS_PLUS) || defined(__cplusplus) || defined(c_plusplus)
 extern "C" {
 #endif
@@ -505,6 +509,26 @@ typedef struct {
     int low_priority;		/* transfer priority */
     SpuStVoiceAttr voice [24];
 } SpuStEnv;
+
+
+// state ADSR
+enum AdsrState {
+    ENV_STATE_OFF,
+    ENV_STATE_ATTACK,
+    ENV_STATE_DECAY,
+    ENV_STATE_SUSTAIN,
+    ENV_STATE_RELEASE
+};
+
+
+struct AdsrSettings
+{
+    float attack = 0.001f;
+    float decay = 0.5f;
+    float sustain = 0.5f;
+    float release = 1.0f;
+};
+
 
 #ifndef __SPU_ST_TRANSFERCALLBACK_PROC
 #define __SPU_ST_TRANSFERCALLBACK_PROC

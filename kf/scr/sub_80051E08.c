@@ -1,7 +1,9 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void sub_80051E08(uint8_t* rdram, recomp_context* ctx) {
+void KF_SpuStart(uint8_t* rdram, recomp_context* ctx) 
+{
+    printf("KF_SpuStart\n");
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -44,7 +46,7 @@ void sub_80051E08(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x80051E8C
     // nop
 
-    sub_80051E8C(rdram, ctx);
+    _SpuDataCallback(rdram, ctx);
     goto after_1;
     // nop
 

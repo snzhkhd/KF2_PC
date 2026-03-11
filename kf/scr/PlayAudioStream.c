@@ -172,7 +172,7 @@ L_800147E0:
     // jal         0x80058698
     // sw          $v0, 0x18($sp)
     MEM_W(0X18, ctx->r29) = ctx->r2;
-    SPU_PlayVoice(rdram, ctx);
+    KF_SsUtKeyOn(rdram, ctx);
     goto after_1;
     // sw          $v0, 0x18($sp)
     MEM_W(0X18, ctx->r29) = ctx->r2;

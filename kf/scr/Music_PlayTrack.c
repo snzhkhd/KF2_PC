@@ -1,9 +1,9 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void Music_PlayTrack(uint8_t* rdram, recomp_context* ctx) 
+void KF_SsSeqReplay(uint8_t* rdram, recomp_context* ctx) 
 {
-    printf("Music_PlayTrack\n");
+    printf("KF_SsSeqReplay\n");
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -18,7 +18,7 @@ void Music_PlayTrack(uint8_t* rdram, recomp_context* ctx)
     // jal         0x800523D8
     // addu        $a1, $zero, $zero
     ctx->r5 = ADD32(0, 0);
-    SpuVoice_Trigger(rdram, ctx);
+    _SsSndSetReplayMode(rdram, ctx);
     goto after_0;
     // addu        $a1, $zero, $zero
     ctx->r5 = ADD32(0, 0);

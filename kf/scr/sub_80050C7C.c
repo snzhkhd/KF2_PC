@@ -1,7 +1,9 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void sub_80050C7C(uint8_t* rdram, recomp_context* ctx) {
+void _spu_init(uint8_t* rdram, recomp_context* ctx) 
+{
+    printf("_spu_init\n");
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -283,7 +285,7 @@ L_80050DC0:
     // jal         0x800511C4
     // nop
 
-    sub_800511C4(rdram, ctx);
+    _spu_writeByIO(rdram, ctx);
     goto after_1;
     // nop
 

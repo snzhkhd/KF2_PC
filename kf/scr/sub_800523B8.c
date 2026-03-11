@@ -12,7 +12,7 @@ void sub_800523B8(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x80051D64
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);
-    sub_80051D64(rdram, ctx);
+    _SpuInit(rdram, ctx);
     goto after_0;
     // addu        $a0, $zero, $zero
     ctx->r4 = ADD32(0, 0);

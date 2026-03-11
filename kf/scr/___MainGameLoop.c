@@ -278,7 +278,7 @@ void ___MainGameLoop(uint8_t* rdram, recomp_context* ctx)
     // jal         0x80054388
     // ori         $a1, $zero, 0x7F
     ctx->r5 = 0 | 0X7F;
-    SetMasterVolume(rdram, ctx);
+    KF_SsSetMVol(rdram, ctx);
     goto after_21;
     // ori         $a1, $zero, 0x7F
     ctx->r5 = 0 | 0X7F;

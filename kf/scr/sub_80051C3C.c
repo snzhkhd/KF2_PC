@@ -1,7 +1,9 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void sub_80051C3C(uint8_t* rdram, recomp_context* ctx) {
+void _spu_FsetRXX(uint8_t* rdram, recomp_context* ctx) 
+{
+    printf("_spu_FsetRXX\n");
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 

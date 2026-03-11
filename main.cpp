@@ -109,7 +109,6 @@ int main(int argc, char* argv[] )
    
 
     SpuInit();
-    PsyX_SPUAL_InitSound();
 
     KFCD_Init("King's Field2.bin");
 

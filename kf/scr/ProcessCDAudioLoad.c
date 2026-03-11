@@ -1,7 +1,6 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-
 void ProcessCDAudioLoad(uint8_t* rdram, recomp_context* ctx) 
 {
    // printf("[ProcessCDAudioLoad] \n");
@@ -85,7 +84,7 @@ L_800149F0:
     // jal         0x80051EB0
     // ori         $a1, $zero, 0x9000
     ctx->r5 = 0 | 0X9000;
-    KF_SpuTransferVoice(rdram, ctx);
+    KF_SsVabTransBodyPartly(rdram, ctx);
     goto after_2;
     // ori         $a1, $zero, 0x9000
     ctx->r5 = 0 | 0X9000;
@@ -109,7 +108,7 @@ L_800149F0:
     // jal         0x8005D010
     // nop
 
-    FreeSPUVoice(rdram, ctx);
+    KF_SsVabClos(rdram, ctx);
     goto after_3;
     // nop
 

@@ -2,9 +2,11 @@
 #include "disable_warnings.h"
 #include "psx/libspu.h"
 
-void KF_SpuTransferVoice(uint8_t* rdram, recomp_context* ctx) 
+void KF_SsVabTransBodyPartly(uint8_t* rdram, recomp_context* ctx) 
 {
-
+        printf("[KF_SsVabTransBodyPartly] a1=%08X a2=%d a3=%d g_SPUVoiceActive[a3]=%d\n",
+        ctx->r4, ctx->r5, (int16_t)ctx->r6,
+        (int16_t)ctx->r6 < 17 ? MEM_B(0, 0x8019E6F0 + (int16_t)ctx->r6) : -1);   //8019E6F0 g_SPUVoiceActive
 
     uint32_t src_addr = ctx->r4;
     uint32_t size = ctx->r5;
@@ -33,10 +35,10 @@ void KF_SpuTransferVoice(uint8_t* rdram, recomp_context* ctx)
     uint32_t to_write = (size > remaining) ? remaining : size;
 
 
-   /* printf("[SPU Write] spu_dest=%08X src=%08X size=%d first4: %02X %02X %02X %02X mid4: %02X %02X %02X %02X\n",
-        spu_addr + g_spu_transferred, src_addr, to_write,
-        src[0], src[1], src[2], src[3],
-        src[4096], src[4097], src[4098], src[4099]);*/
+    //printf("[SPU Write] spu_dest=%08X src=%08X size=%d first4: %02X %02X %02X %02X mid4: %02X %02X %02X %02X\n",
+    //    spu_addr + g_spu_transferred, src_addr, to_write,
+    //    src[0], src[1], src[2], src[3],
+    //    src[4096], src[4097], src[4098], src[4099]);
 
 
     SpuSetTransferMode(SpuTransByDMA);
@@ -64,9 +66,11 @@ void KF_SpuTransferVoice(uint8_t* rdram, recomp_context* ctx)
         ctx->r2 = (uint32_t)-2;
     }
 
-//    printf("[sub_80051EB0] a1=%08X a2=%d a3=%d g_SPUVoiceActive[a3]=%d\n",
+
+//    printf("[KF_SsVabTransBodyPartly] a1=%08X a2=%d a3=%d g_SPUVoiceActive[a3]=%d\n",
 //        ctx->r4, ctx->r5, (int16_t)ctx->r6,
 //        (int16_t)ctx->r6 < 17 ? MEM_B(0, 0x8019E6F0 + (int16_t)ctx->r6) : -1);   //8019E6F0 g_SPUVoiceActive
+//
 //    uint64_t hi = 0, lo = 0, result = 0;
 //    unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
 //    int c1cs = 0; 
@@ -155,7 +159,7 @@ void KF_SpuTransferVoice(uint8_t* rdram, recomp_context* ctx)
 //    // jal         0x8005201C
 //    // addu        $a0, $zero, $zero
 //    ctx->r4 = ADD32(0, 0);
-//    KF_SpuTransferInit(rdram, ctx);
+//    KF_SpuSetTransferMode(rdram, ctx);
 //    goto after_0;
 //    // addu        $a0, $zero, $zero
 //    ctx->r4 = ADD32(0, 0);
@@ -195,7 +199,7 @@ void KF_SpuTransferVoice(uint8_t* rdram, recomp_context* ctx)
 //    // jal         0x8005208C
 //    // addu        $a0, $zero, $zero
 //    ctx->r4 = ADD32(0, 0);
-//    KF_SpuSetTransferMode(rdram, ctx);
+//    _spu_setInTransfer(rdram, ctx);
 //    goto after_2;
 //    // addu        $a0, $zero, $zero
 //    ctx->r4 = ADD32(0, 0);
@@ -229,7 +233,7 @@ void KF_SpuTransferVoice(uint8_t* rdram, recomp_context* ctx)
 //    // jal         0x8005208C
 //    // ori         $a0, $zero, 0x1
 //    ctx->r4 = 0 | 0X1;
-//    KF_SpuSetTransferMode(rdram, ctx);
+//    _spu_setInTransfer(rdram, ctx);
 //    goto after_3;
 //    // ori         $a0, $zero, 0x1
 //    ctx->r4 = 0 | 0X1;
@@ -239,7 +243,7 @@ void KF_SpuTransferVoice(uint8_t* rdram, recomp_context* ctx)
 //    // jal         0x800520C8
 //    // addu        $a1, $s0, $zero
 //    ctx->r5 = ADD32(ctx->r16, 0);
-//    KF_SpuSetTransferMode(rdram, ctx);
+//    _spu_setInTransfer(rdram, ctx);
 //    goto after_4;
 //    // addu        $a1, $s0, $zero
 //    ctx->r5 = ADD32(ctx->r16, 0);

@@ -1,7 +1,7 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void sub_80051B4C(uint8_t* rdram, recomp_context* ctx) {
+void _spu_write(uint8_t* rdram, recomp_context* ctx) {
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -40,7 +40,7 @@ void sub_80051B4C(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x800518A4
     // sllv        $a1, $v0, $a1
     ctx->r5 = S32(ctx->r2) << (ctx->r5 & 31);
-    sub_800518A4(rdram, ctx);
+    _spu_t(rdram, ctx);
     goto after_0;
     // sllv        $a1, $v0, $a1
     ctx->r5 = S32(ctx->r2) << (ctx->r5 & 31);
@@ -48,7 +48,7 @@ void sub_80051B4C(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x800518A4
     // ori         $a0, $zero, 0x1
     ctx->r4 = 0 | 0X1;
-    sub_800518A4(rdram, ctx);
+    _spu_t(rdram, ctx);
     goto after_1;
     // ori         $a0, $zero, 0x1
     ctx->r4 = 0 | 0X1;
@@ -60,7 +60,7 @@ void sub_80051B4C(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x800518A4
     // addu        $a2, $s0, $zero
     ctx->r6 = ADD32(ctx->r16, 0);
-    sub_800518A4(rdram, ctx);
+    _spu_t(rdram, ctx);
     goto after_2;
     // addu        $a2, $s0, $zero
     ctx->r6 = ADD32(ctx->r16, 0);
@@ -77,7 +77,7 @@ L_80051BAC:
     // jal         0x800511C4
     // addu        $a1, $s0, $zero
     ctx->r5 = ADD32(ctx->r16, 0);
-    sub_800511C4(rdram, ctx);
+    _spu_writeByIO(rdram, ctx);
     goto after_3;
     // addu        $a1, $s0, $zero
     ctx->r5 = ADD32(ctx->r16, 0);

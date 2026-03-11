@@ -4,6 +4,7 @@
 
 void KF_SpuClearReverbWorkArea(uint8_t* rdram, recomp_context* ctx)
 {
+
     // 1. Берем аргумент 'mode' из r4 (a0)
     int mode = (int)ctx->r4;
 
@@ -61,7 +62,7 @@ void KF_SpuClearReverbWorkArea(uint8_t* rdram, recomp_context* ctx)
 //    // jal         0x8005314C
 //    // nop
 //
-//    sub_8005314C(rdram, ctx);
+//    _SpuIsInAllocateArea_(rdram, ctx);
 //    goto after_0;
 //    // nop
 //
@@ -194,7 +195,7 @@ void KF_SpuClearReverbWorkArea(uint8_t* rdram, recomp_context* ctx)
 //    // jal         0x800518A4
 //    // addu        $a1, $s2, $zero
 //    ctx->r5 = ADD32(ctx->r18, 0);
-//    sub_800518A4(rdram, ctx);
+//    _spu_t(rdram, ctx);
 //    goto after_1;
 //    // addu        $a1, $s2, $zero
 //    ctx->r5 = ADD32(ctx->r18, 0);
@@ -202,7 +203,7 @@ void KF_SpuClearReverbWorkArea(uint8_t* rdram, recomp_context* ctx)
 //    // jal         0x800518A4
 //    // ori         $a0, $zero, 0x1
 //    ctx->r4 = 0 | 0X1;
-//    sub_800518A4(rdram, ctx);
+//    _spu_t(rdram, ctx);
 //    goto after_2;
 //    // ori         $a0, $zero, 0x1
 //    ctx->r4 = 0 | 0X1;
@@ -216,7 +217,7 @@ void KF_SpuClearReverbWorkArea(uint8_t* rdram, recomp_context* ctx)
 //    // jal         0x800518A4
 //    // addu        $a2, $s0, $zero
 //    ctx->r6 = ADD32(ctx->r16, 0);
-//    sub_800518A4(rdram, ctx);
+//    _spu_t(rdram, ctx);
 //    goto after_3;
 //    // addu        $a2, $s0, $zero
 //    ctx->r6 = ADD32(ctx->r16, 0);

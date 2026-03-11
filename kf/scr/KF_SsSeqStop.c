@@ -1,7 +1,9 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void CDAudio_Stop(uint8_t* rdram, recomp_context* ctx) {
+void KF_SsSeqStop(uint8_t* rdram, recomp_context* ctx) 
+{
+    printf("KF_SsSeqStop\n"); 
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -16,7 +18,7 @@ void CDAudio_Stop(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x8005C634
     // addu        $a1, $zero, $zero
     ctx->r5 = ADD32(0, 0);
-    sub_8005C634(rdram, ctx);
+    _SsSndStop(rdram, ctx);
     goto after_0;
     // addu        $a1, $zero, $zero
     ctx->r5 = ADD32(0, 0);

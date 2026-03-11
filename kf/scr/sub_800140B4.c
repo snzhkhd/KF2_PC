@@ -22,7 +22,7 @@ void sub_800140B4(uint8_t* rdram, recomp_context* ctx)
     // jal         0x80054388
     // sw          $s0, 0x10($sp)
     MEM_W(0X10, ctx->r29) = ctx->r16;
-    SetMasterVolume(rdram, ctx);
+    KF_SsSetMVol(rdram, ctx);
     goto after_0;
     // sw          $s0, 0x10($sp)
     MEM_W(0X10, ctx->r29) = ctx->r16;
@@ -52,7 +52,7 @@ void sub_800140B4(uint8_t* rdram, recomp_context* ctx)
     // jal         0x80052198
     // addu        $a2, $zero, $zero
     ctx->r6 = ADD32(0, 0);
-    CDAudio_SetVolume(rdram, ctx);
+    KF_SsSeqSetVol(rdram, ctx);
     goto after_1;
     // addu        $a2, $zero, $zero
     ctx->r6 = ADD32(0, 0);
@@ -64,7 +64,7 @@ void sub_800140B4(uint8_t* rdram, recomp_context* ctx)
     // jal         0x8005C7A4
     // nop
 
-    CDAudio_Stop(rdram, ctx);
+    KF_SsSeqStop(rdram, ctx);
     goto after_2;
     // nop
 
@@ -76,7 +76,7 @@ void sub_800140B4(uint8_t* rdram, recomp_context* ctx)
     // jal         0x8005D4F0
     // nop
 
-    SpuVoice_StopAll(rdram, ctx);
+    KF_SsSeqClose(rdram, ctx);
     goto after_3;
     // nop
 
@@ -102,7 +102,7 @@ L_80014128:
     // jal         0x8005D010
     // nop
 
-    FreeSPUVoice(rdram, ctx);
+    KF_SsVabClos(rdram, ctx);
     goto after_4;
     // nop
 
@@ -121,7 +121,7 @@ L_80014140:
     // jal         0x8005D29C
     // nop
 
-    sub_8005D29C(rdram, ctx);
+    KF_SsEnd(rdram, ctx);
     goto after_5;
     // nop
 

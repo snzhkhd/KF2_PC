@@ -290,7 +290,7 @@ L_8001C010:
     // jal         0x80052198
     // addu        $a2, $zero, $zero
     ctx->r6 = ADD32(0, 0);
-    CDAudio_SetVolume(rdram, ctx);
+    KF_SsSeqSetVol(rdram, ctx);
     goto after_8;
     // addu        $a2, $zero, $zero
     ctx->r6 = ADD32(0, 0);

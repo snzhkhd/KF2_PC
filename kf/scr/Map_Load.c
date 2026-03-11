@@ -976,7 +976,7 @@ L_80017224:
     // jal         0x80052198
     // addu        $a2, $a1, $zero
     ctx->r6 = ADD32(ctx->r5, 0);
-    CDAudio_SetVolume(rdram, ctx);
+    KF_SsSeqSetVol(rdram, ctx);
     goto after_19;
     // addu        $a2, $a1, $zero
     ctx->r6 = ADD32(ctx->r5, 0);
@@ -1000,7 +1000,7 @@ L_80017224:
     // jal         0x8005C7A4
     // nop
 
-    CDAudio_Stop(rdram, ctx);
+    KF_SsSeqStop(rdram, ctx);
     goto after_20;
     // nop
 
@@ -1012,7 +1012,7 @@ L_80017224:
     // jal         0x8005D4F0
     // nop
 
-    SpuVoice_StopAll(rdram, ctx);
+    KF_SsSeqClose(rdram, ctx);
     goto after_21;
     // nop
 
