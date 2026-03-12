@@ -24,11 +24,23 @@ void SEQ_Update(uint8_t* rdram, recomp_context* ctx)
 {
     auto now = std::chrono::steady_clock::now();
     double elapsed = std::chrono::duration<double>(now - g_lastSeqTime).count();
-
     g_lastSeqTime = now;
     g_seqAccumulator += elapsed;
-    while (g_seqAccumulator >= SEQ_TICK_INTERVAL)
-    {
+
+    // Считаем сколько тиков нужно
+    int ticksNeeded = 0;
+    double temp = g_seqAccumulator;
+    while (temp >= SEQ_TICK_INTERVAL) {
+        ticksNeeded++;
+        temp -= SEQ_TICK_INTERVAL;
+    }
+
+    // Распределяем тики равномерно по времени кадра
+    for (int t = 0; t < ticksNeeded; t++) {
+        // Вычисляем когда "должен был" случиться этот тик
+        // (для будущей интерполяции в аудио-буфере)
+        double tickOffset = (t + 1) * SEQ_TICK_INTERVAL;
+
         KF_SsSeqCalledTbyT(rdram, ctx);
         g_seqAccumulator -= SEQ_TICK_INTERVAL;
     }
@@ -61,7 +73,7 @@ void KF_VSync(uint8_t* rdram, recomp_context* ctx)
     uint32_t saved_r4 = ctx->r4;
     uint32_t saved_ra = ctx->r31;
     // Тик SEQ секвенсора
-    SEQ_Update(rdram, ctx);
+  //  SEQ_Update(rdram, ctx);
 
     ctx->r4 = saved_r4;
     ctx->r31 = saved_ra;

@@ -62,7 +62,7 @@ static const char* getALErrorString(int err)
 }
 
 #define SPU_REALMEMSIZE			(512 * 1024)
-#define SPU_MEMSIZE				(2048*1024)		// SPU_REALMEMSIZE
+#define SPU_MEMSIZE				SPU_REALMEMSIZE//(2048*1024)		// SPU_REALMEMSIZE
 
 typedef struct
 {
@@ -772,61 +772,120 @@ typedef enum
 
 
 // Main decoding routine - Takes PSX ADPCM formatted audio data and converts it to PCM. It also extracts the looping information if used.
-static int decodeSound(u_char* iData, int soundSize, short* oData, int* loopStart, int* loopLength, int breakOnEnd /*= 0*/)
+//static int decodeSound(u_char* iData, int soundSize, short* oData, int* loopStart, int* loopLength, int breakOnEnd /*= 0*/)
+//{
+//	u_char sp;
+//	u_char flag;
+//	int sd = 0;
+//	float vagPrev1 = 0.0;
+//	float vagPrev2 = 0.0;
+//	int k = 0;
+//
+//	int loopStrt = 0, loopEnd = 0;
+//	int breakOn = -1;
+//
+//	for (int i = 0; i < soundSize; i++)
+//	{
+//		if (i % 16 == 0)
+//		{
+//			sp = iData[i];
+//			flag = iData[i+1];
+//			i += 2;
+//		}
+//
+//		sd = (int)iData[i] & 0xF;
+//		oData[k++] = vagToPcm(sp, sd, &vagPrev1, &vagPrev2);
+//
+//		sd = ((int)iData[i] >> 4) & 0xF;
+//		oData[k++] = vagToPcm(sp, sd, &vagPrev1, &vagPrev2);
+//
+//		if (breakOnEnd && k == breakOn)
+//			return k;
+//
+//		if (breakOn == -1)
+//		{
+//			// flags parsed
+//			if (flag & LoopStart)
+//			{
+//				loopStrt = k + 26; // FIXME: is that correct?
+//			}
+//
+//			if (flag & LoopEnd)
+//			{
+//				loopEnd = k + 26;
+//
+//				if (flag & Repeat)
+//				{
+//					*loopStart = loopStrt;
+//					*loopLength = loopEnd - loopStrt;
+//				}
+//
+//				if (breakOnEnd)
+//					breakOn = k + 26;
+//			}
+//		}
+//	}
+//
+//	return soundSize;
+//}
+
+
+static int decodeSound(u_char* iData, int soundSize, short* oData,
+	int* loopStart, int* loopLength, int breakOnEnd)
 {
-	u_char sp;
-	u_char flag;
-	int sd = 0;
-	float vagPrev1 = 0.0;
-	float vagPrev2 = 0.0;
+	double s_1 = 0.0;
+	double s_2 = 0.0;
 	int k = 0;
+	int loopStrt = 0;
 
-	int loopStrt = 0, loopEnd = 0;
-	int breakOn = -1;
-
-	for (int i = 0; i < soundSize; i++)
+	for (int i = 0; i < soundSize; i += 16)
 	{
-		if (i % 16 == 0)
+		if (i + 16 > soundSize) break;
+
+		int shift = iData[i] & 0x0F;
+		int filter = (iData[i] >> 4) & 0x0F;
+		u_char flag = iData[i + 1];
+
+		if (filter >= 5) filter = 0;
+
+		if (flag & LoopStart)
+			loopStrt = k;
+
+		for (int j = 2; j < 16; j++)
 		{
-			sp = iData[i];
-			flag = iData[i+1];
-			i += 2;
+			u_char byte = iData[i + j];
+
+			for (int n = 0; n < 2; n++)
+			{
+				int8_t nibble = (n == 0) ? (byte & 0x0F) : (byte >> 4);
+				if (nibble & 0x08) nibble |= 0xF0;
+
+				double sample = (double)((int)nibble << (12 - (shift > 12 ? 12 : shift)));
+				if (shift > 12)
+					sample /= (double)(1 << (shift - 12));
+
+				double output = sample + s_1 * K0[filter] + s_2 * K1[filter];
+				s_2 = s_1;
+				s_1 = output;
+
+				int result = (int)output;
+				if (result > 32767) result = 32767;
+				if (result < -32768) result = -32768;
+				oData[k++] = (short)result;
+			}
 		}
 
-		sd = (int)iData[i] & 0xF;
-		oData[k++] = vagToPcm(sp, sd, &vagPrev1, &vagPrev2);
-
-		sd = ((int)iData[i] >> 4) & 0xF;
-		oData[k++] = vagToPcm(sp, sd, &vagPrev1, &vagPrev2);
-
-		if (breakOnEnd && k == breakOn)
-			return k;
-
-		if (breakOn == -1)
+		if (breakOnEnd && (flag & LoopEnd))
 		{
-			// flags parsed
-			if (flag & LoopStart)
+			if (flag & Repeat)
 			{
-				loopStrt = k + 26; // FIXME: is that correct?
+				*loopStart = loopStrt;
+				*loopLength = k - loopStrt;
 			}
-
-			if (flag & LoopEnd)
-			{
-				loopEnd = k + 26;
-
-				if (flag & Repeat)
-				{
-					*loopStart = loopStrt;
-					*loopLength = loopEnd - loopStrt;
-				}
-
-				if (breakOnEnd)
-					breakOn = k + 26;
-			}
+			break;
 		}
 	}
-
-	return soundSize;
+	return k;
 }
 
 static void UpdateVoiceSample(SPUALVoice* voice)
@@ -847,12 +906,48 @@ static void UpdateVoiceSample(SPUALVoice* voice)
 	if (alSource == AL_NONE)
 		return;
 
+
+	static int adpcmDumpCount = 0;
+	if (adpcmDumpCount < 3) {
+		char fname[64];
+		snprintf(fname, sizeof(fname), "adpcm_v%d_addr%05X.bin",
+			(int)(voice - g_SpuVoices), voice->attr.addr);
+		FILE* f = fopen(fname, "wb");
+		if (f) {
+			// Пишем сырые ADPCM байты из SPU RAM (2KB достаточно)
+			int dumpSize = 2048;
+			if (voice->attr.addr + dumpSize > SPU_MEMSIZE)
+				dumpSize = SPU_MEMSIZE - voice->attr.addr;
+			fwrite(s_SpuMemory.samplemem + voice->attr.addr, 1, dumpSize, f);
+			fclose(f);
+			printf("[ADPCM DUMP] %s addr=%08X\n", fname, voice->attr.addr);
+		}
+		adpcmDumpCount++;
+	}
+
+
 	loopStart = 0;
 	loopLen = 0;
 
+	int voiceIdx = (int)(voice - g_SpuVoices);
+	int maxSize = SPU_MEMSIZE - voice->attr.addr;
+
 	count = decodeSound(s_SpuMemory.samplemem + voice->attr.addr, SPU_MEMSIZE - voice->attr.addr, waveBuffer, &loopStart, &loopLen, 1);
 
-	
+	//static int dumpCount = 0;
+	//if (dumpCount < 5 && count > 0) {
+	//	char fname[64];
+	//	snprintf(fname, sizeof(fname), "spu_dump_%d_addr%05X.raw", dumpCount, voice->attr.addr);
+	//	FILE* f = fopen(fname, "wb");
+	//	if (f) {
+	//		// Пишем декодированный PCM (16-bit mono)
+	//		fwrite(waveBuffer, sizeof(short), count, f);
+	//		fclose(f);
+	//		printf("[DUMP] %s: %d samples\n", fname, count);
+	//	}
+	//	dumpCount++;
+	//}
+
 	if (count == 0)
 		return;
 
@@ -887,7 +982,12 @@ static void UpdateVoiceSample(SPUALVoice* voice)
 #endif
 
 	alSourcei(alSource, AL_BUFFER, 0);
-	alBufferData(alBuffer, AL_FORMAT_MONO16, waveBuffer, count * sizeof(short), 44100);
+	//alBufferData(alBuffer, AL_FORMAT_MONO16, waveBuffer, count * sizeof(short), 44100);
+
+	int sampleRate = (int)(44100.0f * voice->attr.pitch / 4096.0f);
+	if (sampleRate < 1) sampleRate = 1;
+	if (sampleRate > 176400) sampleRate = 176400;
+	alBufferData(alBuffer, AL_FORMAT_MONO16, waveBuffer, count * sizeof(short), sampleRate);
 
 	if (loopLen > 0)
 	{
@@ -1012,7 +1112,8 @@ void PsyX_SPUAL_SetVoiceAttr(SpuVoiceAttr* psxAttrib)
 			voice->attr.pitch = psxAttrib->pitch;
 
 			const float pitch = (float)(voice->attr.pitch) / 4096.0f;
-			alSourcef(alSource, AL_PITCH, pitch);
+			alSourcef(alSource, AL_PITCH, 1);// pitch);
+
 		}
 		
 		// ADSR 

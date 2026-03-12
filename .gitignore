@@ -366,4 +366,5 @@ FodyWeavers.xsd
 *.EXE
 *.png
 *.tga
+*.raw
 x64/

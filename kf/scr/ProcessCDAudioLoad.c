@@ -3,7 +3,13 @@
 
 void ProcessCDAudioLoad(uint8_t* rdram, recomp_context* ctx) 
 {
-   // printf("[ProcessCDAudioLoad] \n");
+    //uint32_t stream_addr = MEM_W(0, ADDR_G_ACTIVECDSTREAM);
+    //if (stream_addr) {
+    //    uint8_t type = MEM_BU(0, stream_addr);
+    //    uint8_t status = MEM_BU(24, stream_addr);
+    //    printf("[ProcessCDAudioLoad] stream=%08X type=%02X status=%d\n",
+    //        stream_addr, type, status);
+    //}
 
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;

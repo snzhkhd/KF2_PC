@@ -3,14 +3,8 @@
 #include "psx/libspu.h"
 void KF_SpuFree(uint8_t* rdram, recomp_context* ctx) 
 {
- //   // PsyX управляет SPU RAM сама(uint)
- ////   printf("SpuFree ENTER\n");
- //   SpuFree(ctx->r4);
+    printf("[SpuFree] addr=%08X\n", ctx->r4);
 
- //   ctx->r2 = (uint32_t)-8;
- //  // printf("SpuFree EXIT\n");
- //   return;
- 
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 

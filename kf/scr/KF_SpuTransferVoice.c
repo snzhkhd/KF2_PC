@@ -1,12 +1,11 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 #include "psx/libspu.h"
+#include "audio/PsyX_SPUAL.h"
 
 void KF_SsVabTransBodyPartly(uint8_t* rdram, recomp_context* ctx) 
 {
-        printf("[KF_SsVabTransBodyPartly] a1=%08X a2=%d a3=%d g_SPUVoiceActive[a3]=%d\n",
-        ctx->r4, ctx->r5, (int16_t)ctx->r6,
-        (int16_t)ctx->r6 < 17 ? MEM_B(0, 0x8019E6F0 + (int16_t)ctx->r6) : -1);   //8019E6F0 g_SPUVoiceActive
+
 
     uint32_t src_addr = ctx->r4;
     uint32_t size = ctx->r5;
@@ -35,10 +34,17 @@ void KF_SsVabTransBodyPartly(uint8_t* rdram, recomp_context* ctx)
     uint32_t to_write = (size > remaining) ? remaining : size;
 
 
-    //printf("[SPU Write] spu_dest=%08X src=%08X size=%d first4: %02X %02X %02X %02X mid4: %02X %02X %02X %02X\n",
-    //    spu_addr + g_spu_transferred, src_addr, to_write,
-    //    src[0], src[1], src[2], src[3],
-    //    src[4096], src[4097], src[4098], src[4099]);
+    if (spu_addr + g_spu_transferred <= 0x18660 &&
+        spu_addr + g_spu_transferred + to_write > 0x18660) {
+        uint32_t offset_in_chunk = 0x18660 - (spu_addr + g_spu_transferred);
+        printf("[SRC CHECK] VAG16 src bytes at offset %d: "
+            "%02X %02X %02X %02X %02X %02X %02X %02X\n",
+            offset_in_chunk,
+            src[offset_in_chunk], src[offset_in_chunk + 1],
+            src[offset_in_chunk + 2], src[offset_in_chunk + 3],
+            src[offset_in_chunk + 4], src[offset_in_chunk + 5],
+            src[offset_in_chunk + 6], src[offset_in_chunk + 7]);
+    }
 
 
     SpuSetTransferMode(SpuTransByDMA);
@@ -49,7 +55,30 @@ void KF_SsVabTransBodyPartly(uint8_t* rdram, recomp_context* ctx)
 
     SpuWrite(src, to_write);
 
+    FILE* f = fopen("spu_ram_full.bin", "wb");
+    if (f) {
+        fwrite(PsyX_SPUAL_GetMemory(), 1, 0x80000, f);
+        fclose(f);
+        printf("[DUMP] Full SPU RAM saved\n");
+    }
+
     // Проверяем — данные реально записались?
+    uint32_t write_start = spu_addr + g_spu_transferred;
+    uint32_t write_end = write_start + to_write;
+    uint32_t target = 0x18660;  // addr_raw=30CC * 8
+    if (write_start <= target && write_end > target) {
+        uint32_t off = target - write_start;
+        printf("[SRC@18660] src bytes: %02X %02X %02X %02X %02X %02X %02X %02X\n",
+            src[off], src[off + 1], src[off + 2], src[off + 3],
+            src[off + 4], src[off + 5], src[off + 6], src[off + 7]);
+
+        // И сразу проверяем что реально в SPU RAM
+        uint8_t* spuMem = PsyX_SPUAL_GetMemory();
+        printf("[MEM@18660] spu bytes: %02X %02X %02X %02X %02X %02X %02X %02X\n",
+            spuMem[target], spuMem[target + 1], spuMem[target + 2], spuMem[target + 3],
+            spuMem[target + 4], spuMem[target + 5], spuMem[target + 6], spuMem[target + 7]);
+    }
+
 
     g_spu_transferred += to_write;
 
@@ -60,6 +89,28 @@ void KF_SsVabTransBodyPartly(uint8_t* rdram, recomp_context* ctx)
     if (g_spu_transferred >= g_spu_total_size) {
         MEM_B(0, 0x8019E6F0 + voice) = 1;
         g_spu_transferred = 0;
+        _SpuSetInTransfer(0);
+
+
+        //// Дамп TONE TABLE
+        //uint32_t tone_table = MEM_W(0, 0x8009E0D4 + voice * 4);
+        //uint32_t vab_header = MEM_W(0, 0x8009E08C + voice * 4);
+        //int num_progs = MEM_HU(18, vab_header);
+        //int num_vags = MEM_BU(22, vab_header);
+        //printf("[VAB%d] header=%08X tone_table=%08X progs=%d vags=%d spu_base=%08X\n",
+        //    voice, vab_header, tone_table, num_progs, num_vags, spu_addr);
+
+        //// Дамп program table (кратко)
+        //uint32_t prog_table = vab_header + 32;
+        //for (int p = 0; p < 12; p++) {
+        //    uint32_t paddr = prog_table + p * 16;
+        //    uint8_t ntones = MEM_BU(0, paddr);
+        //    uint16_t a12 = MEM_HU(12, paddr);
+        //    uint16_t a14 = MEM_HU(14, paddr);
+        //    printf("  prog[%d] tones=%d addr12=%04X(%08X) addr14=%04X(%08X)\n",
+        //        p, ntones, a12, a12 * 8, a14, a14 * 8);
+        //}
+
         ctx->r2 = (uint32_t)voice;
     }
     else {

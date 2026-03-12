@@ -108,7 +108,7 @@ int main(int argc, char* argv[] )
     ResetGraph(0);
    
 
-    SpuInit();
+   // SpuInit();
 
     KFCD_Init("King's Field2.bin");
 

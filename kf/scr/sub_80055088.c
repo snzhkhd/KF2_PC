@@ -1,7 +1,32 @@
 #include "recomp.h"
 #include "disable_warnings.h"
+//void KF_sub_80055088(uint8_t* rdram, recomp_context* ctx);
+//
+//void sub_80055088(uint8_t* rdram, recomp_context* ctx) {
+//    // Логируем состояние перед вызовом
+//    uint8_t d7 = MEM_BU(0, 0x8019E6D7);   // program
+//    uint8_t dc = MEM_BU(0, 0x8019E6DC);   // tone
+//    uint16_t vag = MEM_HU(0, 0x8019E6E8); // vag index
+//    uint16_t voice = MEM_HU(0, 0x8019E6EA); // voice number
+//
+//    uint32_t tone_base = MEM_W(0, 0x8016E5F8);
+//    uint32_t tone_addr = tone_base + 32 * (dc + 16 * d7);
+//    uint16_t vag_from_table = MEM_HU(22, tone_addr);
+//
+//    printf("[sub_80055088] prog=%d tone=%d vag_idx=%d "
+//        "vag_from_table=%d tone_addr=%08X voice=%d\n",
+//        d7, dc, vag, vag_from_table, tone_addr, voice);
+//
+//    // Вызываем оригинал
+//    KF_sub_80055088(rdram, ctx);
+//
+//    // Логируем что записалось
+//    uint16_t ec = MEM_HU(0, 0x8019E6EC);
+//    uint16_t written_addr = MEM_HU(6, 0x800788B8 + voice * 16);
+//    printf("[sub_80055088 AFTER] shadow_addr=%04X\n", written_addr);
+//}
 
-void sub_80055088(uint8_t* rdram, recomp_context* ctx) 
+void sub_80055088(uint8_t* rdram, recomp_context* ctx) //KF_sub_80055088    sub_80055088
 {
     //printf("[sub_80055088] dword_8016DAA0=%08X (SFX=80167AB0 Music=80197E48)\n",
     //    MEM_W(0, 0x8016DAA0));

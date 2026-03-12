@@ -231,6 +231,7 @@ void ps1_bios_dispatcher_B(uint8_t* rdram, recomp_context* ctx)
         case 0x3F: // Это внутренний диспетчер в некоторых SDK
         case 0x78: // СТАНДАРТНЫЙ CdControl
         {
+            printf("[BIOS] B-Call : CdControl\n");
             // Если r4 содержит 0x78, значит аргументы сдвинуты!
             if (ctx->r4 == 0x78 || ctx->r4 == 0x3F) {
                 // Временный хак: перекладываем регистры для обертки

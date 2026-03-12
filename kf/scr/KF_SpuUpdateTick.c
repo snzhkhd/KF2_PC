@@ -3,7 +3,8 @@
 #include "psx/libspu.h"
 #include <string>
 #include <chrono>
-
+#include "audio/PsyX_SPUAL.h"
+#define SPU_MEMSIZE				(2048*1024)
 void KF_SpuUpdateTick(uint8_t* rdram, recomp_context* ctx) 
 {
 
@@ -105,6 +106,10 @@ void KF_SpuUpdateTick(uint8_t* rdram, recomp_context* ctx)
                 uint16_t adsr1 = MEM_HU(8, vbase);
                 uint16_t adsr2 = MEM_HU(10, vbase);
 
+                // uint16_t addr_raw = MEM_HU(6, vbase);
+                // printf("[KeyOn] voice=%d addr_raw=%04X (byte=%08X) pitch=%04X\n",
+                    // i, addr_raw, addr_raw * 8, pitch);
+
                 // Оставляем твой лог для отладки
                 uint8_t f = MEM_BU(0, 0x80078A38 + i);
                 /* printf("[KeyOn] v=%d flags=%02X addr=%04X pitch=%04X adsr=%04X/%04X\n",
@@ -152,6 +157,28 @@ void KF_SpuUpdateTick(uint8_t* rdram, recomp_context* ctx)
 
 
         SpuSetKey(SPU_ON, kon);
+
+
+
+        //uint8_t* spuMem = PsyX_SPUAL_GetMemory();
+
+        //for (int i = 0; i < 24; i++) {
+        //    if (kon & (1 << i)) {
+        //        uint32_t vbase = 0x800788B8 + i * 16;
+        //        uint16_t addr_raw = MEM_HU(6, vbase);
+        //        uint32_t byte_addr = addr_raw * 8;
+        //        if (byte_addr + 16 < SPU_MEMSIZE) {
+        //            uint8_t* spu = spuMem + byte_addr;
+        //            printf("[SPU VERIFY] voice=%d addr=%08X "
+        //                "bytes: %02X %02X %02X %02X %02X %02X %02X %02X\n",
+        //                i, byte_addr,
+        //                spu[0], spu[1], spu[2], spu[3],
+        //                spu[4], spu[5], spu[6], spu[7]);
+        //        }
+        //    }
+        //}
+
+
         MEM_H(0, 0x80079160) = 0;
         MEM_H(0, 0x80079168) = 0;
     }

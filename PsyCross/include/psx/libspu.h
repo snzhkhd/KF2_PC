@@ -307,6 +307,11 @@ typedef struct {
  *	prototype declaration
  * ---------------------------------------------------------------- */
 
+extern void _SpuSetTransfer(int val);
+extern int _SpuGetTransfer();
+
+void _SpuSetInTransfer(int val);
+int _SpuGetInTransfer();
 
 
 #if defined(_LANGUAGE_C_PLUS_PLUS) || defined(__cplusplus) || defined(c_plusplus)

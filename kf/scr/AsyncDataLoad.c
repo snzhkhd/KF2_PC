@@ -37,6 +37,11 @@ void AsyncDataLoad(uint8_t* rdram, recomp_context* ctx)
                 uint8_t type = stream[0];
                 recomp_func_t handler = nullptr;
 
+                //uint8_t status = stream[24];
+                //uint8_t data_ready = stream[36];
+                //printf("[AsyncDataLoad] type=%02X status=%d data_ready=%d\n", type, status, data_ready);
+
+
                 if (type == 0) return;
                 if (type == 0x10)
                 {
@@ -54,62 +59,24 @@ void AsyncDataLoad(uint8_t* rdram, recomp_context* ctx)
                         ctx->r4 = *p_active;
                         handler(rdram, ctx);
 
-                        g_cdCurrentSector = base_lba;
+                        /*g_cdCurrentSector = base_lba;
                         KFCD_ResetReadState();
                         stream[36] = 1;
                         ctx->r4 = *p_active;
-                        handler(rdram, ctx);
+                        handler(rdram, ctx);*/
+                        if (stream[36] == 1 && stream[24] == 1)
+                        {
+                            g_cdCurrentSector = base_lba;
+                            KFCD_ResetReadState();
+                            stream[36] = 1;
+                            ctx->r4 = *p_active;
+                            handler(rdram, ctx);
+                        }
 
                         ctx->r4 = saved_r4;
                         ctx->r31 = saved_ra;
+                        return;
                         handler = nullptr;
-
-                       // stream[36] = 0;
-                       // uint16_t chunks_now = *(uint16_t*)(stream + 16);
-                       // uint16_t chunks_rest = *(uint16_t*)(stream + 34);
-                       // uint16_t total = chunks_now + chunks_rest;
-                       // CdlLOC* base_loc = (CdlLOC*)(stream + 6);
-                       // int base_lba = KFCD_CdPosToInt(base_loc);
-                       // uint32_t dst = *(uint32_t*)(stream + 12);
-
-                       // uint8_t* dst_ptr = (uint8_t*)GET_PTR(dst);
-                       // for (int i = 0; i < total; i++) {
-                       //     fseek(g_cdImage, (uint32_t)(base_lba + i) * 2352 + 24, SEEK_SET);
-                       //     fread(dst_ptr + i * 2048, 1, 2048, g_cdImage);
-                       // }
-
-                       ///* *(uint16_t*)(stream + 16) = 0;
-                       // *(uint16_t*)(stream + 34) = 0;*/
-                       // uint16_t last_batch = (total > 16) ? (total % 16 ? total % 16 : 16) : total;
-                       // *(uint16_t*)(stream + 16) = last_batch;
-                       // *(uint16_t*)(stream + 34) = 0;
-
-                       // stream[36] = 1;
-
-                       // g_cdCurrentSector = base_lba;
-                       // KFCD_ResetReadState();
-                       // 
-
-                       // printf("[0x10 handler] stream[0]=%02X stream[1]=%02X stream[36]=%d chunks=%d remain=%d\n",
-                       //     stream[0], stream[1], stream[36],
-                       //     *(uint16_t*)(stream + 16), *(uint16_t*)(stream + 34));
-                       // 
-                       // ctx->r4 = *p_active;
-                       // handler(rdram, ctx);
-
-                       // printf("[0x10 handler] AFTER1: stream[1]=%d stream[36]=%d loadState=%d\n",
-                       //     stream[1], stream[36], MEM_HU(0, 0x801779D6));
-
-                       // g_cdCurrentSector = base_lba;
-                       // KFCD_ResetReadState();
-                       // stream[36] = 1;
-                       // ctx->r4 = *p_active;
-                       // handler(rdram, ctx);
-
-                       // printf("[0x10 handler] AFTER2: stream[1]=%d stream[36]=%d loadState=%d\n",
-                       //     stream[1], stream[36], MEM_HU(0, 0x801779D6));
-
-                       // handler = nullptr;
                     }
                 }
 

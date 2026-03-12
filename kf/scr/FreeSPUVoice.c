@@ -6,7 +6,11 @@ bool bDone = false;
 
 void KF_SsVabClos(uint8_t* rdram, recomp_context* ctx) 
 {   
-    printf("KF_SsVabClos\n");
+    int16_t voice = ctx->r4;
+    printf("[SsVabClos] voice=%d active=%d spu_addr=%08X\n",
+        voice,
+        MEM_BU(0, 0x8019E6F0 + voice),
+        MEM_W(0, 0x801DEFA4 + voice * 4));
 
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;

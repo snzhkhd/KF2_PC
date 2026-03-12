@@ -9,6 +9,27 @@ static int s_inTransfer = 0;
 static int s_transferMode = SPU_TRANSFER_BY_DMA;
 static SpuTransferCallbackProc s_transferCallback = NULL;
 
+void _SpuSetTransfer(int val)
+{
+	s_transferMode = val;
+}
+int _SpuGetTransfer()
+{
+	return s_transferMode;
+}
+
+
+
+void _SpuSetInTransfer(int val)
+{
+	s_inTransfer = val;
+}
+
+int _SpuGetInTransfer()
+{
+	return s_inTransfer;
+}
+
 unsigned int SpuWrite(unsigned char* addr, unsigned int size)
 {
 	unsigned int result = PsyX_SPUAL_Write(addr, size);
