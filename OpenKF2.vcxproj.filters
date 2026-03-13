@@ -3176,10 +3176,26 @@
     <ClInclude Include="gte.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="resource1.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="kf\scr\recomp_overlays.inl">
       <Filter>Исходные файлы\kf_scr</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="SCES-00510.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="OpenKF2.rc">
+      <Filter>Файлы ресурсов</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

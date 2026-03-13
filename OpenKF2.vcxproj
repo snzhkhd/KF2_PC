@@ -1185,9 +1185,17 @@
     <ClInclude Include="PsyCross\src\platform.h" />
     <ClInclude Include="PsyCross\src\PsyX_main.h" />
     <ClInclude Include="PsyCross\src\util\crash_handler.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="kf\scr\recomp_overlays.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="SCES-00510.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="OpenKF2.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
