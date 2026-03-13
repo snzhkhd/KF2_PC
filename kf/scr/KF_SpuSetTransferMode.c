@@ -5,16 +5,6 @@
 void _spu_setInTransfer(uint8_t* rdram, recomp_context* ctx) 
 {
 
-    //
-
-    //int value = (int)ctx->r4;
-    //printf("[_spu_setInTransfer] value=%d\n", value);
-
-    //_SpuSetInTransfer(value);
-    //ctx->r2 = value;
-
-   
-
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 

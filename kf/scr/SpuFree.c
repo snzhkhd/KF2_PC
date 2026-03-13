@@ -3,7 +3,7 @@
 #include "psx/libspu.h"
 void KF_SpuFree(uint8_t* rdram, recomp_context* ctx) 
 {
-    printf("[SpuFree] addr=%08X\n", ctx->r4);
+    //printf("[SpuFree] addr=%08X\n", ctx->r4);
 
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;

@@ -13,6 +13,10 @@ extern "C" {
 extern int PsyX_SPUAL_InitSound();
 extern void PsyX_SPUAL_ShutdownSound();
 
+extern void PsyX_SsSeqPause();
+extern void PsyX_SsSeqPlay();
+extern bool PsyX_SsIsPause();
+
 // Private
 extern void PsyX_Update_ADSR(float deltaTime);
 

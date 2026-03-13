@@ -111,6 +111,37 @@ void SetSpuSampleSize(int index, uint32_t  size)
 	g_SpuVoices[index].sampleSize = size;
 }
 
+static bool SsPause = false;
+
+void PsyX_SsSeqPlay()
+{
+	SsPause = false;
+}
+
+bool PsyX_SsIsPause()
+{
+	return SsPause;
+}
+
+void PsyX_SsSeqPause()
+{
+	for (int i = 0; i < 24; i++) 
+	{
+		SPUALVoice* voice = &g_SpuVoices[i];
+		if (voice->alSource == AL_NONE) continue;
+
+		alSourceStop(voice->alSource);
+		/*ALint looping;
+		alGetSourcei(voice->alSource, AL_LOOPING, &looping);
+		if (looping == AL_TRUE) 
+		{
+			voice->env_state = ENV_STATE_RELEASE;
+			voice->env_time = 0.0f;
+			alSourcei(voice->alSource, AL_LOOPING, AL_FALSE);
+		}*/
+	}
+	SsPause = true;
+}
 //--------------------------------------ADSR--------------------------------------
 unsigned long RateTable[160];
 
@@ -301,7 +332,7 @@ AdsrSettings MakeADSR(uint16_t ADSR1, uint16_t ADSR2)
 				samples = l;
 			}
 			double timeInSecs = samples / SPU_SAMPLE_RATE;
-			adsr.sustain = /*Sm ? timeInSecs : */linearAmpDecayTimeToLinDBDecayTime(timeInSecs);
+			adsr.sustain = timeInSecs;// /*Sm ? timeInSecs : */linearAmpDecayTimeToLinDBDecayTime(timeInSecs);
 		}
 	}
 
@@ -360,105 +391,94 @@ AdsrSettings MakeADSR(uint16_t ADSR1, uint16_t ADSR2)
 	//if (Rm == 0) // if it's linear
 	//	timeInSecs *=  LINEAR_RELEASE_COMPENSATION;
 
-	adsr.release = /*Rm ? timeInSecs : */linearAmpDecayTimeToLinDBDecayTime(timeInSecs);
+	adsr.release = timeInSecs;	// /*Rm ? timeInSecs : */linearAmpDecayTimeToLinDBDecayTime(timeInSecs);
 
 
 	return adsr;
 }
 
-void PsyX_Update_ADSR(float deltaTime)
+void PsyX_Update_ADSR_Voice(SPUALVoice* voice, float deltaTime)
 {
-	if (!g_spuInit) return;
+	if (voice->alSource == AL_NONE || voice->env_state == ENV_STATE_OFF)
+		return;
 
-	SDL_LockMutex(g_SpuMutex);
+	voice->env_time += deltaTime;
+	AdsrSettings* adsr = &voice->adsr_settings;
 
-	for (int i = 0; i < s_spuVoiceCount; i++)
+	switch (voice->env_state)
 	{
-		SPUALVoice* voice = &g_SpuVoices[i];
-
-		// Если источник OpenAL не создан или звук выключен, пропускаем
-		if (voice->alSource == AL_NONE || voice->env_state == ENV_STATE_OFF)
-			continue;
-
-		// Увеличиваем таймер текущей фазы
-		voice->env_time += deltaTime;
-		AdsrSettings* adsr = &voice->adsr_settings;
-
-		// Машина состояний ADSR
-		switch (voice->env_state)
-		{
-		case ENV_STATE_ATTACK:
-			if (adsr->attack <= 0.0f) {
+	case ENV_STATE_ATTACK:
+		if (adsr->attack <= 0.0f) {
+			voice->current_env_level = 1.0f;
+			voice->env_state = ENV_STATE_DECAY;
+			voice->env_time = 0.0f;
+		}
+		else {
+			voice->current_env_level = voice->env_time / adsr->attack;
+			if (voice->env_time >= adsr->attack) {
 				voice->current_env_level = 1.0f;
 				voice->env_state = ENV_STATE_DECAY;
 				voice->env_time = 0.0f;
 			}
-			else {
-				voice->current_env_level = voice->env_time / adsr->attack;
-				if (voice->env_time >= adsr->attack) {
-					voice->current_env_level = 1.0f;
-					voice->env_state = ENV_STATE_DECAY;
-					voice->env_time = 0.0f;
-				}
-			}
-			break;
-
-		case ENV_STATE_DECAY:
-			if (adsr->decay <= 0.0f) {
+		}
+		break;
+	case ENV_STATE_DECAY:
+		if (adsr->decay <= 0.0f) {
+			voice->current_env_level = adsr->sustain;
+			voice->env_state = ENV_STATE_SUSTAIN;
+			voice->env_time = 0.0f;
+		}
+		else {
+			float progress = voice->env_time / adsr->decay;
+			voice->current_env_level = 1.0f - (progress * (1.0f - adsr->sustain));
+			if (voice->env_time >= adsr->decay) {
 				voice->current_env_level = adsr->sustain;
 				voice->env_state = ENV_STATE_SUSTAIN;
 				voice->env_time = 0.0f;
 			}
-			else {
-				float progress = voice->env_time / adsr->decay;
-				voice->current_env_level = 1.0f - (progress * (1.0f - adsr->sustain));
-
-				if (voice->env_time >= adsr->decay) {
-					voice->current_env_level = adsr->sustain;
-					voice->env_state = ENV_STATE_SUSTAIN;
-					voice->env_time = 0.0f;
-				}
-			}
-			break;
-
-		case ENV_STATE_SUSTAIN:
-			// Уровень остается постоянным (ждём команды KeyOff)
-			voice->current_env_level = adsr->sustain;
-			break;
-
-		case ENV_STATE_RELEASE:
-			if (adsr->release <= 0.0f) {
+		}
+		break;
+	case ENV_STATE_SUSTAIN:
+		voice->current_env_level = adsr->sustain;
+		break;
+	case ENV_STATE_RELEASE:
+		if (adsr->release <= 0.0f) {
+			voice->current_env_level = 0.0f;
+			voice->env_state = ENV_STATE_OFF;
+			alSourceStop(voice->alSource);
+		}
+		else {
+			float progress = voice->env_time / adsr->release;
+			voice->current_env_level = adsr->sustain * (1.0f - progress);
+			if (voice->env_time >= adsr->release) {
 				voice->current_env_level = 0.0f;
 				voice->env_state = ENV_STATE_OFF;
-				alSourceStop(voice->alSource); // Полностью выключаем OpenAL звук
+				alSourceStop(voice->alSource);
 			}
-			else {
-				// Плавно затухаем от уровня сустейна до 0
-				float progress = voice->env_time / adsr->release;
-				voice->current_env_level = adsr->sustain * (1.0f - progress);
-
-				if (voice->env_time >= adsr->release) {
-					voice->current_env_level = 0.0f;
-					voice->env_state = ENV_STATE_OFF;
-					alSourceStop(voice->alSource);
-				}
-			}
-			break;
 		}
-
-		float left_gain = (float)(voice->attr.volume.left) / 16384.0f;
-		float right_gain = (float)(voice->attr.volume.right) / 16384.0f;
-
-		if (left_gain > 1.0f) left_gain = 1.0f;
-		if (right_gain > 1.0f) right_gain = 1.0f;
-
-		float base_vol = (left_gain + right_gain) * 0.5f;
-
-		float final_volume = base_vol * voice->current_env_level;
-
-		alSourcef(voice->alSource, AL_GAIN, final_volume);
+		break;
 	}
+}
 
+void PsyX_Update_ADSR(float deltaTime)
+{
+	if (!g_spuInit) return;
+	SDL_LockMutex(g_SpuMutex);
+	for (int i = 0; i < s_spuVoiceCount; i++)
+	{
+		SPUALVoice* voice = &g_SpuVoices[i];
+		PsyX_Update_ADSR_Voice(voice, deltaTime);
+
+		// Apply volume
+		if (voice->alSource != AL_NONE && voice->env_state != ENV_STATE_OFF) {
+			float left_gain = (float)(voice->attr.volume.left) / 16384.0f;
+			float right_gain = (float)(voice->attr.volume.right) / 16384.0f;
+			if (left_gain > 1.0f) left_gain = 1.0f;
+			if (right_gain > 1.0f) right_gain = 1.0f;
+			float base_vol = (left_gain + right_gain) * 0.5f;
+			alSourcef(voice->alSource, AL_GAIN, base_vol * voice->current_env_level);
+		}
+	}
 	SDL_UnlockMutex(g_SpuMutex);
 }
 //----------------------------------------------------------------------------
@@ -780,131 +800,133 @@ typedef enum
 
 
  //Main decoding routine - Takes PSX ADPCM formatted audio data and converts it to PCM. It also extracts the looping information if used.
-static int decodeSound(u_char* iData, int soundSize, short* oData, int* loopStart, int* loopLength, int breakOnEnd /*= 0*/)
-{
-	u_char sp;
-	u_char flag;
-	int sd = 0;
-	float vagPrev1 = 0.0;
-	float vagPrev2 = 0.0;
-	int k = 0;
-
-	int loopStrt = 0, loopEnd = 0;
-	int breakOn = -1;
-
-	for (int i = 0; i < soundSize; i++)
-	{
-		if (i % 16 == 0)
-		{
-			sp = iData[i];
-			flag = iData[i+1];
-			i += 2;
-		}
-
-		sd = (int)iData[i] & 0xF;
-		oData[k++] = vagToPcm(sp, sd, &vagPrev1, &vagPrev2);
-
-		sd = ((int)iData[i] >> 4) & 0xF;
-		oData[k++] = vagToPcm(sp, sd, &vagPrev1, &vagPrev2);
-
-		if (breakOnEnd && k == breakOn)
-			return k;
-
-		if (breakOn == -1)
-		{
-			// flags parsed
-			if (flag & LoopStart)
-			{
-				loopStrt = k + 26; // FIXME: is that correct?
-			}
-
-			if (flag & LoopEnd)
-			{
-				loopEnd = k + 26;
-
-				if (flag & Repeat)
-				{
-					*loopStart = loopStrt;
-					*loopLength = loopEnd - loopStrt;
-				}
-
-				if (breakOnEnd)
-					breakOn = k + 26;
-			}
-		}
-	}
-
-	return soundSize;
-}
-
-
-//static int decodeSound(u_char* iData, int soundSize, short* oData,
-//	int* loopStart, int* loopLength, int breakOnEnd)
+//static int decodeSound(u_char* iData, int soundSize, short* oData, int* loopStart, int* loopLength, int breakOnEnd /*= 0*/)
 //{
-//	double s_1 = 0.0;
-//	double s_2 = 0.0;
+//	u_char sp;
+//	u_char flag;
+//	int sd = 0;
+//	float vagPrev1 = 0.0;
+//	float vagPrev2 = 0.0;
 //	int k = 0;
-//	int loopStrt = 0;
 //
-//	for (int i = 0; i < soundSize; i += 16)
+//	int loopStrt = 0, loopEnd = 0;
+//	int breakOn = -1;
+//
+//	for (int i = 0; i < soundSize; i++)
 //	{
-//		if (i + 16 > soundSize) break;
-//
-//		int shift = iData[i] & 0x0F;
-//		int filter = (iData[i] >> 4) & 0x0F;
-//		u_char flag = iData[i + 1];
-//
-//		if (filter >= 5) filter = 0;
-//
-//		if (flag & LoopStart)
-//			loopStrt = k;
-//
-//		for (int j = 2; j < 16; j++)
+//		if (i % 16 == 0)
 //		{
-//			u_char byte = iData[i + j];
-//
-//			for (int n = 0; n < 2; n++)
-//			{
-//				int8_t nibble = (n == 0) ? (byte & 0x0F) : (byte >> 4);
-//				if (nibble & 0x08) nibble |= 0xF0;
-//
-//				double sample = (double)((int)nibble << (12 - (shift > 12 ? 12 : shift)));
-//				if (shift > 12)
-//					sample /= (double)(1 << (shift - 12));
-//
-//				double output = sample + s_1 * K0[filter] + s_2 * K1[filter];
-//				s_2 = s_1;
-//				s_1 = output;
-//
-//				int result = (int)output;
-//				if (result > 32767) result = 32767;
-//				if (result < -32768) result = -32768;
-//				oData[k++] = (short)result;
-//			}
+//			sp = iData[i];
+//			flag = iData[i+1];
+//			i += 2;
 //		}
 //
-//		if (breakOnEnd && (flag & LoopEnd))
+//		sd = (int)iData[i] & 0xF;
+//		oData[k++] = vagToPcm(sp, sd, &vagPrev1, &vagPrev2);
+//
+//		sd = ((int)iData[i] >> 4) & 0xF;
+//		oData[k++] = vagToPcm(sp, sd, &vagPrev1, &vagPrev2);
+//
+//		if (breakOnEnd && k == breakOn)
+//			return k;
+//
+//		if (breakOn == -1)
 //		{
-//			if (flag & Repeat)
+//			// flags parsed
+//			if (flag & LoopStart)
 //			{
-//				*loopStart = loopStrt;
-//				*loopLength = k - loopStrt;
+//				loopStrt = k + 26; // FIXME: is that correct?
 //			}
-//			break;
+//
+//			if (flag & LoopEnd)
+//			{
+//				loopEnd = k + 26;
+//
+//				if (flag & Repeat)
+//				{
+//					*loopStart = loopStrt;
+//					*loopLength = loopEnd - loopStrt;
+//				}
+//
+//				if (breakOnEnd)
+//					breakOn = k + 26;
+//			}
 //		}
 //	}
-//	return k;
+//
+//	return soundSize;
 //}
+
+
+static int decodeSound(u_char* iData, int soundSize, short* oData, int* loopStart, int* loopLength, int breakOnEnd)
+{
+	double s_1 = 0.0;
+	double s_2 = 0.0;
+	int k = 0;
+	int loopStrt = 0;
+
+	for (int i = 0; i < soundSize; i += 16)
+	{
+		if (i + 16 > soundSize) break;
+
+		int shift = iData[i] & 0x0F;
+		int filter = (iData[i] >> 4) & 0x0F;
+		u_char flag = iData[i + 1];
+
+		if (filter >= 5) filter = 0;
+
+		if (flag & LoopStart)
+			loopStrt = k;
+
+		for (int j = 2; j < 16; j++)
+		{
+			u_char byte = iData[i + j];
+
+			for (int n = 0; n < 2; n++)
+			{
+				int8_t nibble = (n == 0) ? (byte & 0x0F) : (byte >> 4);
+				if (nibble & 0x08) nibble |= 0xF0;
+
+				double sample = (double)((int)nibble << (12 - (shift > 12 ? 12 : shift)));
+				if (shift > 12)
+					sample /= (double)(1 << (shift - 12));
+
+				double output = sample + s_1 * K0[filter] + s_2 * K1[filter];
+				s_2 = s_1;
+				s_1 = output;
+
+				int result = (int)output;
+				if (result > 32767) result = 32767;
+				if (result < -32768) result = -32768;
+				oData[k++] = (short)result;
+			}
+		}
+
+		if (breakOnEnd && (flag & LoopEnd))
+		{
+			if (flag & Repeat)
+			{
+				*loopStart = loopStrt;
+				*loopLength = k - loopStrt;
+			}
+			break;
+		}
+	}
+	return k;
+}
 
 static void UpdateVoiceSample(SPUALVoice* voice)
 {
+
+
 
 	static short waveBuffer[SPU_REALMEMSIZE];
 	int loopStart, loopLen, count;
 	ALuint alSource, alBuffer;
 
-	//if (!voice->sampledirty)
-	//	return;
+	if (!voice->sampledirty) 
+		return;
+
 
 	voice->sampledirty = 0;
 
@@ -913,26 +935,6 @@ static void UpdateVoiceSample(SPUALVoice* voice)
 
 	if (alSource == AL_NONE)
 		return;
-
-
-	//static int adpcmDumpCount = 0;
-	//if (adpcmDumpCount < 3) {
-	//	char fname[64];
-	//	snprintf(fname, sizeof(fname), "adpcm_v%d_addr%05X.bin",
-	//		(int)(voice - g_SpuVoices), voice->attr.addr);
-	//	FILE* f = fopen(fname, "wb");
-	//	if (f) {
-	//		// Пишем сырые ADPCM байты из SPU RAM (2KB достаточно)
-	//		int dumpSize = 2048;
-	//		if (voice->attr.addr + dumpSize > SPU_MEMSIZE)
-	//			dumpSize = SPU_MEMSIZE - voice->attr.addr;
-	//		fwrite(s_SpuMemory.samplemem + voice->attr.addr, 1, dumpSize, f);
-	//		fclose(f);
-	//		printf("[ADPCM DUMP] %s addr=%08X\n", fname, voice->attr.addr);
-	//	}
-	//	adpcmDumpCount++;
-	//}
-
 
 	loopStart = 0;
 	loopLen = 0;
@@ -944,79 +946,34 @@ static void UpdateVoiceSample(SPUALVoice* voice)
 		maxSize = SPU_MEMSIZE - voice->attr.addr;
 
 	count = decodeSound(s_SpuMemory.samplemem + voice->attr.addr, maxSize, waveBuffer, &loopStart, &loopLen, 1);
-	//count = decodeSound(s_SpuMemory.samplemem + voice->attr.addr, SPU_MEMSIZE - voice->attr.addr, waveBuffer, &loopStart, &loopLen, 1);
 
-	//static int dumpCount = 0;
-	//if (dumpCount < 5 && count > 0) {
-	//	char fname[64];
-	//	snprintf(fname, sizeof(fname), "spu_dump_%d_addr%05X.raw", dumpCount, voice->attr.addr);
-	//	FILE* f = fopen(fname, "wb");
-	//	if (f) {
-	//		// Пишем декодированный PCM (16-bit mono)
-	//		fwrite(waveBuffer, sizeof(short), count, f);
-	//		fclose(f);
-	//		printf("[DUMP] %s: %d samples\n", fname, count);
-	//	}
-	//	dumpCount++;
-	//}
+	uint32_t addr = voice->attr.addr;
 
 	if (count == 0)
 		return;
 
-#if 0	// sample test
-	{
-		ALuint aalSource;
-		ALuint aalBuffer;
-
-		alGenSources(1, &aalSource);
-		alGenBuffers(1, &aalBuffer);
-
-		// update AL buffer
-		alBufferData(aalBuffer, AL_FORMAT_MONO16, waveBuffer, count * sizeof(short), 11000);
-
-		// set the buffer
-		alSourcei(aalSource, AL_BUFFER, aalBuffer);
-		alSourcef(aalSource, AL_GAIN, 1.0f);// TODO: panning
-		alSourcef(aalSource, AL_PITCH, 1);
-
-		alSourcePlay(aalSource);
-		int status;
-		do
-		{
-			alGetSourcei(aalSource, AL_SOURCE_STATE, &status);
-		} while (status == AL_PLAYING);
-
-		alSourceStop(aalSource);
-
-		alDeleteSources(1, &aalSource);
-		alDeleteBuffers(1, &aalBuffer);
-	}
-#endif
 
 	alSourcei(alSource, AL_BUFFER, 0);
-	//alBufferData(alBuffer, AL_FORMAT_MONO16, waveBuffer, count * sizeof(short), 44100);
-
-	int sampleRate = (int)(44100.0f * voice->attr.pitch / 4096.0f);
-	if (sampleRate < 1) sampleRate = 1;
-	if (sampleRate > 176400) sampleRate = 176400;
-	alBufferData(alBuffer, AL_FORMAT_MONO16, waveBuffer, count * sizeof(short), sampleRate);
+	alBufferData(alBuffer, AL_FORMAT_MONO16, waveBuffer, count * sizeof(short), 44100);
 
 	if (loopLen > 0)
 	{
-		loopStart += voice->attr.loop_addr - voice->attr.addr;
-
-		if (loopStart - 54 > 0 && loopStart + loopLen <= count)
+		// Не корректируем по loop_addr — декодер уже дал правильные позиции
+		if (loopStart >= 0 && loopStart + loopLen <= count)
 		{
 			int sampleOffs[] = { loopStart, loopStart + loopLen };
 			alBufferiv(alBuffer, AL_LOOP_POINTS_SOFT, sampleOffs);
+			alSourcei(alSource, AL_LOOPING, AL_TRUE);
 		}
-
-		alSourcei(alSource, AL_LOOPING, AL_TRUE);
+		else
+		{
+			// Loop points невалидные — не лупим
+			alSourcei(alSource, AL_LOOPING, AL_FALSE);
+		}
 	}
 	else
 	{
-		//int sampleOffs[] = { 0, 0 };
-		//alBufferiv(alBuffer, AL_LOOP_POINTS_SOFT, sampleOffs);
+
 		alSourcei(alSource, AL_LOOPING, AL_FALSE);
 	}
 
@@ -1124,12 +1081,14 @@ void PsyX_SPUAL_SetVoiceAttr(SpuVoiceAttr* psxAttrib)
 			voice->attr.pitch = psxAttrib->pitch;
 
 			const float pitch = (float)(voice->attr.pitch) / 4096.0f;
-			alSourcef(alSource, AL_PITCH, 1);// pitch);
+			alSourcef(alSource, AL_PITCH, pitch);
 
 		}
 		
 		// ADSR 
-		if (psxAttrib->mask & (SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_AR | SPU_VOICE_ADSR_DR | SPU_VOICE_ADSR_SR | SPU_VOICE_ADSR_RR | SPU_VOICE_ADSR_SL))
+		if (psxAttrib->mask & (SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_AR |
+			SPU_VOICE_ADSR_DR | SPU_VOICE_ADSR_SR | SPU_VOICE_ADSR_RR |
+			SPU_VOICE_ADSR_SL | SPU_VOICE_ADSR_ADSR1 | SPU_VOICE_ADSR_ADSR2))
 		{
 			// Обновляем сырые значения
 			voice->attr.adsr1 = psxAttrib->adsr1;
@@ -1138,6 +1097,10 @@ void PsyX_SPUAL_SetVoiceAttr(SpuVoiceAttr* psxAttrib)
 
 			voice->adsr_settings = MakeADSR(voice->attr.adsr1, voice->attr.adsr2);
 		}
+		/*else
+		{
+			printf("ADSR skip v=%d adsr1=%04X adsr2=%04X, mask=%04X\n", i, voice->attr.adsr1, voice->attr.adsr2, psxAttrib->mask);
+		}*/
 	}
 	SDL_UnlockMutex(g_SpuMutex);
 }
@@ -1161,28 +1124,62 @@ void PsyX_SPUAL_SetKey(int on_off, u_int voice_bit)
 
 		if (on_off && !g_SPUMuted) // Key On
 		{
+			//if (voice->attr.addr == 0x25090 || voice->attr.addr == 0x3BD50) {
+			//	printf("[PROBLEM KeyOn] voice=%d addr=%08X pitch=%04X\n",
+			//		i, voice->attr.addr, voice->attr.pitch);
+			//	printf("  Other active voices with same addr: ");
+			//	for (int j = 0; j < s_spuVoiceCount; j++) {
+			//		if (j == i) continue;
+			//		SPUALVoice* other = &g_SpuVoices[j];
+			//		if (other->alSource == AL_NONE) continue;
+			//		ALint state;
+			//		alGetSourcei(other->alSource, AL_SOURCE_STATE, &state);
+			//		if (other->attr.addr == voice->attr.addr && state == AL_PLAYING) {
+			//			printf("v%d(pitch=%04X env=%d) ", j, other->attr.pitch,
+			//				other->env_state);
+			//		}
+			//	}
+			//	printf("\n");
+			//}
 
 			alSourceStop(alSource);
 			UpdateVoiceSample(voice);
 
-			// ADSR ATTACK
 			voice->env_state = ENV_STATE_ATTACK;
 			voice->env_time = 0.0f;
 			voice->current_env_level = 0.0f;
 
-			alSourcef(alSource, AL_GAIN, 0.0f);
+			// Сразу прогоняем attack до слышимого уровня
+			float step = 0.001f;
+			for (int j = 0; j < 20; j++) {
+				PsyX_Update_ADSR_Voice(voice, step);
+				if (voice->current_env_level >= 0.9f)
+					break;
+			}
+
+			// Применяем громкость ДО play
+			float left_gain = (float)(voice->attr.volume.left) / 16384.0f;
+			float right_gain = (float)(voice->attr.volume.right) / 16384.0f;
+			if (left_gain > 1.0f) left_gain = 1.0f;
+			if (right_gain > 1.0f) right_gain = 1.0f;
+			float base_vol = (left_gain + right_gain) * 0.5f;
+			alSourcef(alSource, AL_GAIN, base_vol * voice->current_env_level);
+
 			alSourcePlay(alSource);
 		}
 		else // Key Off
 		{
-
+			uint16_t addr = voice->attr.addr / 8;
+			if (addr == 0x25090 || addr == 0x3BD50) {
+				printf("[PROBLEM KeyOff] voice=%d addr=%08X\n", i, addr);
+			}
 			// Release
 			if (voice->env_state != ENV_STATE_OFF)
 			{
 				voice->env_state = ENV_STATE_RELEASE;
 				voice->env_time = 0.0f;
-				// Теперь функция Update_ADSR сама плавно дотушит звук 
-				// и вызовет alSourceStop, когда громкость станет 0.
+
+				alSourcei(alSource, AL_LOOPING, AL_FALSE);
 			}
 		}
 	}

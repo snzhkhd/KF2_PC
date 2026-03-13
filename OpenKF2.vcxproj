@@ -396,7 +396,7 @@
     <ClCompile Include="kf\scr\MO_Something02Set.c" />
     <ClCompile Include="kf\scr\MsfToLba.c" />
     <ClCompile Include="kf\scr\Music_PlaySEQ.c" />
-    <ClCompile Include="kf\scr\Music_PlayTrack.c" />
+    <ClCompile Include="kf\scr\KF_SsSeqReplay.c" />
     <ClCompile Include="kf\scr\Music_Stop.c" />
     <ClCompile Include="kf\scr\Music_UpdateState.c" />
     <ClCompile Include="kf\scr\NextCdTask.c" />
@@ -455,7 +455,7 @@
     <ClCompile Include="kf\scr\PlayPositionalSound3D_Wrap.c" />
     <ClCompile Include="kf\scr\PlaySfx.c" />
     <ClCompile Include="kf\scr\PlaySoundEffect.c" />
-    <ClCompile Include="kf\scr\PlayTrack.c" />
+    <ClCompile Include="kf\scr\KF_SsSeqPause.c" />
     <ClCompile Include="kf\scr\PrecomputeCardinalOrientations.c" />
     <ClCompile Include="kf\scr\PrepareReadTask.c" />
     <ClCompile Include="kf\scr\PrepareRenderPrimitives.c" />

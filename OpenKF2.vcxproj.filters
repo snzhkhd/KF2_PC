@@ -852,7 +852,7 @@
     <ClCompile Include="kf\scr\Music_PlaySEQ.c">
       <Filter>Исходные файлы\kf_scr</Filter>
     </ClCompile>
-    <ClCompile Include="kf\scr\Music_PlayTrack.c">
+    <ClCompile Include="kf\scr\KF_SsSeqReplay.c">
       <Filter>Исходные файлы\kf_scr</Filter>
     </ClCompile>
     <ClCompile Include="kf\scr\Music_Stop.c">
@@ -1029,7 +1029,7 @@
     <ClCompile Include="kf\scr\PlaySoundEffect.c">
       <Filter>Исходные файлы\kf_scr</Filter>
     </ClCompile>
-    <ClCompile Include="kf\scr\PlayTrack.c">
+    <ClCompile Include="kf\scr\KF_SsSeqPause.c">
       <Filter>Исходные файлы\kf_scr</Filter>
     </ClCompile>
     <ClCompile Include="kf\scr\PrecomputeCardinalOrientations.c">

@@ -1,23 +1,13 @@
-#include "recomp.h"
+п»ї#include "recomp.h"
 #include "disable_warnings.h"
 #include "psx/libspu.h"
 #include <string>
 #include <chrono>
 #include "audio/PsyX_SPUAL.h"
 #define SPU_MEMSIZE				(2048*1024)
+
 void KF_SpuUpdateTick(uint8_t* rdram, recomp_context* ctx) 
 {
-
-    //static auto last_time = std::chrono::steady_clock::now();
-    //static int tick_frames = 0;
-    //tick_frames++;
-    //auto now = std::chrono::steady_clock::now();
-    //auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - last_time).count();
-    //if (elapsed >= 1000) {
-    //    printf("[SEQ] ticks per second: %d\n", tick_frames);
-    //    tick_frames = 0;
-    //    last_time = now;
-    //}
 
     uint8_t max_voices = MEM_BU(0, 0x8019B628);
 
@@ -25,7 +15,7 @@ void KF_SpuUpdateTick(uint8_t* rdram, recomp_context* ctx)
         uint8_t flags = MEM_BU(0, 0x80078A38 + i);
         if (flags == 0) continue;
 
-        // Внутренняя таблица: 16 байт на голос (8 halfwords)
+        // Р’РЅСѓС‚СЂРµРЅРЅСЏСЏ С‚Р°Р±Р»РёС†Р°: 16 Р±Р°Р№С‚ РЅР° РіРѕР»РѕСЃ (8 halfwords)
         // Layout: volL, volR, pitch, startAddr, ADSR1, ADSR2, ...
         uint32_t base = 0x800788B8 + i * 16;
 
@@ -33,19 +23,6 @@ void KF_SpuUpdateTick(uint8_t* rdram, recomp_context* ctx)
         memset(&attr, 0, sizeof(attr));
         attr.voice = (1 << i);
         attr.mask = 0;
-
-        //if (flags != 0) {
-        //    static int upd_log = 0;
-        //    if (upd_log++ < 30) {
-        //        printf("[SpuTick] voice=%d flags=%02X vol=%d/%d pitch=%04X addr=%04X adsr=%04X/%04X\n",
-        //            i, flags,
-        //            (int16_t)MEM_HS(0, base), (int16_t)MEM_HS(2, base),
-        //            MEM_HU(4, base),
-        //            MEM_HU(6, base),
-        //            MEM_HU(8, base), MEM_HU(10, base));
-        //    }
-        //}
-
         if (flags & 1) {
             attr.volume.left = (int16_t)MEM_HS(0, base);
             attr.volume.right = (int16_t)MEM_HS(2, base);
@@ -61,8 +38,6 @@ void KF_SpuUpdateTick(uint8_t* rdram, recomp_context* ctx)
             if (real_addr < 0x80000) {
                 attr.addr = real_addr;
                 attr.mask |= SPU_VOICE_WDSA;
-                /*printf("[SPU Play] voice=%d addr=%08X pitch=%04X\n",
-                    i, real_addr, MEM_HU(4, base));*/
             }
         }
         if (flags & 0x10) {
@@ -84,15 +59,7 @@ void KF_SpuUpdateTick(uint8_t* rdram, recomp_context* ctx)
     uint32_t kon = kon_lo | (kon_hi << 16);
     if (kon) 
     {
-       /* for (int i = 0; i < 24; i++) {
-            if (kon & (1 << i)) {
-                uint8_t f = MEM_BU(0, 0x80078A38 + i);
-                uint32_t vbase = 0x800788B8 + i * 16;
-                printf("[KeyOn] v=%d flags=%02X addr=%04X pitch=%04X adsr=%04X/%04X\n",
-                    i, f, MEM_HU(6, vbase), MEM_HU(4, vbase),
-                    MEM_HU(8, vbase), MEM_HU(10, vbase));
-            }
-        }*/
+;
 
         for (int i = 0; i < 24; i++) 
         {
@@ -103,21 +70,40 @@ void KF_SpuUpdateTick(uint8_t* rdram, recomp_context* ctx)
                 uint16_t addr_raw = MEM_HU(6, vbase);
                 uint32_t byte_addr = addr_raw * 8;
 
-                // Вычисляем размер: ищем следующий адрес в program table
-                uint32_t next_addr = 0x80000; // конец SPU RAM по умолчанию
-                // Ищем минимальный адрес больше текущего
-                uint32_t prog_table = MEM_W(0, 0x8009DEF0); // prog table pointer
-                // 22 VAG'а = 11 entries, 2 адреса на entry (off12, off14)
-                for (int v = 0; v < 22; v++) {
-                    uint32_t entry = prog_table + (v / 2) * 16;
-                    uint16_t a = (v & 1) ? MEM_HU(14, entry) : MEM_HU(12, entry);
-                    uint32_t a_byte = a * 8;
-                    if (a_byte > byte_addr && a_byte < next_addr)
-                        next_addr = a_byte;
+                // РћРїСЂРµРґРµР»СЏРµРј РєР°РєРѕР№ VAB РїРѕ Р°РґСЂРµСЃСѓ
+                int vabIdx = -1;
+                for (int v = 0; v < 16; v++) {
+                    uint8_t active = MEM_BU(0, 0x8019E6F0 + v);
+                    if (active == 0) continue;
+                    uint32_t vab_base = MEM_W(0, 0x801DEFA4 + v * 4);
+                    uint32_t vab_size = MEM_W(0, 0x801DEF5C + v * 4);
+                    if (byte_addr >= vab_base && byte_addr < vab_base + vab_size) {
+                        vabIdx = v;
+                        break;
+                    }
+                }
+
+                uint32_t next_addr = 0x80000;
+                if (vabIdx >= 0) {
+                    uint32_t prog_table = MEM_W(0, 0x8009DEF0 + vabIdx * 4);
+                    if (prog_table) {
+                        uint32_t vab_header = MEM_W(0, 0x8009E08C + vabIdx * 4);
+                        int num_progs = vab_header ? MEM_HU(18, vab_header) : 0;
+                        for (int p = 0; p < num_progs && p < 128; p++) {
+                            uint32_t entry = prog_table + p * 16;
+                            uint16_t a12 = MEM_HU(12, entry);
+                            uint16_t a14 = MEM_HU(14, entry);
+                            uint32_t a12_byte = a12 * 8;
+                            uint32_t a14_byte = a14 * 8;
+                            if (a12_byte > byte_addr && a12_byte < next_addr)
+                                next_addr = a12_byte;
+                            if (a14_byte > byte_addr && a14_byte < next_addr)
+                                next_addr = a14_byte;
+                        }
+                    }
                 }
                 SetSpuSampleSize(i, next_addr - byte_addr);
 
-                // Читаем все параметры из теневых регистров игры
                 uint16_t vol_l = MEM_HU(0, vbase);
                 uint16_t vol_r = MEM_HU(2, vbase);
                 uint16_t pitch = MEM_HU(4, vbase);
@@ -139,56 +125,32 @@ void KF_SpuUpdateTick(uint8_t* rdram, recomp_context* ctx)
                     SPU_VOICE_ADSR_RMODE | SPU_VOICE_ADSR_AR | SPU_VOICE_ADSR_DR |
                     SPU_VOICE_ADSR_SR | SPU_VOICE_ADSR_RR | SPU_VOICE_ADSR_SL;
 
-                // 4. Громкость, Питч и Адрес
                 attr.volume.left = vol_l;
                 attr.volume.right = vol_r;
                 attr.pitch = pitch;
-                attr.addr = addr * 8; // ВАЖНО: PsyQ ожидает реальный байтовый адрес, поэтому умножаем на 8!
+                attr.addr = addr * 8; 
 
-                // 5. РАСПАКОВКА ADSR1 (Attack, Decay, Sustain Level)
-                attr.a_mode = (adsr1 >> 15) & 1;     // Бит 15: Attack Mode
-                attr.ar = (adsr1 >> 8) & 0x7F;  // Биты 14-8: Attack Rate (7 бит)
-                attr.dr = (adsr1 >> 4) & 0x0F;  // Биты 7-4: Decay Rate (4 бита)
-                attr.sl = adsr1 & 0x0F;  // Биты 3-0: Sustain Level (4 бита)
+                // ADSR1 (Attack, Decay, Sustain Level)
+                attr.a_mode = (adsr1 >> 15) & 1;     // Р‘РёС‚ 15: Attack Mode
+                attr.ar = (adsr1 >> 8) & 0x7F;  // Р‘РёС‚С‹ 14-8: Attack Rate (7 Р±РёС‚)
+                attr.dr = (adsr1 >> 4) & 0x0F;  // Р‘РёС‚С‹ 7-4: Decay Rate (4 Р±РёС‚Р°)
+                attr.sl = adsr1 & 0x0F;  // Р‘РёС‚С‹ 3-0: Sustain Level (4 Р±РёС‚Р°)
 
-                // 6. РАСПАКОВКА ADSR2 (Sustain Rate, Release Rate)
-                attr.s_mode = (adsr2 >> 13) & 7;     // Биты 15-13: Sustain Mode (3 бита)
-                attr.sr = (adsr2 >> 6) & 0x7F;  // Биты 12-6: Sustain Rate (7 бит)
-                attr.r_mode = (adsr2 >> 5) & 1;     // Бит 5: Release Mode
-                attr.rr = adsr2 & 0x1F;  // Биты 4-0: Release Rate (5 бит)
+                // ADSR2 (Attack, Decay, Sustain Level)
+                attr.s_mode = (adsr2 >> 13) & 7;     // Р‘РёС‚С‹ 15-13: Sustain Mode (3 Р±РёС‚Р°)
+                attr.sr = (adsr2 >> 6) & 0x7F;  // Р‘РёС‚С‹ 12-6: Sustain Rate (7 Р±РёС‚)
+                attr.r_mode = (adsr2 >> 5) & 1;     // Р‘РёС‚ 5: Release Mode
+                attr.rr = adsr2 & 0x1F;  // Р‘РёС‚С‹ 4-0: Release Rate (5 Р±РёС‚)
 
-                // 7. Дублируем сырые значения (на случай, если PsyX имеет хак и читает их напрямую)
                 attr.adsr1 = adsr1;
                 attr.adsr2 = adsr2;
 
-                // 8. Передаем в эмулятор!
                 SpuSetVoiceAttr(&attr);
             }
         }
 
 
         SpuSetKey(SPU_ON, kon);
-
-
-
-        //uint8_t* spuMem = PsyX_SPUAL_GetMemory();
-
-        //for (int i = 0; i < 24; i++) {
-        //    if (kon & (1 << i)) {
-        //        uint32_t vbase = 0x800788B8 + i * 16;
-        //        uint16_t addr_raw = MEM_HU(6, vbase);
-        //        uint32_t byte_addr = addr_raw * 8;
-        //        if (byte_addr + 16 < SPU_MEMSIZE) {
-        //            uint8_t* spu = spuMem + byte_addr;
-        //            printf("[SPU VERIFY] voice=%d addr=%08X "
-        //                "bytes: %02X %02X %02X %02X %02X %02X %02X %02X\n",
-        //                i, byte_addr,
-        //                spu[0], spu[1], spu[2], spu[3],
-        //                spu[4], spu[5], spu[6], spu[7]);
-        //        }
-        //    }
-        //}
-
 
         MEM_H(0, 0x80079160) = 0;
         MEM_H(0, 0x80079168) = 0;
@@ -200,6 +162,7 @@ void KF_SpuUpdateTick(uint8_t* rdram, recomp_context* ctx)
     uint32_t koff = koff_lo | (koff_hi << 16);
     if (koff) 
     {
+
         SpuSetKey(SPU_OFF, koff);
         MEM_H(0, 0x801DF028) = 0;
         MEM_H(0, 0x801DF030) = 0;

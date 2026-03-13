@@ -27,21 +27,10 @@ void SEQ_Update(uint8_t* rdram, recomp_context* ctx)
     g_lastSeqTime = now;
     g_seqAccumulator += elapsed;
 
-    // Считаем сколько тиков нужно
-    int ticksNeeded = 0;
-    double temp = g_seqAccumulator;
-    while (temp >= SEQ_TICK_INTERVAL) {
-        ticksNeeded++;
-        temp -= SEQ_TICK_INTERVAL;
-    }
-
-    // Распределяем тики равномерно по времени кадра
-    for (int t = 0; t < ticksNeeded; t++) {
-        // Вычисляем когда "должен был" случиться этот тик
-        // (для будущей интерполяции в аудио-буфере)
-        double tickOffset = (t + 1) * SEQ_TICK_INTERVAL;
-
+    while (g_seqAccumulator >= SEQ_TICK_INTERVAL)
+    {
         KF_SsSeqCalledTbyT(rdram, ctx);
+        PsyX_Update_ADSR((float)SEQ_TICK_INTERVAL);
         g_seqAccumulator -= SEQ_TICK_INTERVAL;
     }
 }
@@ -62,26 +51,18 @@ void KF_VSync(uint8_t* rdram, recomp_context* ctx)
     g_lastFrameTime = std::chrono::steady_clock::now();
 
 
-    auto currentAdsrTime = std::chrono::steady_clock::now();
-    float adsrDeltaTime = std::chrono::duration<float>(currentAdsrTime - g_lastAdsrUpdateTime).count();
-    g_lastAdsrUpdateTime = currentAdsrTime;
-    PsyX_Update_ADSR(adsrDeltaTime);
-
-
-   
-
     uint32_t saved_r4 = ctx->r4;
     uint32_t saved_ra = ctx->r31;
-    // Тик SEQ секвенсора
-    SEQ_Update(rdram, ctx);
-  //  KF_SpuUpdateTick(rdram, ctx);
+
+    //if (!PsyX_SsIsPause())
+        SEQ_Update(rdram, ctx);
+
     ctx->r4 = saved_r4;
     ctx->r31 = saved_ra;
-
 
     g_vsync_pending = true;
 
     int mode = (int32_t)ctx->r4;
-    ctx->r2 = 0;// VSync(mode == 0 ? 1 : mode);
+    ctx->r2 = VSync(mode == 0 ? 1 : mode);
     WRITE_W(0x1F801814, 0x1C000000);
 }

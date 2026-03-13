@@ -1,7 +1,10 @@
 #include "recomp.h"
 #include "disable_warnings.h"
+#include "audio/PsyX_SPUAL.h"
 
-void LoadPopupsTexturOrTalk(uint8_t* rdram, recomp_context* ctx) {
+void LoadPopupsTexturOrTalk(uint8_t* rdram, recomp_context* ctx) 
+{
+
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -165,6 +168,13 @@ L_80037984:
     ctx->r4 = 0 | 0X1;
 
     KF_PadRead(rdram, ctx);
+    
+
+    if (!PsyX_SsIsPause())
+    {
+        PsyX_SsSeqPause();
+    }
+       
     goto after_9;
     // ori         $a0, $zero, 0x1
     ctx->r4 = 0 | 0X1;
@@ -263,7 +273,7 @@ L_800379B4:
     ctx->r29 = ADD32(ctx->r29, 0X20);
     // jr          $ra
     // nop
-
+    PsyX_SsSeqPlay();
     return;
     // nop
 

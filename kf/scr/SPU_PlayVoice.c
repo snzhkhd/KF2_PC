@@ -3,11 +3,14 @@
 
 void KF_SsUtKeyOn(uint8_t* rdram, recomp_context* ctx) 
 {
-    printf("[SsUtKeyOn] vab=%d prog=%d tone=%d note=%d\n",
-        (ctx->r4 >> 8) & 0xFF,   // vab id (зависит от формата, может быть иначе)
-        ctx->r4 & 0xFF,           // program  
-        ctx->r5 & 0xFF,           // a2 — обычно note
-        ctx->r6 & 0xFF);          // a3
+    //printf("[SsUtKeyOn] vab=%d prog=%d tone=%d note=%d\n",
+    //    (ctx->r4 >> 8) & 0xFF,   // vab id (зависит от формата, может быть иначе)
+    //    ctx->r4 & 0xFF,           // program  
+    //    ctx->r5 & 0xFF,           // a2 — обычно note
+    //    ctx->r6 & 0xFF);          // a3
+    //printf("[SsUtKeyOn] vab=%d prog=%d tone=%d note=%d\n",
+    //    (ctx->r4 >> 8) & 0xFF, ctx->r4 & 0xFF,
+    //    ctx->r5 & 0xFF, ctx->r6 & 0xFF);
 
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;

@@ -22,10 +22,10 @@ L_800373EC:
     // addiu       $a0, $sp, 0x10
     ctx->r4 = ADD32(ctx->r29, 0X10);
 
-    static int tim_log = 0;
-    if (tim_log++ < 20) {
-        printf("[TIM] ReadTIM returned %08X\n", ctx->r2);
-    }
+    // static int tim_log = 0;
+    // if (tim_log++ < 20) {
+        // printf("[TIM] ReadTIM returned %08X\n", ctx->r2);
+    // }
 
 
     KF_ReadTIM(rdram, ctx);
@@ -57,7 +57,7 @@ L_800373EC:
     ctx->r4 = MEM_W(0X14, ctx->r29);
     // jal         0x800632F8
     // nop
-    printf("[TIM] calling LoadImageWithCallback\n");
+    // printf("[TIM] calling LoadImageWithCallback\n");
     LoadImageWithCallback(rdram, ctx);
     goto after_2;
     // nop
@@ -80,7 +80,7 @@ L_80037418:
     ctx->r4 = MEM_W(0X1C, ctx->r29);
     // jal         0x800632F8
     // nop
-    printf("[TIM] calling LoadImageWithCallback\n");
+    // printf("[TIM] calling LoadImageWithCallback\n");
     LoadImageWithCallback(rdram, ctx);
     goto after_3;
     // nop

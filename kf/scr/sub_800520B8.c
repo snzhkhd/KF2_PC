@@ -4,7 +4,7 @@
 
 void _spu_getInTransfer(uint8_t* rdram, recomp_context* ctx) 
 {
-    printf("[_spu_getInTransfer] returning %d\n", _SpuGetInTransfer() );
+    //printf("[_spu_getInTransfer] returning %d\n", _SpuGetInTransfer() );
     ctx->r2 = (uint32_t)_SpuGetInTransfer();
 
     //SpuGetTransferMode(); нет реализации в Psy

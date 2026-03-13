@@ -4,11 +4,11 @@
 #include "PsyX/PsyX_render.h"
 #include "psx/libgte.h"
 #include "psx/libgpu.h"
-
+#include "audio/PsyX_SPUAL.h"
 
 void KF_DrawSync(uint8_t* rdram, recomp_context* ctx) 
 {
-    
+
     DrawSync((int)ctx->r4);
     PsyX_UpdateInput();
     ctx->r2 = 0;
