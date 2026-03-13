@@ -23,8 +23,7 @@ cd vcpkg
 .\vcpkg.exe integrate install
 ```
 ## Unresolved issues
-- The sounds are slightly shifted (not all)
-- Music (SEQ) is not implemented
+- Save\Load
 - The EXE is loaded separately from the .bin
 - Minor problems with the menu rendering and maybe something else.
 
