@@ -84,6 +84,8 @@ typedef struct
 	ushort sampledirty;
 	ushort reverb;
 
+	uint32_t sampleSize;
+
 	//ADSR
 	AdsrSettings adsr_settings; // Переведенные в секунды тайминги
 	AdsrState env_state;        // Текущая фаза (Attack, Decay и т.д.)
@@ -102,6 +104,12 @@ int			g_currEffectSlotIdx = 0;
 ALuint		g_nAlReverbEffect = 0;
 int			g_enableSPUReverb = 0;
 int			g_ALEffectsSupported = 0;
+
+
+void SetSpuSampleSize(int index, uint32_t  size)
+{
+	g_SpuVoices[index].sampleSize = size;
+}
 
 //--------------------------------------ADSR--------------------------------------
 unsigned long RateTable[160];
@@ -907,32 +915,36 @@ static void UpdateVoiceSample(SPUALVoice* voice)
 		return;
 
 
-	static int adpcmDumpCount = 0;
-	if (adpcmDumpCount < 3) {
-		char fname[64];
-		snprintf(fname, sizeof(fname), "adpcm_v%d_addr%05X.bin",
-			(int)(voice - g_SpuVoices), voice->attr.addr);
-		FILE* f = fopen(fname, "wb");
-		if (f) {
-			// Пишем сырые ADPCM байты из SPU RAM (2KB достаточно)
-			int dumpSize = 2048;
-			if (voice->attr.addr + dumpSize > SPU_MEMSIZE)
-				dumpSize = SPU_MEMSIZE - voice->attr.addr;
-			fwrite(s_SpuMemory.samplemem + voice->attr.addr, 1, dumpSize, f);
-			fclose(f);
-			printf("[ADPCM DUMP] %s addr=%08X\n", fname, voice->attr.addr);
-		}
-		adpcmDumpCount++;
-	}
+	//static int adpcmDumpCount = 0;
+	//if (adpcmDumpCount < 3) {
+	//	char fname[64];
+	//	snprintf(fname, sizeof(fname), "adpcm_v%d_addr%05X.bin",
+	//		(int)(voice - g_SpuVoices), voice->attr.addr);
+	//	FILE* f = fopen(fname, "wb");
+	//	if (f) {
+	//		// Пишем сырые ADPCM байты из SPU RAM (2KB достаточно)
+	//		int dumpSize = 2048;
+	//		if (voice->attr.addr + dumpSize > SPU_MEMSIZE)
+	//			dumpSize = SPU_MEMSIZE - voice->attr.addr;
+	//		fwrite(s_SpuMemory.samplemem + voice->attr.addr, 1, dumpSize, f);
+	//		fclose(f);
+	//		printf("[ADPCM DUMP] %s addr=%08X\n", fname, voice->attr.addr);
+	//	}
+	//	adpcmDumpCount++;
+	//}
 
 
 	loopStart = 0;
 	loopLen = 0;
 
 	int voiceIdx = (int)(voice - g_SpuVoices);
-	int maxSize = SPU_MEMSIZE - voice->attr.addr;
+	//int maxSize = SPU_MEMSIZE - voice->attr.addr;
+	int maxSize = voice->sampleSize;
+	if (maxSize <= 0 || maxSize > (int)(SPU_MEMSIZE - voice->attr.addr))
+		maxSize = SPU_MEMSIZE - voice->attr.addr;
 
-	count = decodeSound(s_SpuMemory.samplemem + voice->attr.addr, SPU_MEMSIZE - voice->attr.addr, waveBuffer, &loopStart, &loopLen, 1);
+	count = decodeSound(s_SpuMemory.samplemem + voice->attr.addr, maxSize, waveBuffer, &loopStart, &loopLen, 1);
+	//count = decodeSound(s_SpuMemory.samplemem + voice->attr.addr, SPU_MEMSIZE - voice->attr.addr, waveBuffer, &loopStart, &loopLen, 1);
 
 	//static int dumpCount = 0;
 	//if (dumpCount < 5 && count > 0) {

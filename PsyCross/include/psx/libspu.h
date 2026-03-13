@@ -313,7 +313,7 @@ extern int _SpuGetTransfer();
 void _SpuSetInTransfer(int val);
 int _SpuGetInTransfer();
 
-
+void SetSpuSampleSize(int index, uint32_t  size);
 #if defined(_LANGUAGE_C_PLUS_PLUS) || defined(__cplusplus) || defined(c_plusplus)
 extern "C" {
 #endif

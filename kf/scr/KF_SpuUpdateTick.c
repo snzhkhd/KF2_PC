@@ -94,9 +94,28 @@ void KF_SpuUpdateTick(uint8_t* rdram, recomp_context* ctx)
             }
         }*/
 
-        for (int i = 0; i < 24; i++) {
-            if (kon & (1 << i)) {
+        for (int i = 0; i < 24; i++) 
+        {
+            if (kon & (1 << i)) 
+            {
                 uint32_t vbase = 0x800788B8 + i * 16;
+
+                uint16_t addr_raw = MEM_HU(6, vbase);
+                uint32_t byte_addr = addr_raw * 8;
+
+                // Вычисляем размер: ищем следующий адрес в program table
+                uint32_t next_addr = 0x80000; // конец SPU RAM по умолчанию
+                // Ищем минимальный адрес больше текущего
+                uint32_t prog_table = MEM_W(0, 0x8009DEF0); // prog table pointer
+                // 22 VAG'а = 11 entries, 2 адреса на entry (off12, off14)
+                for (int v = 0; v < 22; v++) {
+                    uint32_t entry = prog_table + (v / 2) * 16;
+                    uint16_t a = (v & 1) ? MEM_HU(14, entry) : MEM_HU(12, entry);
+                    uint32_t a_byte = a * 8;
+                    if (a_byte > byte_addr && a_byte < next_addr)
+                        next_addr = a_byte;
+                }
+                SetSpuSampleSize(i, next_addr - byte_addr);
 
                 // Читаем все параметры из теневых регистров игры
                 uint16_t vol_l = MEM_HU(0, vbase);
@@ -106,23 +125,15 @@ void KF_SpuUpdateTick(uint8_t* rdram, recomp_context* ctx)
                 uint16_t adsr1 = MEM_HU(8, vbase);
                 uint16_t adsr2 = MEM_HU(10, vbase);
 
-                // uint16_t addr_raw = MEM_HU(6, vbase);
-                // printf("[KeyOn] voice=%d addr_raw=%04X (byte=%08X) pitch=%04X\n",
-                    // i, addr_raw, addr_raw * 8, pitch);
-
-                // Оставляем твой лог для отладки
                 uint8_t f = MEM_BU(0, 0x80078A38 + i);
-                /* printf("[KeyOn] v=%d flags=%02X addr=%04X pitch=%04X adsr=%04X/%04X\n",
-                    i, f, addr, pitch, adsr1, adsr2); */
 
-                    // 1. Создаем и обнуляем структуру
                 SpuVoiceAttr attr;
                 memset(&attr, 0, sizeof(attr));
 
-                // 2. Указываем, какой голос настраиваем (битовая маска голоса)
+
                 attr.voice = (1 << i);
 
-                // 3. Указываем PsyX, какие именно поля мы хотим обновить
+
                 attr.mask = SPU_VOICE_VOLL | SPU_VOICE_VOLR | SPU_VOICE_PITCH |
                     SPU_VOICE_WDSA | SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_SMODE |
                     SPU_VOICE_ADSR_RMODE | SPU_VOICE_ADSR_AR | SPU_VOICE_ADSR_DR |

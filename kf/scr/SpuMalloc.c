@@ -6,6 +6,7 @@ void __SpuMalloc(uint8_t* rdram, recomp_context* ctx);
 
 void KF_SpuMalloc(uint8_t* rdram, recomp_context* ctx)
 {
+
     uint32_t saved_size = ctx->r4;
 
     // Âûçûâàåì ÎÐÈÃÈÍÀËÜÍÛÉ SpuMalloc èãðû
@@ -14,6 +15,7 @@ void KF_SpuMalloc(uint8_t* rdram, recomp_context* ctx)
     printf("[SpuMalloc] size=%d addr=%08X\n", saved_size, ctx->r2);
     g_spu_total_size = saved_size;
     g_spu_transferred = 0;
+    g_spu_actual_written = 0;
 }
 
 void __SpuMalloc(uint8_t* rdram, recomp_context* ctx) 

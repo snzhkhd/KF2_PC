@@ -73,8 +73,8 @@ void KF_VSync(uint8_t* rdram, recomp_context* ctx)
     uint32_t saved_r4 = ctx->r4;
     uint32_t saved_ra = ctx->r31;
     // Òèê SEQ ñåêâåíñîğà
-  //  SEQ_Update(rdram, ctx);
-
+ //   SEQ_Update(rdram, ctx);
+    KF_SpuUpdateTick(rdram, ctx);
     ctx->r4 = saved_r4;
     ctx->r31 = saved_ra;
 

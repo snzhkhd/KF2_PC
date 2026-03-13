@@ -11,6 +11,7 @@
 inline uint32_t g_spu_transfer_addr = 0;
 inline uint32_t g_spu_total_size = 0;
 inline uint32_t g_spu_transferred = 0;
+inline uint32_t g_spu_actual_written = 0;
 
 
 
