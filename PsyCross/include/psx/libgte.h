@@ -27,6 +27,18 @@ typedef struct {		/* 2D short vector */
 	short vx, vy;
 } DVECTOR;
 
+
+struct IntXY {
+	int16_t x, y;
+	bool operator==(const IntXY& o) const { return x == o.x && y == o.y; }
+};
+
+struct IntXYHash {
+	size_t operator()(const IntXY& v) const {
+		return ((uint32_t)(uint16_t)v.x << 16) | (uint16_t)v.y;
+	}
+};
+
 #if defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)
 extern "C" {
 #endif

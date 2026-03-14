@@ -6,8 +6,8 @@
 #include "psx/gtereg.h"
 
 #include <math.h>
-
-
+#include <stdio.h>
+#include <unordered_map>
 
 GTERegisters gteRegs;
 
@@ -375,6 +375,7 @@ int PGXP_GetCacheData(PGXPVData* out, uint lookup, ushort indexhint)
 
 #endif // USE_PGXP
 
+
 int GTE_RotTransPers(int idx, int lm)
 {
 	int h_over_sz3;
@@ -392,8 +393,10 @@ int GTE_RotTransPers(int idx, int lm)
 	h_over_sz3 = Lm_E(gte_divide(C2_H, C2_SZ3));
 	C2_SXY0 = C2_SXY1;
 	C2_SXY1 = C2_SXY2;
+
 	C2_SX2 = Lm_G1(F((long long)C2_OFX + ((long long)C2_IR1 * h_over_sz3)) >> 16);
 	C2_SY2 = Lm_G2(F((long long)C2_OFY + ((long long)C2_IR2 * h_over_sz3)) >> 16);
+
 
 #if USE_PGXP
 	// perform the same but in floating point

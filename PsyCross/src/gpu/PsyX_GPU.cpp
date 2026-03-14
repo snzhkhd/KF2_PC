@@ -9,7 +9,7 @@
 #include <assert.h>
 #include <math.h>
 #include <string.h>
-
+#include <unordered_map>
 
 #define GET_TPAGE_FORMAT(tpage) ((TexFormat)((tpage >> 7) & 0x3))
 #define GET_TPAGE_BLEND(tpage)  ((BlendMode)(((tpage >> 5) & 3) + 1))
@@ -882,6 +882,7 @@ void ParsePrimitivesLinkedList(u_long* p, int singlePrimitive)
 		}
 	}
 }
+
 
 inline int IsNull(POLY_FT3* poly)
 {

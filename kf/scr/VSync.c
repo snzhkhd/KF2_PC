@@ -1,6 +1,7 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 #include "PsyX/PsyX_public.h"
+#include "gte/PsyX_GTE.h"
 #include "PsyX/PsyX_render.h"
 #include "audio/PsyX_SPUAL.h"
 #include "psx/libetc.h"
@@ -39,7 +40,7 @@ void SEQ_Update(uint8_t* rdram, recomp_context* ctx)
 
 void KF_VSync(uint8_t* rdram, recomp_context* ctx) 
 {
-
+    
     auto now = std::chrono::steady_clock::now();
     double elapsed = std::chrono::duration<double>(now - g_lastFrameTime).count();
 

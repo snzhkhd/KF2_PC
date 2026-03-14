@@ -764,6 +764,7 @@ char begin_scene_flag = 0;
 
 char PsyX_BeginScene()
 {
+
 	//fix me mb?  без этого будет чёрный экран
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	PsyX_Sys_DoPollEvent();

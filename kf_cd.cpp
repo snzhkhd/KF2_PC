@@ -346,3 +346,133 @@ void KFCD_ResetReadState()
     g_cd_pass_count = 0;
     g_cd_last_stream = 0;
 }
+
+
+
+bool KFCD_FindFile(const char* filename, CdFile* out)
+{
+    if (!g_cdImage) return false;
+
+    // Primary Volume Descriptor на секторе 16
+    uint8_t sector[2048];
+    fseek(g_cdImage, 16 * 2352 + 24, SEEK_SET);
+    fread(sector, 1, 2048, g_cdImage);
+
+    // Проверка "CD001"
+    if (memcmp(sector + 1, "CD001", 5) != 0) {
+        printf("[CD] Not a valid ISO9660 image\n");
+        return false;
+    }
+
+    // Root directory record at offset 156
+    uint32_t rootLBA = *(uint32_t*)(sector + 156 + 2);
+    uint32_t rootSize = *(uint32_t*)(sector + 156 + 10);
+
+    // Читаем root directory
+    uint8_t* dirBuf = new uint8_t[rootSize];
+    uint32_t sectorsToRead = (rootSize + 2047) / 2048;
+    for (uint32_t i = 0; i < sectorsToRead; i++) {
+        fseek(g_cdImage, (rootLBA + i) * 2352 + 24, SEEK_SET);
+        fread(dirBuf + i * 2048, 1, 2048, g_cdImage);
+    }
+
+    // Ищем файл в директории
+    uint32_t pos = 0;
+    while (pos < rootSize) {
+        uint8_t recLen = dirBuf[pos];
+        if (recLen == 0) {
+            // Переход на следующий сектор
+            pos = ((pos / 2048) + 1) * 2048;
+            continue;
+        }
+
+        uint8_t nameLen = dirBuf[pos + 32];
+        char name[256] = {};
+        memcpy(name, &dirBuf[pos + 33], nameLen);
+
+        // ISO9660 добавляет ";1" к именам
+        char* semi = strchr(name, ';');
+        if (semi) *semi = 0;
+
+        if (_stricmp(name, filename) == 0) {
+            out->lba = *(uint32_t*)(dirBuf + pos + 2);
+            out->size = *(uint32_t*)(dirBuf + pos + 10);
+            printf("[CD] Found '%s' at LBA=%d size=%d\n",
+                filename, out->lba, out->size);
+            delete[] dirBuf;
+            return true;
+        }
+
+        pos += recLen;
+    }
+
+    delete[] dirBuf;
+    printf("[CD] File '%s' not found\n", filename);
+    return false;
+}
+
+
+
+bool LoadGameEXEFromCD(recomp_context* ctx)
+{
+    memset(rdram, 0, 2 * 1024 * 1024);
+
+    CdFile exeFile;
+    if (!KFCD_FindFile("GAME.EXE", &exeFile))
+        return false;
+
+    // Читаем заголовок (первый сектор)
+    PSXHeader header;
+    fseek(g_cdImage, exeFile.lba * 2352 + 24, SEEK_SET);
+    fread(&header, 1, sizeof(header), g_cdImage);
+
+    if (strncmp(header.id, "PS-X EXE", 8) != 0) {
+        printf("[ERROR] Not a valid PS-X EXE!\n");
+        return false;
+    }
+
+    printf("[LOADER] EXE from CD:\n");
+    printf("  PC: 0x%08X\n", header.pc0);
+    printf("  GP: 0x%08X\n", header.gp0);
+    printf("  Load Addr: 0x%08X\n", header.t_addr);
+    printf("  Text Size: %d bytes\n", header.t_size);
+
+    ctx->pc = header.pc0;
+    ctx->r28 = header.gp0;
+
+    if (header.s_addr != 0) {
+        ctx->r30 = header.s_addr;
+        ctx->r29 = header.s_addr + header.s_size;
+    }
+    else {
+        ctx->r29 = 0x801FFFF0;
+    }
+
+    // Загрузка кода — читаем посекторно (пропускаем 2048 заголовок)
+    uint32_t ram_offset = header.t_addr & 0x1FFFFF;
+    uint32_t remaining = header.t_size;
+    uint32_t sector = exeFile.lba + 1; // +1 = пропускаем заголовок EXE
+    uint32_t written = 0;
+
+    while (remaining > 0) {
+        uint8_t buf[2048];
+        fseek(g_cdImage, sector * 2352 + 24, SEEK_SET);
+        fread(buf, 1, 2048, g_cdImage);
+
+        uint32_t toWrite = (remaining > 2048) ? 2048 : remaining;
+        memcpy(&rdram[ram_offset + written], buf, toWrite);
+
+        written += toWrite;
+        remaining -= toWrite;
+        sector++;
+    }
+
+    if (header.b_size > 0) {
+        uint32_t bss_offset = header.b_addr & 0x1FFFFF;
+        if (bss_offset + header.b_size <= 2 * 1024 * 1024)
+            memset(&rdram[bss_offset], 0, header.b_size);
+    }
+
+    printf("[LOADER] Game loaded from CD: %d bytes\n", header.t_size);
+    return true;
+}

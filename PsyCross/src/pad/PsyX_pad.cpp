@@ -402,7 +402,8 @@ u_short PsyX_Pad_UpdateKeyboardInput()
 		|| g_sdlKeyboardState[SDL_SCANCODE_F] )     ret &= ~0x2000; // Cross		
 
 
-	if (g_sdlKeyboardState[SDL_SCANCODE_Q] )         ret &= ~0x1000; // Triangle
+	if (g_sdlKeyboardState[SDL_SCANCODE_Q] 
+		|| g_sdlKeyboardState[SDL_SCANCODE_ESCAPE])         ret &= ~0x1000; // Triangle
 
 	if (g_sdlKeyboardState[SDL_SCANCODE_RETURN])    ret &= ~0x8;    // Start  Enter
 
@@ -414,8 +415,7 @@ u_short PsyX_Pad_UpdateKeyboardInput()
 
 	static bool g_prevF1 = false;
 
-	bool f1Now = g_sdlKeyboardState[SDL_SCANCODE_F1] ||
-		g_sdlKeyboardState[SDL_SCANCODE_ESCAPE];
+	bool f1Now = g_sdlKeyboardState[SDL_SCANCODE_F1] ;
 	if (f1Now && !g_prevF1) 
 	{
 		SDL_bool mode = SDL_GetRelativeMouseMode();

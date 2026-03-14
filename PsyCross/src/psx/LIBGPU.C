@@ -47,12 +47,12 @@ int DrawSync(int mode)
 	GR_UpdateVRAM();
 	GR_ReadFramebufferDataToVRAM();
 
-	//if (g_splitIndex > 0)// && g_GPUDisabledState == 0) // don't do flips if nothing to draw.
-	//{
-	//	DrawAllSplits();
-	//	printf("[PsyX] DrawSync -> DrawAllSplits\n");
-	//	//PsyX_EndScene();
-	//}
+	if (g_splitIndex > 0)// && g_GPUDisabledState == 0) // don't do flips if nothing to draw.
+	{
+		//DrawAllSplits();
+		
+		//PsyX_EndScene();
+	}
 
 	if (drawsync_callback != NULL)
 	{

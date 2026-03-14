@@ -19,6 +19,36 @@ typedef struct {
     uint8_t* dst;
 } KF_CD_Request;
 
+
+typedef struct  {
+    uint32_t lba;
+    uint32_t size;
+}CdFile;
+
+#pragma pack(push, 1) // Гарантируем отсутствие паддинга (выравнивания)
+struct PSXHeader {
+    char id[8];             // "PS-X EXE"
+    uint32_t text_off;      // Не используется (обычно 0)
+    uint32_t data_off;      // Не используется (обычно 0)
+    uint32_t pc0;           // Начальный PC (Program Counter)
+    uint32_t gp0;           // Начальный GP (Global Pointer)
+    uint32_t t_addr;        // Адрес загрузки в RAM (обычно 0x80010000 или выше)
+    uint32_t t_size;        // Размер кода (в байтах)
+    uint32_t d_addr;        // Обычно 0
+    uint32_t d_size;        // Обычно 0
+    uint32_t b_addr;        // Адрес начала BSS (секции, которую надо занулить)
+    uint32_t b_size;        // Размер BSS
+    uint32_t s_addr;        // Начальный SP (Stack Pointer) Base
+    uint32_t s_size;        // Смещение стека (SP Offset)
+    uint32_t SavedSP;       // (Обычно мусор или ASCII маркер Sony)
+    uint32_t SavedFP;
+    uint32_t SavedGP;
+    uint32_t SavedRA;
+    uint32_t SavedS0;
+    char ascii_marker[2048 - 0x4C]; // Остаток заголовка (обычно текст "Sony Computer...")
+};
+#pragma pack(pop)
+
 extern FILE* g_cdImage;
 extern uint32_t g_cdCurrentSector;
 extern KF_CD_Request g_cdReq;
@@ -34,6 +64,9 @@ static int      g_cd_base_lba = -1;
 extern "C"
 {
 #endif
+
+bool KFCD_FindFile(const char* filename, CdFile* out);
+bool LoadGameEXEFromCD(recomp_context* ctx);
 
 
 int KFCD_CdPosToInt(CdlLOC* p);
