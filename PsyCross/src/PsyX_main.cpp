@@ -747,7 +747,7 @@ void PsyX_Sys_DoPollEvent()
 					(g_cfg_gameOnTextInput)(NULL);
 				}
 
-				PsyX_Sys_DoDebugKeys(nKey, (event.type == SDL_KEYUP) ? 0 : 1);
+				//PsyX_Sys_DoDebugKeys(nKey, (event.type == SDL_KEYUP) ? 0 : 1);
 				break;
 			}
 			case SDL_TEXTINPUT:
@@ -761,6 +761,14 @@ void PsyX_Sys_DoPollEvent()
 }
 
 char begin_scene_flag = 0;
+void UpdateWidescreenScale()
+{
+	int windowW, windowH;
+	SDL_GetWindowSize(g_window, &windowW, &windowH);
+	float windowAspect = (float)windowW / (float)windowH;
+	float originalAspect = 4.0f / 3.0f;
+	g_widescreenScale = windowAspect / originalAspect;
+}
 
 char PsyX_BeginScene()
 {
@@ -800,29 +808,50 @@ char PsyX_BeginScene()
 
 	GR_BeginScene();
 
-	// Aspect ratio correction
+	
 	{
 		int windowW, windowH;
 		SDL_GetWindowSize(g_window, &windowW, &windowH);
-
 		const float targetAspect = 4.0f / 3.0f;
 		float windowAspect = (float)windowW / (float)windowH;
-
 		int vpX, vpY, vpW, vpH;
-		if (windowAspect > targetAspect) {
-			vpH = windowH;
-			vpW = (int)(windowH * targetAspect);
-			vpX = (windowW - vpW) / 2;
-			vpY = 0;
+		if (g_widescreenEnabled) 
+		{
+			GR_SetViewPort(0, 0, windowW, windowH);
+
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			// Сжимаем по X → viewport растянет обратно → видим шире
+			glScalef(1.0f / g_widescreenScale, 1.0f, 1.0f);
+			glMatrixMode(GL_MODELVIEW);
 		}
-		else {
-			vpW = windowW;
-			vpH = (int)(windowW / targetAspect);
-			vpX = 0;
-			vpY = (windowH - vpH) / 2;
+		else
+			//Aspect ratio correction
+		{
+			int windowW, windowH;
+			SDL_GetWindowSize(g_window, &windowW, &windowH);
+
+			const float targetAspect = 4.0f / 3.0f;
+			float windowAspect = (float)windowW / (float)windowH;
+
+			int vpX, vpY, vpW, vpH;
+			if (windowAspect > targetAspect) {
+				vpH = windowH;
+				vpW = (int)(windowH * targetAspect);
+				vpX = (windowW - vpW) / 2;
+				vpY = 0;
+			}
+			else {
+				vpW = windowW;
+				vpH = (int)(windowW / targetAspect);
+				vpX = 0;
+				vpY = (windowH - vpH) / 2;
+			}
+			GR_SetViewPort(vpX, vpY, vpW, vpH);
 		}
-		GR_SetViewPort(vpX, vpY, vpW, vpH);
+
 	}
+	//
 
 	if (activeDrawEnv.isbg)
 	{

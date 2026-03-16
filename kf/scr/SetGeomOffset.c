@@ -4,7 +4,13 @@
 
 void KF_SetGeomOffset(uint8_t* rdram, recomp_context* ctx) 
 {
-    printf("[SetGeomOffset] x=%d y=%d\n", (int32_t)ctx->r4, (int32_t)ctx->r5);
+    //if (g_widescreenEnabled) {
+    //    int wideWidth = (int)(320.0f * g_widescreenScale);
+    //    ctx->r4 = wideWidth / 2;  // a1 = offsetX = center
+    //    printf("[WS] GeomOffset X=%d\n", ctx->r4);
+    //}
+
+
     ctx_to_gte(ctx);
     SetGeomOffset((int)ctx->r4, (int)ctx->r5);
     gte_to_ctx(ctx);

@@ -58,14 +58,19 @@
 //
 //    ctx->r2 = v15; // Оригинал возвращает v15
 //}
+extern float g_widescreenScale;
+extern bool g_widescreenEnabled;
+
+
 
 void KF_InitClip(uint8_t* rdram, recomp_context* ctx) 
 {
-    printf("[InitClip] a1=%d a2=%d a3=%d a4=%d a5=%d a6=%d\n",
-        (int32_t)ctx->r4, (int32_t)ctx->r5, (int32_t)ctx->r6,
-        (int32_t)ctx->r7,
-        (int32_t)MEM_W(0x10, ctx->r29),  // стековый аргумент 5
-        (int32_t)MEM_W(0x14, ctx->r29)); // стековый аргумент 6
+    //if (g_widescreenEnabled) {
+    //    int wideWidth = (int)(320.0f * g_widescreenScale);
+    //    ctx->r5 = wideWidth;  // a2 = width
+    //    printf("[WS] InitClip width %d\n", wideWidth);
+    //}
+
 
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;

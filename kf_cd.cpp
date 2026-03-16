@@ -426,7 +426,8 @@ bool LoadGameEXEFromCD(recomp_context* ctx)
     fseek(g_cdImage, exeFile.lba * 2352 + 24, SEEK_SET);
     fread(&header, 1, sizeof(header), g_cdImage);
 
-    if (strncmp(header.id, "PS-X EXE", 8) != 0) {
+    if (strncmp(header.id, "PS-X EXE", 8) != 0) 
+    {
         printf("[ERROR] Not a valid PS-X EXE!\n");
         return false;
     }

@@ -1,12 +1,13 @@
 ﻿#include "psx/libpad.h"
 #include "psx/libetc.h"
-
+#include "psx/libgte.h"
 #include "../PsyX_main.h"
 #include "PsyX_pad.h"
 #include "PsyX/PsyX_public.h"
 
 #include <string.h>
-#include "_context.h"
+//#include "_context.h"
+#include "scr/funcs.h" 
 #include "../UI.h"
 
 int g_mouseAccumX = 0;
@@ -397,15 +398,11 @@ void ReleaseMouse()
 
 bool IsKeyPressed(int key)
 {
-
-	static bool g_prev = false;
-	bool Now = g_sdlKeyboardState[key];
-	if (Now && !g_prev)
-	{
-		return true;
-	}
-	g_prev = Now;
-	return false;
+	static bool prev[SDL_NUM_SCANCODES] = {};
+	bool now = g_sdlKeyboardState[key] != 0;
+	bool result = (now && !prev[key]);
+	prev[key] = now;
+	return result;
 }
 
 u_short PsyX_Pad_UpdateKeyboardInput()
@@ -485,11 +482,12 @@ u_short PsyX_Pad_UpdateKeyboardInput()
 
 	}
 
-	//if (g_sdlKeyboardState[SDL_SCANCODE_F12]) {
-	//	printf("Testing crash handler...\n");
-	//	int* crash = nullptr;
-	//	*crash = 42; // SIGSEGV / Access Violation
-	//}
+	if (IsKeyPressed(SDL_SCANCODE_F3))
+	{
+		g_widescreenEnabled = !g_widescreenEnabled;
+		if (g_widescreenEnabled) UpdateWidescreenScale();
+		ShowCustomMessage(rdram, g_widescreenEnabled ? "WIDESCREEN" : "ORIGINAL");
+	}
 
 	return ret;
 }

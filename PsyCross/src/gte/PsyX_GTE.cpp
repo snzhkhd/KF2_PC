@@ -375,6 +375,8 @@ int PGXP_GetCacheData(PGXPVData* out, uint lookup, ushort indexhint)
 
 #endif // USE_PGXP
 
+float g_widescreenScale = 1.0f;
+bool g_widescreenEnabled = false;
 
 int GTE_RotTransPers(int idx, int lm)
 {
@@ -390,12 +392,31 @@ int GTE_RotTransPers(int idx, int lm)
 	C2_SZ1 = C2_SZ2;
 	C2_SZ2 = C2_SZ3;
 	C2_SZ3 = Lm_D(m_mac3, 1);
-	h_over_sz3 = Lm_E(gte_divide(C2_H, C2_SZ3));
+
+	/*h_over_sz3 = Lm_E(gte_divide(C2_H, C2_SZ3));
 	C2_SXY0 = C2_SXY1;
 	C2_SXY1 = C2_SXY2;
-
+	
 	C2_SX2 = Lm_G1(F((long long)C2_OFX + ((long long)C2_IR1 * h_over_sz3)) >> 16);
-	C2_SY2 = Lm_G2(F((long long)C2_OFY + ((long long)C2_IR2 * h_over_sz3)) >> 16);
+	C2_SY2 = Lm_G2(F((long long)C2_OFY + ((long long)C2_IR2 * h_over_sz3)) >> 16);*/
+
+
+	// Widescreen: уменьшаем H дл€ более широкого FOV
+	int h_over_sz3_orig = Lm_E(gte_divide(C2_H, C2_SZ3));
+
+	int h_over_sz3_x = h_over_sz3_orig;
+	if (g_widescreenEnabled) {
+		int projH = (int)(C2_H / g_widescreenScale);
+		h_over_sz3_x = Lm_E(gte_divide(projH, C2_SZ3));
+	}
+
+	C2_SXY0 = C2_SXY1;
+	C2_SXY1 = C2_SXY2;
+	C2_SX2 = Lm_G1(F((long long)C2_OFX + ((long long)C2_IR1 * h_over_sz3_x)) >> 16);
+	C2_SY2 = Lm_G2(F((long long)C2_OFY + ((long long)C2_IR2 * h_over_sz3_orig)) >> 16);
+
+	// ¬озвращаем ќ–»√»ЌјЋ№Ќџ… Ч дл€ тумана и глубины
+	return h_over_sz3_orig;
 
 
 #if USE_PGXP
@@ -438,7 +459,7 @@ int GTE_RotTransPers(int idx, int lm)
 	PGXP_EmitCacheData(&vdata);
 #endif
 
-	return h_over_sz3;
+//	return h_over_sz3;
 }
 
 int GTE_operator(int op)

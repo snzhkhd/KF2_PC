@@ -39,6 +39,11 @@ struct IntXYHash {
 	}
 };
 
+extern float g_widescreenScale; // 1.0 = 4:3, ~1.33 = 16:9
+extern bool g_widescreenEnabled;
+
+void UpdateWidescreenScale();
+
 #if defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)
 extern "C" {
 #endif
