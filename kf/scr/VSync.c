@@ -40,7 +40,8 @@ void SEQ_Update(uint8_t* rdram, recomp_context* ctx)
 
 void KF_VSync(uint8_t* rdram, recomp_context* ctx) 
 {
-    
+
+
     auto now = std::chrono::steady_clock::now();
     double elapsed = std::chrono::duration<double>(now - g_lastFrameTime).count();
 

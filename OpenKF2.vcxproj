@@ -1070,7 +1070,7 @@
     <ClCompile Include="kf\scr\ui_DrawFrame.c" />
     <ClCompile Include="kf\scr\ui_DrawText.c" />
     <ClCompile Include="kf\scr\Update3dPreview.c" />
-    <ClCompile Include="kf\scr\UpdateCamera.c" />
+    <ClCompile Include="kf\scr\KF_RenderHUDElements.c" />
     <ClCompile Include="kf\scr\UpdateEnemyAI.c" />
     <ClCompile Include="kf\scr\UpdateEnvironmentTint.c" />
     <ClCompile Include="kf\scr\UpdateObjects.c" />
@@ -1136,6 +1136,7 @@
     <ClCompile Include="PsyCross\src\util\crash_handler.cpp" />
     <ClCompile Include="PsyCross\src\util\timer.c" />
     <ClCompile Include="recomp.cpp" />
+    <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CrashHandler.h" />
@@ -1189,6 +1190,7 @@
     <ClInclude Include="PsyCross\src\util\crash_handler.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="resource1.h" />
+    <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="kf\scr\recomp_overlays.inl" />

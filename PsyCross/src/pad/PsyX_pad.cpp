@@ -7,6 +7,7 @@
 
 #include <string.h>
 #include "_context.h"
+#include "../UI.h"
 
 int g_mouseAccumX = 0;
 int g_mouseAccumY = 0;
@@ -392,6 +393,18 @@ void ReleaseMouse()
 	bMouseEnable = false;
 }
 
+bool IsKeyPressed(int key)
+{
+
+	static bool g_prev = false;
+	bool Now = g_sdlKeyboardState[key];
+	if (Now && !g_prev)
+	{
+		return true;
+	}
+	g_prev = Now;
+	return false;
+}
 
 u_short PsyX_Pad_UpdateKeyboardInput()
 {
@@ -421,6 +434,7 @@ u_short PsyX_Pad_UpdateKeyboardInput()
 	if (g_sdlKeyboardState[SDL_SCANCODE_RETURN])    ret &= ~0x8;    // Start  Enter
 
 	if (g_sdlKeyboardState[SDL_SCANCODE_TAB])       ret &= ~0x1;    // Select
+
 
 	static bool g_prevF1 = false;
 

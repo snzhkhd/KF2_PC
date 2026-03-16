@@ -450,14 +450,14 @@ L_800361AC:
     MEM_H(-0X1BD8, ctx->r1) = ctx->r2;
     // jal         0x80033AE8
     // nop
-    UpdateCamera(rdram, ctx);
+    KF_RenderHUDElements(rdram, ctx);
     goto after_8;
     // nop
 
     after_8:
     // jal         0x80035C30
     // nop
-    UpdateStatusEffects(rdram, ctx);
+    KF_RenderMessage(rdram, ctx);
     goto after_9;
     // nop
 

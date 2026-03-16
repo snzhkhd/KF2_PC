@@ -2871,7 +2871,7 @@
     <ClCompile Include="kf\scr\Update3dPreview.c">
       <Filter>Исходные файлы\kf_scr</Filter>
     </ClCompile>
-    <ClCompile Include="kf\scr\UpdateCamera.c">
+    <ClCompile Include="kf\scr\KF_RenderHUDElements.c">
       <Filter>Исходные файлы\kf_scr</Filter>
     </ClCompile>
     <ClCompile Include="kf\scr\UpdateEnemyAI.c">
@@ -3033,6 +3033,9 @@
     <ClCompile Include="kf\scr\sub_80015220.cpp">
       <Filter>Исходные файлы\kf_scr</Filter>
     </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="kf_cd.h">
@@ -3186,6 +3189,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="CrashHandler.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

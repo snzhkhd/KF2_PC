@@ -1,9 +1,14 @@
 #include "recomp.h"
 #include "disable_warnings.h"
 
-void UpdateCamera(uint8_t* rdram, recomp_context* ctx) 
+
+void KF_RenderHUDElements(uint8_t* rdram, recomp_context* ctx) 
 {
-    //printf("UpdateCamera\n");
+
+
+
+
+    //printf("KF_RenderHUDElements\n");
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -285,7 +290,7 @@ L_80033C58:
     ctx->r29 = ADD32(ctx->r29, 0X80);
     // jr          $ra
     // nop
-    //printf("UpdateCamera  end\n");
+    //printf("KF_RenderHUDElements  end\n");
     return;
     // nop
 

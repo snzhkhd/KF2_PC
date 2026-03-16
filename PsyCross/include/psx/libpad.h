@@ -48,6 +48,8 @@ extern "C" {
 void CapturMouse();
 void ReleaseMouse();
 
+bool IsKeyPressed(int key);
+
 extern void PadInitDirect(unsigned char* pad1, unsigned char* pad2);
 extern void PadInitMtap(unsigned char* unk00, unsigned char* unk01);
 extern void PadInitGun(unsigned char* unk00, int unk01);

@@ -2,6 +2,8 @@
 #include "disable_warnings.h"
 #include "psx/libpad.h"
 
+#include "../UI.h"
+
 static bool  bMouseEnableOld = false;
 
 void InGameMenu(uint8_t* rdram, recomp_context* ctx) 
@@ -11,6 +13,7 @@ void InGameMenu(uint8_t* rdram, recomp_context* ctx)
         ReleaseMouse();
 
         bMouseEnableOld = true;
+
     }
     else
         bMouseEnableOld = false;
