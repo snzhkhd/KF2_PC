@@ -159,6 +159,10 @@ typedef enum
 	TF_32_BIT_RGBA		// custom texture
 } TexFormat;
 
+void GR_SaveFrameToFBO();
+void GR_ResetPrevFrame();
+void GR_RestoreSavedFrame();
+
 
 #if defined(RENDERER_OGLES) || defined(RENDERER_OGL)
 typedef uint TextureID;

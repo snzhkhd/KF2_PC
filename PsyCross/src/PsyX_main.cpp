@@ -772,9 +772,22 @@ void UpdateWidescreenScale()
 
 char PsyX_BeginScene()
 {
+	/// fix me
+	extern uint8_t rdram[];
+	uint8_t isbg = rdram[0x190178];
 
-	//fix me mb?  без этого будет чёрный экран
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	if (!isbg) {
+		GR_RestoreSavedFrame();
+		//	glClear(GL_DEPTH_BUFFER_BIT);
+	}
+	else
+	{
+		GR_ResetPrevFrame();
+	}
+
+	
 	PsyX_Sys_DoPollEvent();
 
 	if (begin_scene_flag)
@@ -806,15 +819,14 @@ char PsyX_BeginScene()
 		GR_UpdateSwapIntervalState(swapInterval);
 	}
 
+
 	GR_BeginScene();
 
-	
+	//widescreen
 	{
 		int windowW, windowH;
 		SDL_GetWindowSize(g_window, &windowW, &windowH);
-		const float targetAspect = 4.0f / 3.0f;
-		float windowAspect = (float)windowW / (float)windowH;
-		int vpX, vpY, vpW, vpH;
+
 		if (g_widescreenEnabled) 
 		{
 			GR_SetViewPort(0, 0, windowW, windowH);
@@ -863,6 +875,8 @@ char PsyX_BeginScene()
 		// TODO: clear all affected backbuffers
 		//GR_ClearVRAM(clipenv.x, clipenv.y, clipenv.w, clipenv.h, r, g, b);
 		GR_Clear(clipenv.x, clipenv.y, clipenv.w, clipenv.h, r, g, b);
+
+		printf("clear isbg\n");
 	}
 
 	begin_scene_flag = 1;
@@ -891,9 +905,12 @@ void PsyX_EndScene()
 	GR_StoreFrameBuffer(activeDispEnv.disp.x, activeDispEnv.disp.y, activeDispEnv.disp.w, activeDispEnv.disp.h);
 
 	// Чёрные полосы
-	int windowW, windowH;
+	/*int windowW, windowH;
 	SDL_GetWindowSize(g_window, &windowW, &windowH);
-	GR_SetViewPort(0, 0, windowW, windowH);
+	GR_SetViewPort(0, 0, windowW, windowH);*/
+
+	// Сохраняем каждый кадр
+	GR_SaveFrameToFBO();
 
 	GR_SwapWindow();
 }

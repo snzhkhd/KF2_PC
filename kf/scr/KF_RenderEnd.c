@@ -7,7 +7,7 @@
 
 void KF_RenderEnd(uint8_t* rdram, recomp_context* ctx) 
 {
-
+   
     
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
@@ -106,11 +106,12 @@ void KF_RenderEnd(uint8_t* rdram, recomp_context* ctx)
     ctx->r29 = ADD32(ctx->r29, 0X18);
     // jr          $ra
     // nop
-
+    
     PsyX_EndScene();
    /* printf("[KF_RenderEnd] - [Frame %d] TriggerGpuDma calls=%d\n", frame++, calls_per_frame);
     calls_per_frame = 0;*/
 
+    
     return;
     // nop
 

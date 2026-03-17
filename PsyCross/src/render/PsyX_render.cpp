@@ -1553,6 +1553,75 @@ void GR_SetOffscreenState(const RECT16* offscreenRect, int enable)
 #endif
 }
 
+static GLuint g_savedFBO = 0;
+static GLuint g_savedFBOTex = 0;
+static int g_savedFBOW = 0, g_savedFBOH = 0;
+static bool g_hasSavedFrame = false;
+
+void GR_ResetPrevFrame()
+{
+	GLuint g_savedFBO = 0;
+	GLuint g_savedFBOTex = 0;
+	g_savedFBOW = g_savedFBOH = 0;
+	g_hasSavedFrame = false;
+}
+
+void GR_SaveFrameToFBO()
+{
+	//if (g_hasSavedFrame)	return;
+	extern uint8_t rdram[];
+	uint8_t isbg = rdram[0x190178];
+	if (!isbg)	return;
+
+
+
+	int w = g_windowWidth;
+	int h = g_windowHeight;
+
+	if (!g_savedFBO) {
+		glGenFramebuffers(1, &g_savedFBO);
+		glGenTextures(1, &g_savedFBOTex);
+	}
+
+	if (w != g_savedFBOW || h != g_savedFBOH) {
+		glBindTexture(GL_TEXTURE_2D, g_savedFBOTex);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		glBindFramebuffer(GL_FRAMEBUFFER, g_savedFBO);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, g_savedFBOTex, 0);
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+		g_savedFBOW = w;
+		g_savedFBOH = h;
+	}
+
+	// Blit backbuffer → наш FBO
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, g_savedFBO);
+	glBlitFramebuffer(0, 0, w, h, 0, 0, w, h, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+
+	g_hasSavedFrame = true;
+}
+
+void GR_RestoreSavedFrame()
+{
+	if (!g_hasSavedFrame) return;
+
+	// Blit наш FBO → backbuffer
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, g_savedFBO);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	glBlitFramebuffer(0, 0, g_savedFBOW, g_savedFBOH,
+		0, 0, g_windowWidth, g_windowHeight,
+		GL_COLOR_BUFFER_BIT, GL_NEAREST);
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+}
+
 void GR_StoreFrameBuffer(int x, int y, int w, int h)
 {
 #if USE_OPENGL

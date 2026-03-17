@@ -1,7 +1,12 @@
 #include "recomp.h"
 #include "disable_warnings.h"
+#include "psx/libpad.h"
+#include "PsyX/PsyX_render.h"
 
-void HideInGameUI(uint8_t* rdram, recomp_context* ctx) {
+void HideInGameUI(uint8_t* rdram, recomp_context* ctx) 
+{
+
+
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
     int c1cs = 0; 
@@ -36,11 +41,21 @@ void HideInGameUI(uint8_t* rdram, recomp_context* ctx) {
     // jal         0x800360A0
     // addu        $a1, $zero, $zero
     ctx->r5 = ADD32(0, 0);
+
+
+
+    //WRITE_H(0x8019B58D, 0);
+    //WRITE_H(0x8019B58E, 0);
+
     KF_GpuUpdate(rdram, ctx);
+
+  
     goto after_0;
     // addu        $a1, $zero, $zero
     ctx->r5 = ADD32(0, 0);
-    after_0:
+after_0:
+
+   
     // sb          $s1, 0x0($s0)
     MEM_B(0X0, ctx->r16) = ctx->r17;
     // lui         $at, 0x801A
@@ -49,6 +64,9 @@ void HideInGameUI(uint8_t* rdram, recomp_context* ctx) {
     MEM_B(-0X4A72, ctx->r1) = ctx->r18;
     // jal         0x80037184
     // nop
+
+
+    
 
     CleaningUpTempResources(rdram, ctx);
     goto after_1;
@@ -67,6 +85,9 @@ void HideInGameUI(uint8_t* rdram, recomp_context* ctx) {
     ctx->r29 = ADD32(ctx->r29, 0X20);
     // jr          $ra
     // nop
+
+   
+
 
     return;
     // nop

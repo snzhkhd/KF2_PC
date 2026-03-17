@@ -6,6 +6,9 @@
 #include "psx/libetc.h"
 
 
+#include "SDL2/SDL_video.h"
+extern SDL_Window* g_window;
+
 void EndDraw2D(uint8_t* rdram, recomp_context* ctx) 
 {
 
@@ -123,7 +126,19 @@ void EndDraw2D(uint8_t* rdram, recomp_context* ctx)
     // jr          $ra
     // nop
 
+    // Возвращаем полный экран для 3D
+    if (!g_widescreenEnabled)
+    {
+        int windowW, windowH;
+        SDL_GetWindowSize(g_window, &windowW, &windowH);
+        GR_SetViewPort(0, 0, windowW, windowH);
+    }
+
+
     PsyX_EndScene();
+
+
+    
     return;
     // nop
 ;}

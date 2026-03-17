@@ -1,6 +1,6 @@
 #include "recomp.h"
 #include "disable_warnings.h"
-
+#include "PsyX/PsyX_render.h"
 
 void KF_RenderHUDElements(uint8_t* rdram, recomp_context* ctx) 
 {
@@ -290,7 +290,11 @@ L_80033C58:
     ctx->r29 = ADD32(ctx->r29, 0X80);
     // jr          $ra
     // nop
-    //printf("KF_RenderHUDElements  end\n");
+    
+
+
+   
+
     return;
     // nop
 

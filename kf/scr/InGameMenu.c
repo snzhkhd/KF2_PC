@@ -3,6 +3,7 @@
 #include "psx/libpad.h"
 
 #include "../UI.h"
+#include "PsyX/PsyX_render.h"
 
 static bool  bMouseEnableOld = false;
 
@@ -10,6 +11,8 @@ void InGameMenu(uint8_t* rdram, recomp_context* ctx)
 {
     if (bMouseEnable)
     {
+        
+       
         ReleaseMouse();
 
         bMouseEnableOld = true;
@@ -18,8 +21,8 @@ void InGameMenu(uint8_t* rdram, recomp_context* ctx)
     else
         bMouseEnableOld = false;
     
-
-
+   
+   
 
     uint64_t hi = 0, lo = 0, result = 0;
     unsigned int rounding_mode = DEFAULT_ROUNDING_MODE;
@@ -53,18 +56,34 @@ void InGameMenu(uint8_t* rdram, recomp_context* ctx)
     // jal         0x800246CC
     // sw          $v0, 0x18($sp)
     MEM_W(0X18, ctx->r29) = ctx->r2;
+
+
+
     SetupMenuUIBuffers(rdram, ctx);
+
+   
+
     goto after_0;
     // sw          $v0, 0x18($sp)
     MEM_W(0X18, ctx->r29) = ctx->r2;
     after_0:
     // addu        $s0, $zero, $zero
     ctx->r16 = ADD32(0, 0);
+
+   
+   
+
+
 L_80019734:
+   
+    
     // jal         0x800244E0
     // addiu       $s0, $s0, 0x1
     ctx->r16 = ADD32(ctx->r16, 0X1);
     BeginDraw2D(rdram, ctx);
+
+    
+
     goto after_1;
     // addiu       $s0, $s0, 0x1
     ctx->r16 = ADD32(ctx->r16, 0X1);
@@ -121,6 +140,9 @@ L_80019734:
     // addiu       $s4, $zero, -0x1
     ctx->r20 = ADD32(0, -0X1);
     WaitForButtonRelease(rdram, ctx);
+
+    
+
     goto after_6;
     // addiu       $s4, $zero, -0x1
     ctx->r20 = ADD32(0, -0X1);
@@ -564,10 +586,16 @@ L_80019970:
 
     if (bMouseEnableOld)
     {
+        
         CapturMouse();
 
         bMouseEnableOld = false;
     }
+
+
+    //WRITE_H(0x8019B58D, 1);
+    //WRITE_H(0x8019B58E, 1);
+
 
     return;
     // nop

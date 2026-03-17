@@ -49,7 +49,7 @@ int DrawSync(int mode)
 
 	if (g_splitIndex > 0)// && g_GPUDisabledState == 0) // don't do flips if nothing to draw.
 	{
-		//DrawAllSplits();
+		DrawAllSplits();
 		
 		//PsyX_EndScene();
 	}

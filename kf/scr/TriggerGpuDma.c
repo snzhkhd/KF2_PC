@@ -77,9 +77,9 @@ void TriggerGpuDma(uint8_t* rdram, recomp_context* ctx)
             cur_addr = next | 0x80000000;
         }
         
-        GR_UpdateVRAM();
+        //GR_UpdateVRAM();
 
-        DrawAllSplits();
+        //DrawAllSplits();
 
         //PsyX_EndScene(); <- вызывается в RenderEnd и EndDraw2D
         
